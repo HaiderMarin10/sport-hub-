@@ -18,6 +18,7 @@
   function abrir() {
     drawer.classList.add("open");
     document.body.classList.add("coach-open");
+    cargarContexto(); // refresca el diario reciente cada vez que abre
     setTimeout(() => { (getKey() ? input : (keyInput || input)).focus(); }, 280);
   }
   function cerrar() {
@@ -145,12 +146,39 @@
     }
   }
 
+  // ---------- contexto reciente del diario (CONECTA los números con el coach) ----------
+  let contextoReciente = "";
+  async function cargarContexto() {
+    if (!window.shAirtable || !window.shAirtable.hasToken()) return;
+    try {
+      const [sens, entr] = await Promise.all([
+        window.shAirtable.list("sensaciones", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }),
+        window.shAirtable.list("entrenos", { maxRecords: 3, sort: [{ field: "fecha", direction: "desc" }] }),
+      ]);
+      if (!sens.length && !entr.length) { contextoReciente = ""; return; }
+      const lines = sens.slice(0, 5).map((r) => {
+        const f = r.fields, p = [];
+        if (typeof f.espalda_mañana === "number") p.push("espalda AM " + f.espalda_mañana);
+        if (typeof f.espalda_noche === "number") p.push("PM " + f.espalda_noche);
+        if (typeof f.intensidad_gemelos === "number") p.push("gemelos/glúteo " + f.intensidad_gemelos);
+        if (typeof f.energia_general === "number") p.push("energía " + f.energia_general);
+        if (Array.isArray(f.dolor_localizado) && f.dolor_localizado.length) p.push("dolor: " + f.dolor_localizado.join("/"));
+        return (f.fecha || "") + " → " + p.join(", ") + (f.nota_transcrita ? " — " + f.nota_transcrita : "");
+      });
+      const ent = entr.slice(0, 3).map((r) => (r.fields.fecha || "") + " " + (r.fields.tipo || "") + " (" + String(r.fields.ejercicios || "").slice(0, 70) + ")");
+      contextoReciente = "DIARIO RECIENTE DE ANDRÉS (de su app; úsalo para personalizar consejos y vigilar su espalda L4-L5 / glúteos / gemelos. NO lo recites entero, intégralo con naturalidad):\n" +
+        "Sensaciones:\n- " + lines.join("\n- ") + (ent.length ? "\nÚltimos entrenos:\n- " + ent.join("\n- ") : "");
+    } catch (e) { /* sin contexto si falla */ }
+  }
+
   // ---------- llamada a Claude (con bucle de tool use) ----------
   async function callClaude(toolChoice) {
+    const system = [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }];
+    if (contextoReciente) system.push({ type: "text", text: contextoReciente });
     const body = {
       model: MODEL,
       max_tokens: 1500,
-      system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
+      system: system,
       tools: [TOOL_ENTRENO, TOOL_VER],
       messages: historial,
     };

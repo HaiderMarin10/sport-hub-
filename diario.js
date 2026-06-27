@@ -180,6 +180,14 @@
         AT.list("metricas", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
       ]);
       let html = "";
+      // medias de los últimos 7 días (los números → tendencia)
+      const last7 = sens.slice(0, 7);
+      if (last7.length >= 2) {
+        const avg = (f) => { const v = last7.map((r) => r.fields[f]).filter((x) => typeof x === "number"); return v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(1) : null; };
+        const cell = (lbl, val) => val ? '<div class="avg-cell"><div class="avg-n">' + val + '</div><div class="avg-l">' + lbl + '</div></div>' : '';
+        const row = cell("espalda AM", avg("espalda_mañana")) + cell("espalda PM", avg("espalda_noche")) + cell("energía", avg("energia_general")) + cell("ánimo", avg("estado_animo"));
+        if (row) html += '<div class="avg-row">' + row + '</div><div class="avg-cap">medias de los últimos ' + last7.length + ' días</div>';
+      }
       // métricas WHOOP/Samsung (solo si hay datos)
       if (metr && metr.length) {
         html += '<div class="d-sub" style="margin-top:0">Métricas (WHOOP / Samsung)</div>';
@@ -206,7 +214,7 @@
         const f = r.fields, n = (f.ejercicios ? f.ejercicios.split(",").length : 0);
         return '<div class="hist-row"><span class="hist-d">' + fmtFecha(f.fecha) + '</span>' +
           '<span class="hist-tag">' + esc(f.tipo || "—") + '</span>' +
-          '<span class="hist-meta">' + (f.duracion_min ? f.duracion_min + "′ · " : "") + (n ? n + " ejercicios" : esc((f.notas || "").slice(0, 40))) + '</span></div>';
+          '<span class="hist-meta">' + (f.duracion_min ? f.duracion_min + "′ · " : "") + (n ? n + (n === 1 ? " ejercicio" : " ejercicios") : esc((f.notas || "").slice(0, 40))) + '</span></div>';
       }).join("");
       // sensaciones recientes
       html += '<div class="d-sub" style="margin-top:12px">Últimos días</div>';
