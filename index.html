@@ -231,9 +231,17 @@
   .msg.user{align-self:flex-end;background:var(--acid);color:#0A0A0B;font-weight:500;border-bottom-right-radius:5px}
   .msg.coach{align-self:flex-start;background:var(--elev2);border:1px solid var(--line);border-bottom-left-radius:5px}
   .msg.typing{color:var(--txt3);font-style:italic}
-  .coach-input{display:flex;gap:8px;margin-top:12px}
+  .coach-input{display:flex;gap:8px;margin-top:12px;align-items:center}
   .coach-input input{flex:1}
-  .coach-input .btn{width:auto;padding:14px 18px;margin:0;flex:none}
+  .coach-input .btn{width:auto;padding:13px 16px;margin:0;flex:none}
+  #coach-send{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acid);
+    color:#0A0A0B;font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  #coach-send:disabled{opacity:.4;cursor:default}
+  #coach-send:active{transform:scale(.94)}
+  .coach-keybar{background:var(--elev2);border:1px solid var(--acid);border-radius:14px;padding:14px;margin-bottom:12px}
+  .coach-keytitle{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;margin:0 0 6px;color:var(--acid)}
+  .coach-foot{margin-top:10px;text-align:right}
+  .coach-foot a{cursor:pointer}
 
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);background:var(--elev);
     border:1px solid var(--acid);color:var(--txt);padding:15px 20px;border-radius:13px;font-size:13.5px;font-weight:600;
@@ -416,7 +424,15 @@
         <p class="hero-sub">Conoce el repertorio de Nacho y tu espalda. Pídele un entreno, que te explique un ejercicio o qué hacer hoy.</p>
       </div>
     </div>
-    <div class="card">
+    <div class="card coach-card">
+      <div id="coach-keybar" class="coach-keybar hidden">
+        <p class="coach-keytitle">🔑 Activa tu coach</p>
+        <p class="muted" style="margin:0 0 10px">Pega tu API key de Anthropic. Se guarda <b>solo en este dispositivo</b> (no se sube a internet). Sácala en <a href="https://console.anthropic.com/" target="_blank" rel="noopener">console.anthropic.com</a>.</p>
+        <div class="coach-input">
+          <input type="password" id="coach-key" placeholder="sk-ant-..." autocomplete="off" />
+          <button class="btn btn-primary" id="coach-key-save">Guardar</button>
+        </div>
+      </div>
       <div class="chips" id="coach-quick">
         <button class="chip" data-q="Móntame un entreno de 45 minutos sin impacto, cuidando la espalda.">Entreno 45' sin impacto</button>
         <button class="chip" data-q="¿Qué puedo hacer hoy si tengo la espalda algo cargada?">Espalda cargada hoy</button>
@@ -425,9 +441,9 @@
       <div id="coach-log" class="coach-log"></div>
       <div class="coach-input">
         <input type="text" id="coach-text" placeholder="Escribe a tu coach…" autocomplete="off" />
-        <button class="btn btn-primary" id="coach-send">Enviar</button>
+        <button id="coach-send" aria-label="Enviar">➤</button>
       </div>
-      <p class="muted" id="coach-note" style="margin-top:10px"></p>
+      <div class="coach-foot"><a id="coach-clearkey" class="muted"></a></div>
     </div>
   </section>
 
