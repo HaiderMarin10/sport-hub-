@@ -28,9 +28,9 @@
     "Su entrenador y fisio se llama Nacho; el repertorio de ejercicios de la app es de Nacho.\n\n" +
     "REPERTORIO DE NACHO (categoría: ejercicios):\n" + repertorio() + "\n\nREGLAS:\n" +
     "- Responde SIEMPRE en español, claro y conciso, con tono de coach cercano.\n" +
-    "- Cuando Andrés te pida MONTAR o GENERAR un entreno, NO lo escribas como tabla de texto: " +
-    "LLAMA a la herramienta `proponer_entreno` para que aparezca en su Generador (editable, con series y para marcar como hecho). " +
-    "Usa nombres EXACTOS del repertorio de arriba. Tras llamarla, comenta brevemente qué le has montado y por qué.\n" +
+    "- Cuando Andrés te pida un entreno (montar, generar, 'en formato generador', 'output', 'pásalo al generador', o te pegue un entreno ya escrito para que lo cargues), " +
+    "NUNCA lo escribas como tabla ni texto en el chat: SIEMPRE LLAMA a la herramienta `proponer_entreno` para que aparezca en su Generador " +
+    "(editable, con series, para marcar como hecho). Usa nombres EXACTOS del repertorio de arriba. Tras llamarla, comenta en 1-2 frases qué le has montado y por qué.\n" +
     "- Para VER o MODIFICAR el entreno que ya tiene cargado, primero llama a `entreno_actual` para leerlo y luego `proponer_entreno` con la versión cambiada.\n" +
     "- Respeta su espalda: evita por defecto carga axial alta e impacto salvo que lo pida.\n" +
     "- No eres médico: ante dolor agudo o señales neurológicas nuevas, recomiéndale ver a Nacho o a su médico.\n" +
@@ -134,7 +134,15 @@
   }
 
   // ---------- llamada a Claude (con bucle de tool use) ----------
-  async function callClaude() {
+  async function callClaude(toolChoice) {
+    const body = {
+      model: MODEL,
+      max_tokens: 1500,
+      system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
+      tools: [TOOL_ENTRENO, TOOL_VER],
+      messages: historial,
+    };
+    if (toolChoice) body.tool_choice = toolChoice;
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -143,22 +151,20 @@
         "anthropic-version": "2023-06-01",
         "anthropic-dangerous-direct-browser-access": "true",
       },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 1500,
-        system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
-        tools: [TOOL_ENTRENO, TOOL_VER],
-        messages: historial,
-      }),
+      body: JSON.stringify(body),
     });
     const data = await res.json().catch(() => ({}));
     return { ok: res.ok, status: res.status, data };
   }
 
-  async function ronda(depth) {
-    if (depth > 3) return;
+  async function ronda(depth, mode, propuesto) {
+    if (depth > 4) return;
+    let toolChoice;
+    if (mode === "create" && depth === 0 && !propuesto) toolChoice = { type: "tool", name: "proponer_entreno" };
+    else if (mode === "modify" && !propuesto) toolChoice = { type: "any" };
+
     const typing = burbuja("assistant", "escribiendo…", "coach typing");
-    const { ok, status, data } = await callClaude();
+    const { ok, status, data } = await callClaude(toolChoice);
     typing.remove();
     if (!ok) {
       const m = (data.error && data.error.message) || ("Error " + status);
@@ -175,17 +181,17 @@
     const tools = content.filter((b) => b.type === "tool_use");
     if (tools.length) {
       const results = tools.map((tu) => {
-        let content = "hecho";
-        if (tu.name === "proponer_entreno") {
-          content = cargarEntreno(tu.input);
-        } else if (tu.name === "entreno_actual") {
+        let c = "hecho";
+        if (tu.name === "proponer_entreno") c = cargarEntreno(tu.input);
+        else if (tu.name === "entreno_actual") {
           const p = (window.SportHub && window.SportHub.getPlan) ? window.SportHub.getPlan() : null;
-          content = p ? JSON.stringify(p) : "No hay ningún entreno cargado en el generador ahora mismo.";
+          c = p ? JSON.stringify(p) : "No hay ningún entreno cargado en el generador ahora mismo.";
         }
-        return { type: "tool_result", tool_use_id: tu.id, content };
+        return { type: "tool_result", tool_use_id: tu.id, content: c };
       });
+      if (tools.some((tu) => tu.name === "proponer_entreno")) propuesto = true;
       historial.push({ role: "user", content: results });
-      await ronda(depth + 1); // que Claude cierre con un comentario
+      await ronda(depth + 1, mode, propuesto); // que Claude cierre con un comentario
     }
   }
 
@@ -197,8 +203,13 @@
     burbuja("user", texto);
     historial.push({ role: "user", content: texto });
     sendBtn.disabled = true;
+    const t = texto.toLowerCase();
+    const hayPlan = !!(window.SportHub && window.SportHub.getPlan && window.SportHub.getPlan());
+    const esMod = hayPlan && /(cambi|modific|sustitu|qu[ií]t|a[ñn]ad|reemplaz|\bmete\b|\bsaca\b|ajusta)/.test(t);
+    const esCrear = /(entren|m[oó]ntame|\bmonta\b|gen[ée]ra|rutina|formato|output|generador|p[oó]nme|dame un|prep[aá]rame)/.test(t);
+    const mode = esMod ? "modify" : (esCrear ? "create" : "auto");
     try {
-      await ronda(0);
+      await ronda(0, mode, false);
     } catch (e) {
       burbuja("assistant", "⚠ No pude conectar con Claude. Revisa internet y la clave.", "coach");
     } finally {
