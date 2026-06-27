@@ -79,6 +79,7 @@
   .hero-kicker{font-family:var(--disp);font-weight:600;letter-spacing:.24em;font-size:12px;color:var(--acid);text-transform:uppercase}
   .hero-title{font-family:"Anton",var(--disp);font-weight:400;font-size:58px;line-height:.9;letter-spacing:.01em;
     text-transform:uppercase;margin:8px 0 0;text-shadow:0 4px 34px rgba(0,0,0,.55)}
+  .hero-title.hero-title-sm{font-size:31px;line-height:1.04;letter-spacing:.03em}
   .hero-sub{margin:11px 0 0;color:#dcdce0;font-size:13px;font-weight:500;max-width:38ch;line-height:1.45}
   .hero-quote{margin:12px 0 0;font-style:italic;color:#fff;font-size:13px;line-height:1.45;max-width:42ch;
     border-left:3px solid var(--acid);padding-left:11px;text-shadow:0 2px 14px rgba(0,0,0,.6)}
@@ -399,7 +400,7 @@
       <div class="hero-bg" id="hero-bg-gen"></div>
       <div class="hero-inner">
         <div class="hero-kicker">Entreno del día</div>
-        <h1 class="hero-title">Vuelve<br>más fuerte.</h1>
+        <h1 class="hero-title hero-title-sm">For the athletes.<br>For the players.<br>For the relentless.</h1>
         <p class="hero-sub" style="font-style:italic">"Ever tried. Ever failed. No matter. Try again. Fail again. Fail better."</p>
       </div>
     </div>
@@ -613,7 +614,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v23</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v24</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
@@ -626,9 +627,20 @@
   <script src="coach.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
+      // Auto-actualización: cuando hay versión nueva, el SW nuevo toma el control y la página se recarga sola.
+      var shRefreshing = false;
+      var shHadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        if (shRefreshing) return;
+        shRefreshing = true;
+        if (shHadController) window.location.reload(); // recarga solo en ACTUALIZACIONES, no en la 1ª instalación
+      });
       window.addEventListener("load", function () {
         navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
-          .then(function (reg) { reg.update(); })
+          .then(function (reg) {
+            reg.update();
+            setInterval(function () { reg.update(); }, 60 * 60 * 1000); // re-chequea cada hora si sigue abierta
+          })
           .catch(function () {});
       });
     }
