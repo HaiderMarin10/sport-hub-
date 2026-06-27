@@ -31,6 +31,7 @@
     "- Cuando Andrés te pida MONTAR o GENERAR un entreno, NO lo escribas como tabla de texto: " +
     "LLAMA a la herramienta `proponer_entreno` para que aparezca en su Generador (editable, con series y para marcar como hecho). " +
     "Usa nombres EXACTOS del repertorio de arriba. Tras llamarla, comenta brevemente qué le has montado y por qué.\n" +
+    "- Para VER o MODIFICAR el entreno que ya tiene cargado, primero llama a `entreno_actual` para leerlo y luego `proponer_entreno` con la versión cambiada.\n" +
     "- Respeta su espalda: evita por defecto carga axial alta e impacto salvo que lo pida.\n" +
     "- No eres médico: ante dolor agudo o señales neurológicas nuevas, recomiéndale ver a Nacho o a su médico.\n" +
     "- No inventes datos. Si falta información, pregunta.";
@@ -67,6 +68,12 @@
       },
       required: ["titulo", "bloques"],
     },
+  };
+
+  const TOOL_VER = {
+    name: "entreno_actual",
+    description: "Devuelve el entreno que Andrés tiene cargado AHORA en el Generador (bloques, ejercicios y series). Úsalo cuando pida ver o MODIFICAR el entreno actual: léelo con esta herramienta y luego llama a proponer_entreno con la versión modificada.",
+    input_schema: { type: "object", properties: {} },
   };
 
   // ---------- clave ----------
@@ -140,7 +147,7 @@
         model: MODEL,
         max_tokens: 1500,
         system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
-        tools: [TOOL_ENTRENO],
+        tools: [TOOL_ENTRENO, TOOL_VER],
         messages: historial,
       }),
     });
@@ -167,11 +174,16 @@
 
     const tools = content.filter((b) => b.type === "tool_use");
     if (tools.length) {
-      const results = tools.map((tu) => ({
-        type: "tool_result",
-        tool_use_id: tu.id,
-        content: tu.name === "proponer_entreno" ? cargarEntreno(tu.input) : "hecho",
-      }));
+      const results = tools.map((tu) => {
+        let content = "hecho";
+        if (tu.name === "proponer_entreno") {
+          content = cargarEntreno(tu.input);
+        } else if (tu.name === "entreno_actual") {
+          const p = (window.SportHub && window.SportHub.getPlan) ? window.SportHub.getPlan() : null;
+          content = p ? JSON.stringify(p) : "No hay ningún entreno cargado en el generador ahora mismo.";
+        }
+        return { type: "tool_result", tool_use_id: tu.id, content };
+      });
       historial.push({ role: "user", content: results });
       await ronda(depth + 1); // que Claude cierre con un comentario
     }

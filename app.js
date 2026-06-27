@@ -495,6 +495,13 @@
       $("#result").scrollIntoView({ behavior: "smooth", block: "start" });
       return true;
     },
+    getPlan() {
+      if (!plan || !plan.length) return null;
+      return plan.map((g) => ({
+        titulo: g.titulo,
+        ejercicios: g.ejercicios.map((s) => ({ nombre: s.e.n, series: s.serie })),
+      }));
+    },
   };
 
   if (!EX.length) {
