@@ -149,26 +149,36 @@
   // ---------- contexto reciente del diario (CONECTA los números con el coach) ----------
   let contextoReciente = "";
   async function cargarContexto() {
-    if (!window.shAirtable || !window.shAirtable.hasToken()) return;
-    try {
-      const [sens, entr] = await Promise.all([
-        window.shAirtable.list("sensaciones", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }),
-        window.shAirtable.list("entrenos", { maxRecords: 3, sort: [{ field: "fecha", direction: "desc" }] }),
-      ]);
-      if (!sens.length && !entr.length) { contextoReciente = ""; return; }
-      const lines = sens.slice(0, 5).map((r) => {
-        const f = r.fields, p = [];
-        if (typeof f.espalda_mañana === "number") p.push("espalda AM " + f.espalda_mañana);
-        if (typeof f.espalda_noche === "number") p.push("PM " + f.espalda_noche);
-        if (typeof f.intensidad_gemelos === "number") p.push("gemelos/glúteo " + f.intensidad_gemelos);
-        if (typeof f.energia_general === "number") p.push("energía " + f.energia_general);
-        if (Array.isArray(f.dolor_localizado) && f.dolor_localizado.length) p.push("dolor: " + f.dolor_localizado.join("/"));
-        return (f.fecha || "") + " → " + p.join(", ") + (f.nota_transcrita ? " — " + f.nota_transcrita : "");
-      });
-      const ent = entr.slice(0, 3).map((r) => (r.fields.fecha || "") + " " + (r.fields.tipo || "") + " (" + String(r.fields.ejercicios || "").slice(0, 70) + ")");
-      contextoReciente = "DIARIO RECIENTE DE ANDRÉS (de su app; úsalo para personalizar consejos y vigilar su espalda L4-L5 / glúteos / gemelos. NO lo recites entero, intégralo con naturalidad):\n" +
-        "Sensaciones:\n- " + lines.join("\n- ") + (ent.length ? "\nÚltimos entrenos:\n- " + ent.join("\n- ") : "");
-    } catch (e) { /* sin contexto si falla */ }
+    const bloques = [];
+    // favoritos (localStorage, no necesita Airtable)
+    const favs = (window.SportHubFavs ? window.SportHubFavs.list() : []);
+    if (favs.length) bloques.push("EJERCICIOS FAVORITOS de Andrés: " + favs.join(", ") +
+      ".\nSi pide 'un entreno de favoritos' (o algo así), MÓNTALO con `proponer_entreno` priorizando estos ejercicios (nombres exactos del repertorio).");
+    // diario reciente (necesita Airtable conectado)
+    if (window.shAirtable && window.shAirtable.hasToken()) {
+      try {
+        const [sens, entr] = await Promise.all([
+          window.shAirtable.list("sensaciones", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }),
+          window.shAirtable.list("entrenos", { maxRecords: 3, sort: [{ field: "fecha", direction: "desc" }] }),
+        ]);
+        const lines = sens.slice(0, 5).map((r) => {
+          const f = r.fields, p = [];
+          if (typeof f.espalda_mañana === "number") p.push("espalda AM " + f.espalda_mañana);
+          if (typeof f.espalda_noche === "number") p.push("PM " + f.espalda_noche);
+          if (typeof f.intensidad_gemelos === "number") p.push("gemelos/glúteo " + f.intensidad_gemelos);
+          if (typeof f.energia_general === "number") p.push("energía " + f.energia_general);
+          if (Array.isArray(f.dolor_localizado) && f.dolor_localizado.length) p.push("dolor: " + f.dolor_localizado.join("/"));
+          return (f.fecha || "") + " → " + p.join(", ") + (f.nota_transcrita ? " — " + f.nota_transcrita : "");
+        });
+        // entrenos CON la lista completa de ejercicios (para que sepa todo lo que ha hecho)
+        const ent = entr.map((r) => (r.fields.fecha || "") + " " + (r.fields.tipo || "") + ": " + String(r.fields.ejercicios || "(sin detalle)"));
+        if (lines.length) bloques.push("Sensaciones recientes:\n- " + lines.join("\n- "));
+        if (ent.length) bloques.push("Últimos entrenos (con los ejercicios EXACTOS que hizo):\n- " + ent.join("\n- "));
+      } catch (e) { /* sin diario si falla */ }
+    }
+    contextoReciente = bloques.length
+      ? "CONTEXTO DE ANDRÉS (de su app; intégralo con naturalidad, vigila su espalda L4-L5 / glúteos / gemelos; NO lo recites entero):\n" + bloques.join("\n\n")
+      : "";
   }
 
   // ---------- llamada a Claude (con bucle de tool use) ----------

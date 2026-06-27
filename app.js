@@ -18,6 +18,14 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
   };
+  // ---------- favoritos (en este dispositivo; los lee también el coach) ----------
+  const FAVS = {
+    K: "sh_favs",
+    list() { return LS.get(this.K, []); },
+    has(n) { return this.list().indexOf(n) !== -1; },
+    toggle(n) { const a = this.list(); const i = a.indexOf(n); if (i === -1) a.push(n); else a.splice(i, 1); LS.set(this.K, a); return i === -1; },
+  };
+  window.SportHubFavs = FAVS;
   function savePlan() {
     LS.set("sh_plan", { plan, durMode, durMin, nMov, nFue, notas: ($("#entreno-notas") || {}).value || "" });
   }
@@ -370,7 +378,7 @@
   // ---------- REPOSITORIO ----------
   const selCat = $("#filter-cat");
   const BLOQUES = ["movilidad", "activacion", "fuerza", "estabilidad", "core", "potencia"];
-  let filtroBloque = "", filtroRiesgo = "", agruparPor = "categoria";
+  let filtroBloque = "", filtroRiesgo = "", agruparPor = "categoria", filtroFav = false;
 
   // selector "agrupar por"
   $$("#group-by button").forEach(b => b.addEventListener("click", () => {
@@ -408,11 +416,24 @@
   }
   selCat.addEventListener("change", pintarRepo);
   $("#search").addEventListener("input", pintarRepo);
+  $("#fav-filter").addEventListener("click", function () {
+    filtroFav = !filtroFav;
+    this.classList.toggle("on", filtroFav);
+    pintarRepo();
+  });
+  $("#repo-list").addEventListener("click", (ev) => {
+    const b = ev.target.closest(".fav-btn"); if (!b) return;
+    const on = FAVS.toggle(b.dataset.fav);
+    b.classList.toggle("on", on);
+    const fc = $("#fav-count"); if (fc) fc.textContent = FAVS.list().length;
+    if (filtroFav && !on) { const ex = b.closest(".ex"); if (ex) ex.remove(); }
+  });
 
   function pintarRepo() {
     const q = $("#search").value.trim().toLowerCase();
     const cat = selCat.value;
     const list = EX.filter(e =>
+      (!filtroFav || FAVS.has(e.n)) &&
       (!filtroBloque || e.b === filtroBloque) &&
       (!cat || e.c === cat) &&
       (!filtroRiesgo || e.r === filtroRiesgo) &&
@@ -421,9 +442,15 @@
     );
 
     $("#repo-count").textContent = list.length + " de " + EX.length + " ejercicios";
+    const fc = $("#fav-count"); if (fc) fc.textContent = FAVS.list().length;
     const cont = $("#repo-list");
     cont.innerHTML = "";
-    if (!list.length) { cont.innerHTML = '<p class="muted">Sin resultados.</p>'; return; }
+    if (!list.length) {
+      cont.innerHTML = filtroFav
+        ? '<p class="muted">Aún no has marcado favoritos. Pulsa la ★ en cualquier ejercicio.</p>'
+        : '<p class="muted">Sin resultados.</p>';
+      return;
+    }
 
     // agrupar según la vista elegida (categoría de Nacho / detalle granular / bloque)
     const keyOf = (e) => agruparPor === "bloque" ? BLOQUE_LBL[e.b]
@@ -448,6 +475,7 @@
         const div = document.createElement("div");
         div.className = "ex";
         div.innerHTML =
+          '<button class="fav-btn' + (FAVS.has(e.n) ? " on" : "") + '" data-fav="' + esc(e.n) + '" aria-label="Marcar favorito" title="Favorito">★</button>' +
           '<div class="body">' +
             '<div class="name">' + esc(e.n) + '</div>' +
             '<div class="desc">' + esc(e.d) + '</div>' +
