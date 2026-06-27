@@ -479,6 +479,24 @@
   })();
   if ($("#entreno-notas")) $("#entreno-notas").addEventListener("input", savePlan);
 
+  // ---------- API pública: que el Coach pueda cargar un entreno en el Generador ----------
+  window.SportHub = {
+    cargarPlan(planData) {
+      if (!Array.isArray(planData) || !planData.length) return false;
+      plan = planData;
+      // cambiar a la pestaña Generador
+      $$(".tab").forEach(t => t.classList.remove("active"));
+      $$(".view").forEach(v => v.classList.remove("active"));
+      const tab = document.querySelector('.tab[data-view="gen"]');
+      if (tab) tab.classList.add("active");
+      const gen = document.getElementById("gen");
+      if (gen) gen.classList.add("active");
+      render();
+      $("#result").scrollIntoView({ behavior: "smooth", block: "start" });
+      return true;
+    },
+  };
+
   if (!EX.length) {
     document.body.insertAdjacentHTML("afterbegin",
       '<p style="color:#FF2D55;padding:12px">No se cargaron los ejercicios (data/ejercicios.js).</p>');
