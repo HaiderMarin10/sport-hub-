@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0A0A0B" />
+<title>Sport Hub · Andrés</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="apple-mobile-web-app-title" content="Sport Hub" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0A0B; --elev:#141417; --elev2:#1C1C20;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+    --txt:#FFFFFF; --txt2:#9C9CA4; --txt3:#646469;
+    --acid:#E2FB04; --acid-dim:#21260A;
+    --green:#34E27A; --amber:#FFB020; --red:#FF3B3B;
+    --radius:16px;
+    --disp:"Oswald",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{background:var(--bg)}
+  body{
+    margin:0;color:var(--txt);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-feature-settings:"tnum" 1;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    max-width:820px;margin:0 auto;padding:0 16px 110px;
+  }
+
+  /* ---------- topbar ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 4px 12px}
+  .brand{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
+  .brand span{color:var(--acid)}
+  .brand-tag{font-family:var(--disp);font-weight:600;font-size:11px;letter-spacing:.2em;color:var(--txt3);text-transform:uppercase}
+
+  /* ---------- tabs ---------- */
+  .tabs{position:sticky;top:0;z-index:8;background:linear-gradient(var(--bg) 72%, transparent);padding:8px 0 12px;display:flex}
+  .seg-tabs{display:flex;gap:4px;background:var(--elev);border:1px solid var(--line);border-radius:12px;padding:4px;width:100%}
+  .tab{flex:1;padding:12px;border:none;background:transparent;color:var(--txt2);border-radius:9px;
+    font-family:var(--disp);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.16s}
+  .tab.active{color:#0A0A0B;background:var(--acid)}
+
+  .view{display:none;animation:fade .25s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;border-radius:20px;overflow:hidden;margin-bottom:14px;min-height:236px;
+    display:flex;align-items:flex-end;border:1px solid var(--line);background-color:#101013;
+    background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),
+      url("https://images.unsplash.com/photo-1512203492609-972c16baa28b?auto=format&fit=crop&w=1400&q=80");
+    background-size:cover;background-position:center}
+  .hero-repo{background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),
+    url("https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1400&q=80")}
+  .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--acid)}
+  .hero-inner{padding:22px 22px 26px;position:relative;z-index:1}
+  .hero-kicker{font-family:var(--disp);font-weight:600;letter-spacing:.24em;font-size:12px;color:var(--acid);text-transform:uppercase}
+  .hero-title{font-family:"Anton",var(--disp);font-weight:400;font-size:58px;line-height:.9;letter-spacing:.01em;
+    text-transform:uppercase;margin:8px 0 0;text-shadow:0 4px 34px rgba(0,0,0,.55)}
+  .hero-sub{margin:11px 0 0;color:#dcdce0;font-size:13px;font-weight:500;max-width:38ch;line-height:1.45}
+
+  /* ---------- cards ---------- */
+  .card{background:var(--elev);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px}
+  .eyebrow{font-family:var(--disp);font-size:13px;text-transform:uppercase;letter-spacing:.16em;color:var(--txt2);font-weight:600;margin:0 0 14px}
+
+  /* ---------- duración ---------- */
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .seg button{padding:16px 6px;border:1px solid var(--line);background:var(--elev2);color:var(--txt);
+    border-radius:13px;font-family:var(--disp);font-size:20px;font-weight:700;letter-spacing:.02em;cursor:pointer;transition:.16s;text-transform:uppercase}
+  .seg button small{display:block;font-family:Inter;font-weight:600;color:var(--txt3);font-size:11px;margin-top:4px;letter-spacing:.02em;text-transform:none}
+  .seg button.on{border-color:var(--acid);background:var(--acid-dim);color:var(--acid)}
+  .seg button.on small{color:rgba(226,251,4,.75)}
+
+  #custom-panel{margin-top:10px;border-top:1px solid var(--line);padding-top:4px}
+  .stepper-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:14.5px;font-weight:600}
+  .stepper{display:flex;align-items:center;gap:14px}
+  .stepper button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:var(--elev2);
+    color:var(--txt);font-size:22px;font-weight:700;cursor:pointer;line-height:1}
+  .stepper button:active{background:var(--acid-dim);border-color:var(--acid);color:var(--acid)}
+  .stepper b{min-width:24px;text-align:center;font-family:var(--disp);font-size:21px;font-weight:700}
+
+  /* ---------- toggles ---------- */
+  .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 0;border-top:1px solid var(--line)}
+  .row:first-of-type{border-top:none}
+  .row .lbl{font-size:14.5px;font-weight:600}
+  .row .lbl small{display:block;color:var(--txt2);font-size:11.5px;font-weight:500;margin-top:3px;line-height:1.4}
+  .switch{position:relative;width:50px;height:30px;flex:none}
+  .switch input{display:none}
+  .switch span{position:absolute;inset:0;background:var(--elev2);border:1px solid var(--line2);border-radius:999px;transition:.2s}
+  .switch span:before{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;background:#76767e;border-radius:50%;transition:.2s}
+  .switch input:checked + span{background:rgba(226,251,4,.2);border-color:var(--acid)}
+  .switch input:checked + span:before{transform:translateX(20px);background:var(--acid)}
+
+  /* ---------- botones ---------- */
+  .btn{display:block;width:100%;padding:17px;border:none;border-radius:13px;font-family:var(--disp);
+    font-size:17px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:.16s}
+  .btn-primary{background:var(--acid);color:#0A0A0B;box-shadow:0 8px 26px rgba(226,251,4,.16)}
+  .btn-primary:active{transform:translateY(1px)}
+  .btn-green{background:var(--green);color:#04210F}
+  .btn-ghost{background:var(--elev2);color:var(--txt);border:1px solid var(--line2)}
+  .btn:disabled{opacity:.5;cursor:default;box-shadow:none}
+
+  /* ---------- resultado / stations ---------- */
+  .result-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+  .result-meta{font-family:var(--disp);color:var(--txt2);font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .block-title{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font-family:var(--disp);font-size:14px;
+    text-transform:uppercase;letter-spacing:.12em;color:var(--txt);font-weight:700}
+  .block-title .dot{width:14px;height:4px;border-radius:2px;background:var(--acid);box-shadow:0 0 14px rgba(226,251,4,.5)}
+  .block-add{margin-left:auto;font-family:Inter;font-size:11px;font-weight:700;color:var(--acid);background:transparent;
+    border:1px solid rgba(226,251,4,.35);border-radius:8px;padding:6px 11px;cursor:pointer;text-transform:none;letter-spacing:0}
+  .block-add:active{background:var(--acid-dim)}
+
+  .ex{display:flex;gap:13px;align-items:flex-start;background:var(--elev2);border:1px solid var(--line);
+    border-radius:13px;padding:13px 14px;margin-bottom:8px;transition:.14s}
+  .ex:hover{border-color:var(--line2)}
+  .ex .num{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--acid);min-width:26px;height:26px;
+    display:flex;align-items:center;justify-content:center;border:1px solid rgba(226,251,4,.3);border-radius:7px;margin-top:1px}
+  .ex .num.check{cursor:pointer;background:transparent}
+  .ex.done{opacity:.5}
+  .ex.done .name{text-decoration:line-through}
+  .ex.done .num.check{background:var(--acid);color:#0A0A0B;border-color:var(--acid)}
+  .progress{height:8px;background:var(--elev2);border-radius:999px;overflow:hidden;margin:4px 0 0}
+  .progress-fill{height:100%;width:0;background:var(--acid);border-radius:999px;transition:width .3s}
+  .prog-text{font-family:var(--disp);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);font-weight:600;margin:7px 0 4px}
+  textarea#entreno-notas{width:100%;margin-top:12px;min-height:62px;resize:vertical;padding:12px;background:var(--elev2);
+    border:1px solid var(--line);color:var(--txt);border-radius:12px;font-size:14px;font-family:inherit}
+  textarea#entreno-notas:focus{outline:none;border-color:var(--line2)}
+  .ex .body{flex:1;min-width:0}
+  .ex .name{font-weight:700;font-size:15.5px;letter-spacing:-.01em}
+  .ex .desc{color:var(--txt2);font-size:12.5px;margin-top:4px;line-height:1.45}
+  .ex .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;align-items:center}
+  .badge{font-size:10px;padding:4px 9px;border-radius:7px;font-weight:700;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}
+  .b-cat{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--line)}
+  .risk{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.05em;padding:4px 9px;border-radius:7px;border:1px solid var(--line)}
+  .risk i{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .r-bajo{color:var(--green)} .r-bajo i{background:var(--green)}
+  .r-medio{color:var(--amber)} .r-medio i{background:var(--amber)}
+  .r-alto{color:var(--red)} .r-alto i{background:var(--red)}
+  .yt{font-size:10.5px;font-weight:700;color:#0A0A0B;background:var(--acid);text-decoration:none;
+    padding:4px 9px;border-radius:7px;text-transform:uppercase;letter-spacing:.05em}
+  .yt:active{opacity:.7}
+  .ex-actions{display:flex;gap:7px;margin-top:11px}
+  .ex-actions button{font-size:11px;font-weight:700;color:var(--txt2);background:transparent;border:1px solid var(--line);
+    border-radius:8px;padding:6px 11px;cursor:pointer;font-family:inherit;transition:.14s}
+  .ex-actions button:hover{border-color:var(--line2);color:var(--txt)}
+
+  /* ---------- inputs / repo ---------- */
+  input[type=text],select{width:100%;padding:14px;background:var(--elev2);border:1px solid var(--line);
+    color:var(--txt);border-radius:12px;font-size:15px;font-family:inherit}
+  input[type=text]::placeholder{color:var(--txt3)}
+  input[type=text]:focus,select:focus{outline:none;border-color:var(--line2)}
+  select{margin-top:9px;appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--txt3) 50%),linear-gradient(135deg,var(--txt3) 50%,transparent 50%);
+    background-position:calc(100% - 18px) 20px,calc(100% - 13px) 20px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+  .chip{padding:9px 13px;border:1px solid var(--line);background:var(--elev2);color:var(--txt2);
+    border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:.14s}
+  .chip.on{color:#0A0A0B;border-color:var(--acid);background:var(--acid)}
+
+  .group-by{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+  .gb-label{font-family:var(--disp);font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--txt3);font-weight:600;flex:none}
+  .gb-seg{display:flex;gap:3px;background:var(--elev2);border:1px solid var(--line);border-radius:999px;padding:3px}
+  .gb-seg button{border:none;background:transparent;color:var(--txt2);font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.14s}
+  .gb-seg button.on{background:var(--acid);color:#0A0A0B}
+
+  .count{font-family:var(--disp);color:var(--txt3);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:14px 2px 11px}
+  .repo-group{display:flex;justify-content:space-between;align-items:center;font-family:var(--disp);font-size:13px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;color:var(--txt);margin:22px 2px 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .repo-group span{color:var(--acid);font-size:11px;border:1px solid rgba(226,251,4,.3);border-radius:999px;padding:2px 9px;letter-spacing:.04em}
+  .muted{color:var(--txt2);font-size:13px}
+
+  /* ---------- modal ---------- */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(5px);z-index:60;display:flex;align-items:flex-end;justify-content:center}
+  .modal-card{background:var(--elev);border:1px solid var(--line2);border-radius:20px 20px 0 0;width:100%;max-width:820px;
+    max-height:84vh;display:flex;flex-direction:column;padding:18px 18px 26px;animation:slideup .25s ease}
+  @keyframes slideup{from{transform:translateY(30px);opacity:.6}to{transform:none;opacity:1}}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .modal-head b{font-family:var(--disp);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .modal-head button{background:transparent;border:none;color:var(--txt2);font-size:19px;cursor:pointer;line-height:1}
+  #picker-list{overflow-y:auto;margin-top:11px;display:flex;flex-direction:column;gap:6px}
+  .picker-item{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;background:var(--elev2);
+    border:1px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;color:var(--txt);font-family:inherit}
+  .picker-item:hover{border-color:var(--line2)}
+  .picker-item span{display:flex;flex-direction:column;min-width:0}
+  .picker-item b{font-size:14px;font-weight:700}
+  .picker-item small{color:var(--txt3);font-size:11px;margin-top:2px}
+  .picker-item em{font-style:normal;color:var(--acid);font-weight:800;font-size:18px;flex:none}
+  .picker-item.added{opacity:.45;cursor:default}
+  .picker-item.added em{color:var(--txt3);font-size:10.5px;font-weight:700;text-transform:uppercase}
+
+  /* ---------- WOD: hero alternativo + pizarra ---------- */
+  .hero-wod{background-image:none;background-color:#0d0d0f;
+    --wod-bg:url("https://images.unsplash.com/photo-1743993414654-0be2b73a9620?auto=format&fit=crop&w=1400&q=80")}
+  .hero-wod::before{content:"";position:absolute;inset:0;z-index:0;
+    background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),var(--wod-bg);
+    background-size:cover;background-position:center;filter:grayscale(1) contrast(1.08)}
+  .wod-board{background:#F3F2E9;border:1px solid #000;color:#0A0A0B;position:relative}
+  .wod-board .wod-tag{font-family:var(--disp);font-weight:700;letter-spacing:.2em;font-size:12px;color:#9a8b00;text-transform:uppercase}
+  .wod-board .wod-format{font-family:"Anton",var(--disp);font-size:40px;line-height:1;text-transform:uppercase;margin:4px 0 6px;color:#0A0A0B}
+  .wod-board .wod-desc{font-size:13.5px;font-weight:600;color:#3a3a36;margin-bottom:12px}
+  .wod-moves{list-style:none;margin:0;padding:0;border-top:2px solid #0A0A0B}
+  .wod-moves li{display:flex;align-items:baseline;gap:10px;padding:11px 2px;border-bottom:1px solid rgba(0,0,0,.18);font-size:16px}
+  .wod-moves .reps{font-family:var(--disp);font-weight:700;color:#0A0A0B;min-width:74px;font-size:17px}
+  .wod-moves .mv{font-weight:600;flex:1}
+  .wod-moves .wod-flag{font-family:Inter;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:#b30016;background:rgba(179,0,22,.1);border:1px solid rgba(179,0,22,.35);padding:3px 7px;border-radius:6px;flex:none}
+  .wod-moves .wod-head{display:block;font-family:var(--disp);font-weight:700;text-transform:uppercase;
+    letter-spacing:.1em;font-size:12px;color:#9a8b00;padding:14px 2px 6px;border-bottom:2px solid #0A0A0B}
+  .wod-note{margin-top:14px;font-size:12px;font-weight:600;color:#5a5a52;font-style:italic}
+
+  /* series × reps editable en el generador de rehab */
+  .serie-row{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .serie-lbl{font-family:var(--disp);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);font-weight:600}
+  input.serie{width:auto;flex:1;max-width:170px;padding:8px 11px;border:1px solid var(--line2);background:var(--bg);
+    color:var(--acid);border-radius:9px;font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em}
+  input.serie:focus{outline:none;border-color:var(--acid)}
+
+  /* ---------- coach (chat) ---------- */
+  .hero-coach{background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),
+    url("https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1400&q=80")}
+  .coach-log{display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow-y:auto;padding:4px 2px;margin-top:6px}
+  .coach-log:empty{display:none}
+  .msg{max-width:88%;padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+  .msg.user{align-self:flex-end;background:var(--acid);color:#0A0A0B;font-weight:500;border-bottom-right-radius:5px}
+  .msg.coach{align-self:flex-start;background:var(--elev2);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.typing{color:var(--txt3);font-style:italic}
+  .coach-input{display:flex;gap:8px;margin-top:12px}
+  .coach-input input{flex:1}
+  .coach-input .btn{width:auto;padding:14px 18px;margin:0;flex:none}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);background:var(--elev);
+    border:1px solid var(--acid);color:var(--txt);padding:15px 20px;border-radius:13px;font-size:13.5px;font-weight:600;
+    max-width:90%;text-align:center;opacity:0;pointer-events:none;transition:.28s;z-index:70;box-shadow:0 14px 44px rgba(0,0,0,.55)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.err{border-color:var(--red)}
+  /* ---------- timer ---------- */
+  .timer-fab{position:fixed;right:18px;bottom:22px;width:56px;height:56px;border-radius:50%;border:none;
+    background:var(--acid);color:#0A0A0B;font-size:24px;cursor:pointer;z-index:55;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+  .timer-fab:active{transform:scale(.94)}
+  .timer-display{font-family:"Anton",var(--disp);font-size:74px;line-height:1;text-align:center;
+    letter-spacing:.02em;margin:18px 0 4px;font-variant-numeric:tabular-nums}
+  .timer-display.work{color:var(--acid)} .timer-display.rest{color:var(--blue)}
+  .timer-label{font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;font-size:13px;
+    font-weight:600;color:var(--txt2);text-align:center;min-height:18px;margin-bottom:16px}
+  .timer-controls{display:flex;gap:10px}
+  .timer-controls .btn{margin:0}
+  .hidden{display:none!important}
+  footer{font-family:var(--disp);color:var(--txt3);font-size:11px;text-align:center;padding:24px 0;letter-spacing:.1em;text-transform:uppercase}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">SPORT<span>HUB</span></div>
+    <div class="brand-tag">// Protocolo diario</div>
+  </div>
+
+  <nav class="tabs">
+    <div class="seg-tabs">
+      <button class="tab active" data-view="gen">Generador</button>
+      <button class="tab" data-view="repo">Ejercicios</button>
+      <button class="tab" data-view="wod">WOD</button>
+      <button class="tab" data-view="coach">Coach</button>
+    </div>
+  </nav>
+
+  <!-- ============ GENERADOR ============ -->
+  <section id="gen" class="view active">
+    <div class="hero" id="hero">
+      <div class="hero-inner">
+        <div class="hero-kicker">Entreno del día</div>
+        <h1 class="hero-title">Sin<br>excusas.</h1>
+        <p class="hero-sub">Movilidad · Fuerza · Estabilidad, cuidando tu espalda. Tú eliges la duración.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="eyebrow">Duración</p>
+      <div class="seg" id="dur">
+        <button data-min="60" class="on">1 h<small>4 movilidad + 4 fuerza</small></button>
+        <button data-min="90">1 h 30<small>6 movilidad + 6 fuerza</small></button>
+        <button data-min="120">2 h<small>8 movilidad + 8 fuerza</small></button>
+        <button data-min="custom">A medida<small>tú eliges cuántos</small></button>
+      </div>
+      <div id="custom-panel" class="hidden">
+        <div class="stepper-row"><span>Ejercicios de movilidad</span>
+          <div class="stepper"><button data-t="mov" data-d="-1">−</button><b id="n-mov">4</b><button data-t="mov" data-d="1">+</button></div></div>
+        <div class="stepper-row"><span>Ejercicios de fuerza</span>
+          <div class="stepper"><button data-t="fue" data-d="-1">−</button><b id="n-fue">4</b><button data-t="fue" data-d="1">+</button></div></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="row">
+          <div class="lbl">Proteger espalda
+            <small>Excluye carga axial alta e impacto hasta que Nacho lo apruebe</small></div>
+          <label class="switch"><input type="checkbox" id="safe" checked><span></span></label>
+        </div>
+        <div class="row">
+          <div class="lbl">Entreno completo
+            <small>Movilidad · Activación · Fuerza · Estabilidad · Core (off = Movilidad + Fuerza)</small></div>
+          <label class="switch"><input type="checkbox" id="four" checked><span></span></label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="generate" style="margin-top:16px">Generar entreno</button>
+      <button class="btn btn-ghost" id="manual" style="margin-top:10px">Personalizar (montar a mano)</button>
+    </div>
+
+    <div id="result" class="hidden">
+      <div class="card">
+        <div class="result-head">
+          <p class="eyebrow" style="margin:0">Tu entreno</p>
+          <span class="result-meta" id="result-meta"></span>
+        </div>
+        <div class="progress"><div class="progress-fill" id="prog-fill"></div></div>
+        <div class="prog-text" id="prog-text"></div>
+        <div id="blocks"></div>
+        <textarea id="entreno-notas" placeholder="Notas de hoy (sensación, cargas, dolor…) — se guardan con el entreno"></textarea>
+      </div>
+      <button class="btn btn-ghost" id="regen">Regenerar</button>
+      <button class="btn btn-green" id="done" style="margin-top:10px">He hecho este entreno hoy</button>
+      <p class="muted" id="done-note" style="text-align:center;margin-top:9px"></p>
+    </div>
+  </section>
+
+  <!-- ============ REPOSITORIO ============ -->
+  <section id="repo" class="view">
+    <div class="hero hero-repo" id="hero-repo">
+      <div class="hero-inner">
+        <div class="hero-kicker">Biblioteca</div>
+        <h1 class="hero-title">218<br>movimientos.</h1>
+        <p class="hero-sub">El repertorio completo de Nacho. Filtra, busca y aprende cada ejercicio.</p>
+      </div>
+    </div>
+    <div class="card">
+      <input type="text" id="search" placeholder="Buscar ejercicio, categoría o músculo…" />
+      <div class="chips" id="filter-block"></div>
+      <select id="filter-cat"><option value="">Todas las categorías</option></select>
+      <div class="chips" id="filter-risk">
+        <button class="chip on" data-r="">Todos</button>
+        <button class="chip" data-r="bajo">Espalda OK</button>
+        <button class="chip" data-r="medio">Precaución</button>
+        <button class="chip" data-r="alto">Alto riesgo</button>
+      </div>
+      <div class="group-by">
+        <span class="gb-label">Agrupar por</span>
+        <div class="gb-seg" id="group-by">
+          <button data-g="categoria" class="on">Categoría</button>
+          <button data-g="detalle">Detalle</button>
+          <button data-g="bloque">Bloque</button>
+        </div>
+      </div>
+      <div class="count" id="repo-count"></div>
+      <div id="repo-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ WOD (CrossFit / HIIT) ============ -->
+  <section id="wod" class="view">
+    <div class="hero hero-wod" id="hero-wod">
+      <div class="hero-inner">
+        <div class="hero-kicker">WOD del día</div>
+        <h1 class="hero-title">3·2·1<br>GO.</h1>
+        <p class="hero-sub">Generador de WODs estilo CrossFit / HIIT. Repertorio para cuando la espalda dé luz verde — y para enseñárselo a Nacho.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="eyebrow">Formato</p>
+      <div class="chips" id="wod-format">
+        <button class="chip on" data-f="">Sorpréndeme</button>
+        <button class="chip" data-f="AMRAP">AMRAP</button>
+        <button class="chip" data-f="EMOM">EMOM</button>
+        <button class="chip" data-f="RFT">Rounds For Time</button>
+        <button class="chip" data-f="FORTIME">For Time</button>
+        <button class="chip" data-f="TABATA">Tabata</button>
+        <button class="chip" data-f="CHIPPER">Chipper</button>
+        <button class="chip" data-f="HYROXT">Hyrox · Entreno</button>
+        <button class="chip" data-f="HYROXM">Hyrox · Mock</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div class="lbl">Proteger espalda
+          <small>Excluye levantamientos pesados, saltos e impacto</small></div>
+        <label class="switch"><input type="checkbox" id="wod-safe" checked><span></span></label>
+      </div>
+      <button class="btn btn-primary" id="wod-generate" style="margin-top:14px">Generar WOD</button>
+    </div>
+
+    <div id="wod-result" class="hidden">
+      <div class="card wod-board" id="wod-board"></div>
+      <button class="btn btn-ghost" id="wod-regen">Otro WOD</button>
+    </div>
+
+    <div class="card">
+      <p class="eyebrow">Movimientos CrossFit</p>
+      <input type="text" id="wod-search" placeholder="Buscar movimiento…" />
+      <div class="chips" id="wod-cat"></div>
+      <div class="count" id="wod-count"></div>
+      <div id="wod-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ COACH (IA) ============ -->
+  <section id="coach" class="view">
+    <div class="hero hero-coach" id="hero-coach">
+      <div class="hero-inner">
+        <div class="hero-kicker">Coach IA</div>
+        <h1 class="hero-title">Habla<br>con tu coach.</h1>
+        <p class="hero-sub">Conoce el repertorio de Nacho y tu espalda. Pídele un entreno, que te explique un ejercicio o qué hacer hoy.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="chips" id="coach-quick">
+        <button class="chip" data-q="Móntame un entreno de 45 minutos sin impacto, cuidando la espalda.">Entreno 45' sin impacto</button>
+        <button class="chip" data-q="¿Qué puedo hacer hoy si tengo la espalda algo cargada?">Espalda cargada hoy</button>
+        <button class="chip" data-q="Explícame cómo se hace el Copenhagen y para qué sirve.">Explica el Copenhagen</button>
+      </div>
+      <div id="coach-log" class="coach-log"></div>
+      <div class="coach-input">
+        <input type="text" id="coach-text" placeholder="Escribe a tu coach…" autocomplete="off" />
+        <button class="btn btn-primary" id="coach-send">Enviar</button>
+      </div>
+      <p class="muted" id="coach-note" style="margin-top:10px"></p>
+    </div>
+  </section>
+
+  <!-- ============ MODAL AÑADIR ============ -->
+  <div class="modal hidden" id="picker">
+    <div class="modal-card">
+      <div class="modal-head"><b id="picker-title">Añadir ejercicio</b><button id="picker-close">✕</button></div>
+      <input type="text" id="picker-search" placeholder="Buscar cualquier ejercicio…" />
+      <select id="picker-cat"><option value="">Todas las categorías</option></select>
+      <div id="picker-list"></div>
+    </div>
+  </div>
+
+  <!-- ============ TIMER (flotante, en todas las pestañas) ============ -->
+  <button class="timer-fab" id="timer-fab" aria-label="Timer">⏱</button>
+  <div class="modal hidden" id="timer">
+    <div class="modal-card">
+      <div class="modal-head"><b>Timer</b><button id="timer-close">✕</button></div>
+      <div class="chips" id="timer-mode">
+        <button class="chip on" data-m="cron">Cronómetro</button>
+        <button class="chip" data-m="down">Cuenta atrás</button>
+        <button class="chip" data-m="emom">EMOM</button>
+        <button class="chip" data-m="tabata">Tabata</button>
+      </div>
+      <div class="chips" id="timer-presets"></div>
+      <div class="timer-display" id="timer-display">00:00</div>
+      <div class="timer-label" id="timer-label"></div>
+      <div class="timer-controls">
+        <button class="btn btn-primary" id="timer-start">Empezar</button>
+        <button class="btn btn-ghost" id="timer-reset">Reiniciar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <footer>Sport Hub · Training, Workout &amp; WOD Generator</footer>
+
+  <script src="config.js"></script>
+  <script src="data/ejercicios.js"></script>
+  <script src="data/crossfit.js"></script>
+  <script src="app.js"></script>
+  <script src="crossfit.js"></script>
+  <script src="timer.js"></script>
+  <script src="coach.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+    }
+  </script>
+</body>
+</html>
