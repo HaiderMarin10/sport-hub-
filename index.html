@@ -52,18 +52,18 @@
 
   /* ---------- hero ---------- */
   .hero{position:relative;border-radius:20px;overflow:hidden;margin-bottom:14px;min-height:236px;
-    display:flex;align-items:flex-end;border:1px solid var(--line);background-color:#101013;
-    background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),
-      url("https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?auto=format&fit=crop&w=1400&q=80");
-    background-size:cover;background-position:center}
-  .hero-repo{background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),
-    url("https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1400&q=80")}
-  .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--acid)}
-  .hero-inner{padding:22px 22px 26px;position:relative;z-index:1}
+    display:flex;align-items:flex-end;border:1px solid var(--line);background-color:#101013}
+  .hero-bg{position:absolute;inset:0;z-index:0;background:#101013 center center/cover no-repeat;transition:opacity .9s ease}
+  .hero-bg.hb-fade{opacity:0}
+  .hero-wod .hero-bg{filter:grayscale(1) contrast(1.08)}
+  .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--acid);z-index:3}
+  .hero-inner{padding:22px 22px 26px;position:relative;z-index:2}
   .hero-kicker{font-family:var(--disp);font-weight:600;letter-spacing:.24em;font-size:12px;color:var(--acid);text-transform:uppercase}
   .hero-title{font-family:"Anton",var(--disp);font-weight:400;font-size:58px;line-height:.9;letter-spacing:.01em;
     text-transform:uppercase;margin:8px 0 0;text-shadow:0 4px 34px rgba(0,0,0,.55)}
   .hero-sub{margin:11px 0 0;color:#dcdce0;font-size:13px;font-weight:500;max-width:38ch;line-height:1.45}
+  .hero-quote{margin:12px 0 0;font-style:italic;color:#fff;font-size:13px;line-height:1.45;max-width:42ch;
+    border-left:3px solid var(--acid);padding-left:11px;text-shadow:0 2px 14px rgba(0,0,0,.6)}
 
   /* ---------- cards ---------- */
   .card{background:var(--elev);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px}
@@ -196,11 +196,7 @@
   .picker-item.added em{color:var(--txt3);font-size:10.5px;font-weight:700;text-transform:uppercase}
 
   /* ---------- WOD: hero alternativo + pizarra ---------- */
-  .hero-wod{background-image:none;background-color:#0d0d0f;
-    --wod-bg:url("https://images.unsplash.com/photo-1743993414654-0be2b73a9620?auto=format&fit=crop&w=1400&q=80")}
-  .hero-wod::before{content:"";position:absolute;inset:0;z-index:0;
-    background-image:linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%),var(--wod-bg);
-    background-size:cover;background-position:center;filter:grayscale(1) contrast(1.08)}
+  /* hero WOD: la imagen B/N la pone .hero-wod .hero-bg (ver arriba) */
   .wod-board{background:#F3F2E9;border:1px solid #000;color:#0A0A0B;position:relative}
   .wod-board .wod-tag{font-family:var(--disp);font-weight:700;letter-spacing:.2em;font-size:12px;color:#9a8b00;text-transform:uppercase}
   .wod-board .wod-format{font-family:"Anton",var(--disp);font-size:40px;line-height:1;text-transform:uppercase;margin:4px 0 6px;color:#0A0A0B}
@@ -286,10 +282,12 @@
   <!-- ============ GENERADOR ============ -->
   <section id="gen" class="view active">
     <div class="hero" id="hero">
+      <div class="hero-bg" id="hero-bg-gen"></div>
       <div class="hero-inner">
         <div class="hero-kicker">Entreno del día</div>
         <h1 class="hero-title">Sin<br>excusas.</h1>
-        <p class="hero-sub">Movilidad · Fuerza · Estabilidad, cuidando tu espalda. Tú eliges la duración.</p>
+        <p class="hero-quote">"Ever tried. Ever failed. No matter. Try again. Fail again. Fail better."</p>
+        <p class="hero-sub">Movilidad · Fuerza · Estabilidad, cuidando tu espalda.</p>
       </div>
     </div>
 
@@ -345,6 +343,7 @@
   <!-- ============ REPOSITORIO ============ -->
   <section id="repo" class="view">
     <div class="hero hero-repo" id="hero-repo">
+      <div class="hero-bg" id="hero-bg-repo"></div>
       <div class="hero-inner">
         <div class="hero-kicker">Biblioteca</div>
         <h1 class="hero-title">218<br>movimientos.</h1>
@@ -377,6 +376,7 @@
   <!-- ============ WOD (CrossFit / HIIT) ============ -->
   <section id="wod" class="view">
     <div class="hero hero-wod" id="hero-wod">
+      <div class="hero-bg" id="hero-bg-wod"></div>
       <div class="hero-inner">
         <div class="hero-kicker">WOD del día</div>
         <h1 class="hero-title">3·2·1<br>GO.</h1>

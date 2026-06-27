@@ -15,18 +15,25 @@
   const pickOne = (a) => a[Math.floor(Math.random() * a.length)];
   const RIESGO_LBL = { bajo: "espalda OK", medio: "precaución", alto: "alto riesgo" };
 
-  // hero WOD: imágenes Hyrox sled (se muestran en blanco y negro vía CSS).
+  // hero WOD: imágenes Hyrox sled (B/N vía CSS), rotando con fundido cruzado.
   const WOD_IMGS = [
     "https://images.unsplash.com/photo-1743993414654-0be2b73a9620?auto=format&fit=crop&w=1400&q=80",
     "https://images.unsplash.com/photo-1780398455381-c7c02b7727ec?auto=format&fit=crop&w=1400&q=80",
   ];
-  function setHeroWod() {
-    const h = $("#hero-wod");
-    if (!h) return;
-    const u = WOD_IMGS[Math.floor(Math.random() * WOD_IMGS.length)];
-    h.style.setProperty("--wod-bg", "url('" + u + "')");
-  }
-  setHeroWod();
+  const GRADW = "linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%)";
+  (function slideshowWod() {
+    const el = $("#hero-bg-wod");
+    if (!el) return;
+    WOD_IMGS.forEach((s) => { const im = new Image(); im.src = s; });
+    let i = 0;
+    const set = (idx) => { el.style.backgroundImage = GRADW + ", url('" + WOD_IMGS[idx] + "')"; };
+    set(0);
+    if (WOD_IMGS.length < 2) return;
+    setInterval(() => {
+      el.classList.add("hb-fade");
+      setTimeout(() => { i = (i + 1) % WOD_IMGS.length; set(i); el.classList.remove("hb-fade"); }, 900);
+    }, 7000);
+  })();
 
   // ---------- reps por movimiento ----------
   function reps(m) {
@@ -197,7 +204,6 @@
       '<div class="wod-note">' + esc(w.nota) + '</div>';
     $("#wod-result").classList.remove("hidden");
     if (scroll) $("#wod-result").scrollIntoView({ behavior: "smooth", block: "start" });
-    setHeroWod();
   }
   function pintarWOD() {
     const safe = $("#wod-safe").checked;

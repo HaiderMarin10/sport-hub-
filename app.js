@@ -28,21 +28,27 @@
   // ---------- heros motivadores (fotos verificadas) ----------
   // Para usar tus propias fotos: define SPORTHUB_CONFIG.hero_imgs = ["url1","url2"] en config.js.
   const GRAD = "linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%)";
-  // Generador: triatleta en bici aero.
+  // Generador: fotos que van rotando con fundido. Para meter las TUYAS (p.ej. Wawrinka),
+  // añade sus URLs aquí o define SPORTHUB_CONFIG.hero_imgs = ["url1","url2"] en config.js.
   const HERO_IMGS = (CFG && CFG.hero_imgs && CFG.hero_imgs.length) ? CFG.hero_imgs : [
     "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?auto=format&fit=crop&w=1400&q=80",
-  ];
-  // Ejercicios: fuerza con barra (blanco y negro).
-  const REPO_IMGS = [
     "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1400&q=80",
+  ];
+  const REPO_IMGS = [
     "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1400&q=80",
   ];
-  function setBg(el, imgs) {
+  function setLayer(el, img) { if (el) el.style.backgroundImage = GRAD + ", url('" + img + "')"; }
+  function slideshow(el, imgs, ms) {
     if (!el || !imgs.length) return;
-    const u = imgs[Math.floor(Math.random() * imgs.length)];
-    el.style.backgroundImage = GRAD + ", url('" + u + "')";
+    imgs.forEach((s) => { const im = new Image(); im.src = s; });
+    let i = 0;
+    setLayer(el, imgs[0]);
+    if (imgs.length < 2) return;
+    setInterval(() => {
+      el.classList.add("hb-fade");
+      setTimeout(() => { i = (i + 1) % imgs.length; setLayer(el, imgs[i]); el.classList.remove("hb-fade"); }, 900);
+    }, ms || 6500);
   }
-  function setHero() { setBg($("#hero"), HERO_IMGS); }
 
   // ---------- pestañas ----------
   $$(".tab").forEach(tab => tab.addEventListener("click", () => {
@@ -179,7 +185,6 @@
   function nuevo() {
     plan = generar();
     render();
-    setHero();
     $("#result").scrollIntoView({ behavior: "smooth", block: "start" });
   }
   $("#generate").addEventListener("click", nuevo);
@@ -456,8 +461,8 @@
 
   rebuildCats();
   pintarRepo();
-  setHero();
-  setBg($("#hero-repo"), REPO_IMGS);
+  slideshow($("#hero-bg-gen"), HERO_IMGS, 6500);
+  setLayer($("#hero-bg-repo"), REPO_IMGS[0]);
 
   // restaurar el último entreno (no se pierde al recargar)
   (function restaurar() {
