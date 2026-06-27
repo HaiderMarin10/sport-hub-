@@ -1,8 +1,9 @@
 /* Sport Hub service worker — app shell offline.
    Solo cachea GET del mismo origen. NO toca las llamadas a Airtable (otro origen / POST). */
-const CACHE = "sporthub-v14";
+const CACHE = "sporthub-v15";
 const ASSETS = [
   "./", "./index.html", "./app.js", "./crossfit.js", "./timer.js", "./coach.js", "./config.js",
+  "./airtable.js", "./diario.js",
   "./manifest.json", "./data/ejercicios.js", "./data/crossfit.js",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-512-maskable.png",
 ];

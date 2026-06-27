@@ -210,7 +210,12 @@
   async function enviar(texto) {
     texto = (texto || "").trim();
     if (!texto) return;
-    if (!getKey()) { keybar.classList.remove("hidden"); keyInput.focus(); return; }
+    if (!getKey()) {
+      keybar.classList.remove("hidden");
+      burbuja("assistant", "Para chatear conmigo necesito tu API key de Anthropic (se guarda solo en tu móvil). Pégala aquí arriba 👆 y dale a Guardar. La sacas gratis en console.anthropic.com → API Keys.", "coach");
+      keyInput && keyInput.focus();
+      return;
+    }
     input.value = "";
     burbuja("user", texto);
     historial.push({ role: "user", content: texto });

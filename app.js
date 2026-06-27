@@ -331,6 +331,8 @@
       notas: "Sport Hub · " + nombres.length + " ejercicios" +
         (hechos ? " · " + hechos + " marcados hechos" : "") + (nota ? " — " + nota : ""),
     };
+    // Cliente BYOK compartido (token en este dispositivo) -> funciona también en el deploy/móvil.
+    if (window.shAirtable && window.shAirtable.hasToken()) return window.shAirtable.create("entrenos", fields);
     const url = "https://api.airtable.com/v0/" + CFG.baseId + "/" + encodeURIComponent(CFG.tabla_entrenos || "entrenos");
     const res = await fetch(url, {
       method: "POST",
@@ -343,10 +345,10 @@
 
   $("#done").addEventListener("click", async () => {
     if (!plan || !plan.some(g => g.ejercicios.length)) { toast("El entreno está vacío", true); return; }
-    if (!CFG || !CFG.token || CFG.token.indexOf("XXXX") !== -1) {
+    if (!(window.shAirtable && window.shAirtable.hasToken())) {
       try { await navigator.clipboard.writeText(resumenTexto()); } catch (e) {}
-      $("#done-note").textContent = "config.js sin token → entreno copiado al portapapeles como fallback.";
-      toast("Sin token: copiado al portapapeles", true);
+      $("#done-note").textContent = "Conecta Airtable en la pestaña Diario para guardar tus entrenos. De momento te lo he copiado al portapapeles.";
+      toast("Conecta Airtable (pestaña Diario)", true);
       return;
     }
     const btn = $("#done");

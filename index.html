@@ -279,6 +279,38 @@
   .timer-controls .btn{margin:0}
   .hidden{display:none!important}
   footer{font-family:var(--disp);color:var(--txt3);font-size:11px;text-align:center;padding:24px 0;letter-spacing:.1em;text-transform:uppercase}
+  /* ---- Diario: formulario + histórico ---- */
+  .hero-diario .hero-inner{background:linear-gradient(180deg,rgba(10,10,11,.2),rgba(10,10,11,.9))}
+  .d-sub{font-family:var(--disp);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--txt2);margin:16px 0 8px}
+  .sld{margin:14px 0}
+  .sld-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px}
+  .sld-lbl{font-size:14px;color:var(--txt1,#fff);display:flex;flex-direction:column}
+  .sld-lbl small{color:var(--txt3);font-size:11px;margin-top:2px}
+  .sld-val{font-family:var(--disp);font-weight:700;font-size:20px;color:var(--acid);min-width:28px;text-align:right;font-variant-numeric:tabular-nums}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:6px;background:var(--elev2);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--acid);cursor:pointer;border:3px solid var(--bg)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--acid);cursor:pointer;border:3px solid var(--bg)}
+  #diario-root textarea{width:100%;background:var(--elev2);border:1px solid var(--line2);border-radius:12px;color:#fff;padding:12px;font:inherit;resize:vertical}
+  #diario-root input[type=date]{background:var(--elev2);border:1px solid var(--line2);border-radius:10px;color:#fff;padding:8px 10px;font:inherit}
+  .at-bar .at-help{font-size:13px;color:var(--txt2);line-height:1.5;margin:6px 0 10px}
+  .at-bar.ok{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .at-row{display:flex;gap:8px}
+  .at-row input{flex:1;background:var(--elev2);border:1px solid var(--line2);border-radius:10px;color:#fff;padding:10px;font:inherit}
+  .at-row .btn{margin:0;flex:none;width:auto;padding:0 18px}
+  .at-dot{width:9px;height:9px;border-radius:50%;background:var(--acid);box-shadow:0 0 8px var(--acid);flex:none}
+  .at-txt{font-size:13px;color:var(--txt2);flex:1}
+  .at-change{cursor:pointer;font-size:12px}
+  .hist-head{display:flex;justify-content:space-between;align-items:center}
+  #hist-refresh{cursor:pointer;font-size:12px}
+  .hist-empty{color:var(--txt3);font-size:13px;padding:8px 0}
+  .hist-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line2);font-size:13px}
+  .hist-d{font-family:var(--disp);font-weight:700;color:var(--txt2);min-width:42px;font-variant-numeric:tabular-nums}
+  .hist-tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#0A0A0B;background:var(--acid);border-radius:20px;padding:2px 8px;font-weight:700}
+  .hist-meta{color:var(--txt2);flex:1}
+  .trend{margin:6px 0 4px}
+  .trend-h{font-size:13px;color:var(--txt2);margin-bottom:4px}
+  .trend-h b{color:var(--acid)}
+  .spark{width:100%;height:38px;display:block}
 </style>
 </head>
 <body>
@@ -290,8 +322,9 @@
   <nav class="tabs">
     <div class="seg-tabs">
       <button class="tab active" data-view="gen">Generador</button>
-      <button class="tab" data-view="repo">Ejercicios</button>
+      <button class="tab" data-view="repo">Repositorio</button>
       <button class="tab" data-view="wod">WOD</button>
+      <button class="tab" data-view="diario">Diario</button>
     </div>
   </nav>
 
@@ -301,7 +334,7 @@
       <div class="hero-bg" id="hero-bg-gen"></div>
       <div class="hero-inner">
         <div class="hero-kicker">Entreno del día</div>
-        <h1 class="hero-title">Sin<br>excusas.</h1>
+        <h1 class="hero-title">Vuelve<br>más fuerte.</h1>
         <p class="hero-sub" style="font-style:italic">"Ever tried. Ever failed. No matter. Try again. Fail again. Fail better."</p>
       </div>
     </div>
@@ -434,6 +467,18 @@
     </div>
   </section>
 
+  <!-- ============ DIARIO (sensaciones + histórico) ============ -->
+  <section id="diario" class="view">
+    <div class="hero hero-diario" id="hero-diario">
+      <div class="hero-inner">
+        <div class="hero-kicker">Tu diario</div>
+        <h1 class="hero-title">El día<br>a día.</h1>
+        <p class="hero-sub">Registra cómo va la espalda, la energía y el ánimo. Lo que medimos, mejora — y tu coach lo tendrá en cuenta.</p>
+      </div>
+    </div>
+    <div id="diario-root"></div>
+  </section>
+
   <!-- ============ COACH (IA) ============ -->
   <button class="coach-fab" id="coach-fab" aria-label="Coach">💬</button>
   <div class="coach-drawer" id="coach">
@@ -505,9 +550,11 @@
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
   <script src="data/crossfit.js"></script>
+  <script src="airtable.js"></script>
   <script src="app.js"></script>
   <script src="crossfit.js"></script>
   <script src="timer.js"></script>
+  <script src="diario.js"></script>
   <script src="coach.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
