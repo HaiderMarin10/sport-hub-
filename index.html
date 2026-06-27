@@ -218,30 +218,47 @@
     color:var(--acid);border-radius:9px;font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.02em}
   input.serie:focus{outline:none;border-color:var(--acid)}
 
-  /* ---------- coach (chat a pantalla completa) ---------- */
-  .coach-screen{display:flex;flex-direction:column}
-  .coach-head{display:flex;align-items:center;gap:11px;padding:4px 2px 12px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+  /* ---------- coach: panel flotante (drawer) ---------- */
+  .coach-fab{position:fixed;right:18px;bottom:88px;width:56px;height:56px;border-radius:50%;border:none;
+    background:var(--acid);color:#0A0A0B;font-size:23px;cursor:pointer;z-index:54;
+    box-shadow:0 8px 24px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center}
+  .coach-fab:active{transform:scale(.94)}
+  .coach-drawer{position:fixed;left:0;right:0;bottom:0;z-index:66;background:var(--bg);
+    border-top:1px solid var(--line2);border-radius:20px 20px 0 0;height:88vh;display:flex;flex-direction:column;
+    transform:translateY(106%);transition:transform .28s ease;box-shadow:0 -14px 44px rgba(0,0,0,.55)}
+  .coach-drawer.open{transform:translateY(0)}
+  .coach-screen{flex:1;display:flex;flex-direction:column;min-height:0;padding:16px 16px 18px;max-width:780px;margin:0 auto;width:100%}
+  .coach-head{position:relative;display:flex;align-items:center;gap:11px;padding:2px 2px 12px;margin-bottom:8px;border-bottom:1px solid var(--line)}
   .coach-av{width:44px;height:44px;border-radius:50%;background:var(--acid);color:#0A0A0B;flex:none;
     display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:16px;letter-spacing:.02em}
   .coach-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
   .coach-status{color:var(--txt2);font-size:11.5px;margin-top:1px}
-  .coach-log{height:56vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:8px 2px;-webkit-overflow-scrolling:touch}
+  .coach-close{position:absolute;right:0;top:0;background:transparent;border:none;color:var(--txt2);font-size:19px;cursor:pointer;padding:6px}
+  .coach-log{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:8px 2px;-webkit-overflow-scrolling:touch}
   .msg{max-width:86%;padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
   .msg.user{align-self:flex-end;background:var(--acid);color:#0A0A0B;font-weight:500;border-bottom-right-radius:5px}
   .msg.coach{align-self:flex-start;background:var(--elev2);border:1px solid var(--line);border-bottom-left-radius:5px}
   .msg.typing{color:var(--txt3);font-style:italic;animation:cpulse 1.1s ease-in-out infinite}
   @keyframes cpulse{0%,100%{opacity:.45}50%{opacity:1}}
-  .coach-quick{margin:10px 0 8px}
-  .coach-input{display:flex;gap:8px;align-items:center;margin-top:4px}
+  .coach-quick{margin:8px 0;flex:none}
+  .coach-input{display:flex;gap:8px;align-items:center;margin-top:4px;flex:none}
   .coach-input input{flex:1}
   .coach-input .btn{width:auto;padding:13px 16px;margin:0;flex:none}
   #coach-send{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--acid);color:#0A0A0B;
     font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
   #coach-send:disabled{opacity:.4;cursor:default}
   #coach-send:active{transform:scale(.94)}
-  .coach-keybar{background:var(--elev2);border:1px solid var(--acid);border-radius:14px;padding:14px;margin-bottom:12px}
+  .coach-keybar{background:var(--elev2);border:1px solid var(--acid);border-radius:14px;padding:14px;margin-bottom:12px;flex:none}
   .coach-keytitle{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;margin:0 0 6px;color:var(--acid)}
-  .coach-clear{display:block;text-align:center;margin-top:12px;cursor:pointer}
+  .coach-clear{display:block;text-align:center;margin-top:10px;cursor:pointer;flex:none}
+  @media (min-width:980px){
+    .coach-drawer{left:auto;right:0;top:0;bottom:0;height:100vh;width:420px;border-radius:0;border-top:none;border-left:1px solid var(--line2);transform:translateX(106%)}
+    .coach-drawer.open{transform:translateX(0)}
+    .coach-screen{max-width:none;margin:0}
+    body.coach-open{margin-right:420px}
+    body.coach-open .coach-fab{right:438px}
+    body.coach-open .timer-fab{right:438px}
+  }
 
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(10px);background:var(--elev);
     border:1px solid var(--acid);color:var(--txt);padding:15px 20px;border-radius:13px;font-size:13.5px;font-weight:600;
@@ -275,7 +292,6 @@
       <button class="tab active" data-view="gen">Generador</button>
       <button class="tab" data-view="repo">Ejercicios</button>
       <button class="tab" data-view="wod">WOD</button>
-      <button class="tab" data-view="coach">Coach</button>
     </div>
   </nav>
 
@@ -419,7 +435,8 @@
   </section>
 
   <!-- ============ COACH (IA) ============ -->
-  <section id="coach" class="view">
+  <button class="coach-fab" id="coach-fab" aria-label="Coach">💬</button>
+  <div class="coach-drawer" id="coach">
     <div class="coach-screen">
       <div class="coach-head">
         <div class="coach-av">SH</div>
@@ -427,6 +444,7 @@
           <div class="coach-name">Tu coach</div>
           <div class="coach-status">Conoce tu espalda y el repertorio de Nacho</div>
         </div>
+        <button class="coach-close" id="coach-close" aria-label="Cerrar">✕</button>
       </div>
       <div id="coach-keybar" class="coach-keybar hidden">
         <p class="coach-keytitle">🔑 Activa tu coach</p>
@@ -448,7 +466,7 @@
       </div>
       <a id="coach-clearkey" class="coach-clear muted"></a>
     </div>
-  </section>
+  </div>
 
   <!-- ============ MODAL AÑADIR ============ -->
   <div class="modal hidden" id="picker">

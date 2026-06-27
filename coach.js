@@ -12,7 +12,18 @@
   const MODEL = "claude-sonnet-4-6";
   const log = $("#coach-log"), input = $("#coach-text"), sendBtn = $("#coach-send");
   const keybar = $("#coach-keybar"), keyInput = $("#coach-key"), keySave = $("#coach-key-save"), clearKey = $("#coach-clearkey");
+  const drawer = $("#coach"), fab = $("#coach-fab"), drawerClose = $("#coach-close");
   const historial = [];
+
+  function abrir() {
+    drawer.classList.add("open");
+    document.body.classList.add("coach-open");
+    setTimeout(() => { (getKey() ? input : (keyInput || input)).focus(); }, 280);
+  }
+  function cerrar() {
+    drawer.classList.remove("open");
+    document.body.classList.remove("coach-open");
+  }
 
   // ---------- repertorio + system prompt ----------
   function repertorio() {
@@ -126,7 +137,8 @@
       if (!plan.length || !window.SportHub) return "No pude cargar el entreno en el generador.";
       window.SportHub.cargarPlan(plan);
       const total = plan.reduce((a, g) => a + g.ejercicios.length, 0);
-      burbuja("assistant", "✅ Te lo he montado en el Generador (" + total + " ejercicios). Está en esa pestaña: puedes cambiar ejercicios, ajustar las series y marcarlo como hecho. 💪", "coach");
+      if (window.innerWidth < 980) setTimeout(cerrar, 800); // en móvil, cierra el panel para ver el generador
+      burbuja("assistant", "✅ Montado en el Generador (" + total + " ejercicios): cámbialo, ajusta series o márcalo como hecho. Puedes seguir pidiéndome cambios desde aquí. 💪", "coach");
       return "Entreno cargado en el generador (" + total + " ejercicios). Coméntalo brevemente.";
     } catch (e) {
       return "Error al cargar el entreno: " + (e.message || e);
@@ -233,6 +245,9 @@
     if (getKey() && !confirm("¿Borrar la clave de este dispositivo?")) { keybar.classList.remove("hidden"); return; }
     setKey(""); keybar.classList.remove("hidden");
   });
+
+  fab && fab.addEventListener("click", () => (drawer.classList.contains("open") ? cerrar() : abrir()));
+  drawerClose && drawerClose.addEventListener("click", cerrar);
 
   // ---------- arranque ----------
   refrescar();
