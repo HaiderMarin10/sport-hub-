@@ -44,6 +44,8 @@
     "NUNCA lo escribas como tabla ni texto en el chat: SIEMPRE LLAMA a la herramienta `proponer_entreno` para que aparezca en su Generador " +
     "(editable, con series, para marcar como hecho). Usa nombres EXACTOS del repertorio de arriba. Tras llamarla, comenta en 1-2 frases qué le has montado y por qué.\n" +
     "- Para VER o MODIFICAR el entreno que ya tiene cargado, primero llama a `entreno_actual` para leerlo y luego `proponer_entreno` con la versión cambiada.\n" +
+    "- REGISTRAR EL DÍA (importante): cuando Andrés te cuente con sus palabras cómo se siente (espalda al levantarse o por la noche, gemelos/glúteos, energía, ánimo, cómo le ha ido el día o el entreno) o te diga 'registra/anota mi día', llama a `registrar_dia` extrayendo SOLO lo que mencione. Escalas 1-10 (en espalda/energía/ánimo, 10 = mejor; en gemelos, 10 = más molestia). Si te cuenta un entreno que YA ha hecho ('he salido a correr 10k', 'he hecho fuerza'), llama a `registrar_entreno`. No le interrogues: extrae lo que diga; tras guardar, confírmaselo en 1 frase y, si falta algo clave (p.ej. no dijo cómo tiene la espalda), pregúntaselo suelto.\n" +
+    "- Si Andrés pide 'un entreno de favoritos', móntalo con `proponer_entreno` usando sus ejercicios favoritos (te los paso en el contexto).\n" +
     "- Respeta su espalda: evita por defecto carga axial alta e impacto salvo que lo pida.\n" +
     "- No eres médico: ante dolor agudo o señales neurológicas nuevas, recomiéndale ver a Nacho o a su médico.\n" +
     "- No inventes datos. Si falta información, pregunta.";
@@ -86,6 +88,47 @@
     name: "entreno_actual",
     description: "Devuelve el entreno que Andrés tiene cargado AHORA en el Generador (bloques, ejercicios y series). Úsalo cuando pida ver o MODIFICAR el entreno actual: léelo con esta herramienta y luego llama a proponer_entreno con la versión modificada.",
     input_schema: { type: "object", properties: {} },
+  };
+
+  const hoyISO = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+
+  const TOOL_DIA = {
+    name: "registrar_dia",
+    description: "Guarda en el DIARIO de Andrés (sensaciones_diarias) cómo se siente, a partir de lo que te cuenta con sus palabras. Úsalo SIEMPRE que Andrés describa su estado (espalda al levantarse o por la noche, gemelos/glúteos, energía, ánimo, cómo le ha ido el día o el entreno) o te pida registrar/anotar su día. EXTRAE solo lo que mencione; deja sin rellenar lo que no diga. No le interrogues con muchas preguntas.",
+    input_schema: {
+      type: "object",
+      properties: {
+        fecha: { type: "string", description: "YYYY-MM-DD. Si no lo dice, hoy." },
+        espalda_manana: { type: "number", description: "Espalda al despertar: 1 (fatal) a 10 (perfecta)." },
+        espalda_noche: { type: "number", description: "Espalda por la noche: 1 a 10." },
+        intensidad_gemelos: { type: "number", description: "Molestia gemelos/glúteos: 0 (nada) a 10 (máxima)." },
+        gemelos_contexto: { type: "string", enum: ["En reposo", "Caminando", "Durante entreno", "Post entreno", "Al despertar"] },
+        dolor_localizado: { type: "array", items: { type: "string", enum: ["Ninguno", "Lumbar", "Glúteo izquierdo", "Glúteo derecho", "Gemelo izquierdo", "Gemelo derecho", "Pierna izquierda", "Pierna derecha", "Múltiple"] } },
+        energia_general: { type: "number", description: "1 (plano) a 10 (a tope)." },
+        estado_animo: { type: "number", description: "1 a 10." },
+        sensacion_general_dia: { type: "number", description: "1 (malo) a 10 (genial)." },
+        flags: { type: "array", items: { type: "string", enum: ["Día malo espalda", "PR entreno", "Mal sueño", "Estrés laboral", "Viaje", "Lesión"] } },
+        entreno_valoracion: { type: "number", description: "Si comenta qué tal entrenó: 1 (flojo) a 10 (genial)." },
+        nota: { type: "string", description: "Texto con los matices que cuente (miedos, contexto, lo que le ha molado…)." },
+      },
+    },
+  };
+
+  const TOOL_ENT_LOG = {
+    name: "registrar_entreno",
+    description: "Guarda en la tabla entrenos un entrenamiento que Andrés YA HA HECHO y te cuenta con sus palabras (p.ej. 'hoy he salido a correr 10k', 'he hecho fuerza'). NO es para proponer un entreno futuro (para eso usa proponer_entreno).",
+    input_schema: {
+      type: "object",
+      properties: {
+        fecha: { type: "string", description: "YYYY-MM-DD; si no lo dice, hoy." },
+        tipo: { type: "string", enum: ["Fuerza", "Movilidad", "Pilates", "Cardio", "Rehabilitación", "Mixto"] },
+        duracion_min: { type: "number" },
+        ejercicios: { type: "string", description: "Ejercicios o actividad realizada (texto)." },
+        sensacion_espalda_durante: { type: "number", description: "1 a 10." },
+        notas: { type: "string" },
+      },
+      required: ["tipo"],
+    },
   };
 
   // ---------- clave ----------
@@ -181,6 +224,46 @@
       : "";
   }
 
+  // ---------- registrar el día / el entreno en Airtable (voz/texto -> datos) ----------
+  async function registrarDia(input) {
+    if (!window.shAirtable || !window.shAirtable.hasToken())
+      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Diario (un token, una vez). Pídeselo amablemente.";
+    try {
+      const f = { fecha: input.fecha || hoyISO() };
+      if (typeof input.espalda_manana === "number") f["espalda_mañana"] = input.espalda_manana;
+      if (typeof input.espalda_noche === "number") f.espalda_noche = input.espalda_noche;
+      if (typeof input.intensidad_gemelos === "number") f.intensidad_gemelos = input.intensidad_gemelos;
+      if (typeof input.energia_general === "number") f.energia_general = input.energia_general;
+      if (typeof input.estado_animo === "number") f.estado_animo = input.estado_animo;
+      if (typeof input.sensacion_general_dia === "number") f.sensacion_general_dia = input.sensacion_general_dia;
+      if (input.gemelos_contexto) f.gemelos_contexto = input.gemelos_contexto;
+      if (Array.isArray(input.dolor_localizado) && input.dolor_localizado.length) f.dolor_localizado = input.dolor_localizado;
+      if (Array.isArray(input.flags) && input.flags.length) f.flags = input.flags;
+      const nota = [];
+      if (typeof input.entreno_valoracion === "number") nota.push("Entreno: " + input.entreno_valoracion + "/10");
+      if (input.nota) nota.push(input.nota);
+      if (nota.length) f.nota_transcrita = nota.join(" — ");
+      await window.shAirtable.create("sensaciones", f);
+      cargarContexto();
+      return "GUARDADO en el diario (sensaciones, " + f.fecha + "). Confírmaselo a Andrés en 1 frase cálida y, si falta algún dato clave que no haya dicho, pregúntaselo suelto (sin agobiar).";
+    } catch (e) { return "Error al guardar el día: " + (e.message || e); }
+  }
+  async function registrarEntreno(input) {
+    if (!window.shAirtable || !window.shAirtable.hasToken())
+      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Diario.";
+    try {
+      const f = { fecha: input.fecha || hoyISO(), fuente: "Manual" };
+      if (input.tipo) f.tipo = input.tipo;
+      if (typeof input.duracion_min === "number") f.duracion_min = input.duracion_min;
+      if (input.ejercicios) f.ejercicios = input.ejercicios;
+      if (typeof input.sensacion_espalda_durante === "number") f.sensacion_espalda_durante = input.sensacion_espalda_durante;
+      if (input.notas) f.notas = input.notas;
+      await window.shAirtable.create("entrenos", f);
+      cargarContexto();
+      return "GUARDADO en entrenos (" + f.fecha + "). Confírmaselo a Andrés en 1 frase.";
+    } catch (e) { return "Error al guardar el entreno: " + (e.message || e); }
+  }
+
   // ---------- llamada a Claude (con bucle de tool use) ----------
   async function callClaude(toolChoice) {
     const system = [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }];
@@ -189,7 +272,7 @@
       model: MODEL,
       max_tokens: 1500,
       system: system,
-      tools: [TOOL_ENTRENO, TOOL_VER],
+      tools: [TOOL_ENTRENO, TOOL_VER, TOOL_DIA, TOOL_ENT_LOG],
       messages: historial,
     };
     if (toolChoice) body.tool_choice = toolChoice;
@@ -230,15 +313,17 @@
 
     const tools = content.filter((b) => b.type === "tool_use");
     if (tools.length) {
-      const results = tools.map((tu) => {
+      const results = await Promise.all(tools.map(async (tu) => {
         let c = "hecho";
         if (tu.name === "proponer_entreno") c = cargarEntreno(tu.input);
         else if (tu.name === "entreno_actual") {
           const p = (window.SportHub && window.SportHub.getPlan) ? window.SportHub.getPlan() : null;
           c = p ? JSON.stringify(p) : "No hay ningún entreno cargado en el generador ahora mismo.";
         }
+        else if (tu.name === "registrar_dia") c = await registrarDia(tu.input);
+        else if (tu.name === "registrar_entreno") c = await registrarEntreno(tu.input);
         return { type: "tool_result", tool_use_id: tu.id, content: c };
-      });
+      }));
       if (tools.some((tu) => tu.name === "proponer_entreno")) propuesto = true;
       historial.push({ role: "user", content: results });
       await ronda(depth + 1, mode, propuesto); // que Claude cierre con un comentario
@@ -261,7 +346,7 @@
     const t = texto.toLowerCase();
     const hayPlan = !!(window.SportHub && window.SportHub.getPlan && window.SportHub.getPlan());
     const esMod = hayPlan && /(cambi|modific|sustitu|qu[ií]t|a[ñn]ad|reemplaz|\bmete\b|\bsaca\b|ajusta)/.test(t);
-    const esCrear = /(entren|m[oó]ntame|\bmonta\b|gen[ée]ra|rutina|formato|output|generador|p[oó]nme|dame un|prep[aá]rame)/.test(t);
+    const esCrear = /(m[oó]ntame|\bmonta\b|gen[ée]rame|gen[ée]ra un|h[aá]zme un|dame un entren|prep[aá]rame|una rutina|entreno de favorit|formato generador|p[oó]nme un entren)/.test(t);
     const mode = esMod ? "modify" : (esCrear ? "create" : "auto");
     try {
       await ronda(0, mode, false);
