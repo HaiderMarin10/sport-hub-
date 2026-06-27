@@ -44,7 +44,7 @@
     "NUNCA lo escribas como tabla ni texto en el chat: SIEMPRE LLAMA a la herramienta `proponer_entreno` para que aparezca en su Generador " +
     "(editable, con series, para marcar como hecho). Usa nombres EXACTOS del repertorio de arriba. Tras llamarla, comenta en 1-2 frases qué le has montado y por qué.\n" +
     "- Para VER o MODIFICAR el entreno que ya tiene cargado, primero llama a `entreno_actual` para leerlo y luego `proponer_entreno` con la versión cambiada.\n" +
-    "- REGISTRAR EL DÍA (importante): cuando Andrés te cuente con sus palabras cómo se siente (espalda al levantarse o por la noche, gemelos/glúteos, energía, ánimo, cómo le ha ido el día o el entreno) o te diga 'registra/anota mi día', llama a `registrar_dia` extrayendo SOLO lo que mencione. Escalas 1-10 (en espalda/energía/ánimo, 10 = mejor; en gemelos, 10 = más molestia). Si te cuenta un entreno que YA ha hecho ('he salido a correr 10k', 'he hecho fuerza'), llama a `registrar_entreno`. No le interrogues: extrae lo que diga; tras guardar, confírmaselo en 1 frase y, si falta algo clave (p.ej. no dijo cómo tiene la espalda), pregúntaselo suelto.\n" +
+    "- REGISTRAR EL DÍA (importante): cuando Andrés te cuente con sus palabras cómo se siente (espalda al levantarse o por la noche, gemelos/glúteos, energía, ánimo, cómo le ha ido el día o el entreno) o te diga 'registra/anota mi día', llama a `registrar_dia` extrayendo SOLO lo que mencione. Escalas 1-10 (en espalda/energía/ánimo, 10 = mejor; en gemelos, 10 = más molestia). Si te cuenta un entreno que YA ha hecho ('he salido a correr 10k', 'he hecho fuerza'), llama a `registrar_entreno`. Si te da MÉTRICAS de WHOOP/Samsung/MyFitnessPal/báscula (recuperación, HRV, sueño, FC reposo, pasos, calorías, proteína, peso…), llama a `registrar_metricas`. No le interrogues: extrae lo que diga; tras guardar, confírmaselo en 1 frase y, si falta algo clave (p.ej. no dijo cómo tiene la espalda), pregúntaselo suelto.\n" +
     "- Si Andrés pide 'un entreno de favoritos', móntalo con `proponer_entreno` usando sus ejercicios favoritos (te los paso en el contexto).\n" +
     "- Respeta su espalda: evita por defecto carga axial alta e impacto salvo que lo pida.\n" +
     "- No eres médico: ante dolor agudo o señales neurológicas nuevas, recomiéndale ver a Nacho o a su médico.\n" +
@@ -128,6 +128,30 @@
         notas: { type: "string" },
       },
       required: ["tipo"],
+    },
+  };
+
+  const TOOL_METRICAS = {
+    name: "registrar_metricas",
+    description: "Guarda métricas fisiológicas y de nutrición que Andrés te diga (de WHOOP, Samsung Health, MyFitnessPal o la báscula): recuperación, HRV, strain, sueño, FC en reposo, pasos, calorías, macros, peso… en la tabla metricas_diarias. Úsalo cuando te dé números de esos. Extrae solo lo que mencione.",
+    input_schema: {
+      type: "object",
+      properties: {
+        fecha: { type: "string", description: "YYYY-MM-DD; si no lo dice, hoy." },
+        recuperacion_whoop: { type: "number", description: "Recuperación WHOOP en % (0-100)." },
+        hrv: { type: "number", description: "Variabilidad de frecuencia cardiaca (ms)." },
+        strain_whoop: { type: "number", description: "Strain WHOOP (0-21)." },
+        sueno_total_min: { type: "number", description: "Sueño total en MINUTOS (si te lo da en horas, multiplica ×60)." },
+        sueno_calidad_subjetiva: { type: "number", description: "Calidad de sueño percibida 1-10." },
+        fc_reposo: { type: "number", description: "Frecuencia cardiaca en reposo (ppm)." },
+        pasos: { type: "number" },
+        calorias_consumidas: { type: "number" },
+        proteina_g: { type: "number" },
+        carbos_g: { type: "number" },
+        grasa_g: { type: "number" },
+        hidratacion_ml: { type: "number" },
+        peso_kg: { type: "number" },
+      },
     },
   };
 
@@ -263,6 +287,25 @@
       return "GUARDADO en entrenos (" + f.fecha + "). Confírmaselo a Andrés en 1 frase.";
     } catch (e) { return "Error al guardar el entreno: " + (e.message || e); }
   }
+  async function registrarMetricas(input) {
+    if (!window.shAirtable || !window.shAirtable.hasToken())
+      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Diario.";
+    try {
+      const f = { fecha: input.fecha || hoyISO() };
+      const map = {
+        recuperacion_whoop: "recuperacion_whoop", hrv: "hrv", strain_whoop: "strain_whoop",
+        sueno_total_min: "sueño_total_min", sueno_calidad_subjetiva: "sueño_calidad_subjetiva",
+        fc_reposo: "fc_reposo", pasos: "pasos", calorias_consumidas: "calorias_consumidas",
+        proteina_g: "proteina_g", carbos_g: "carbos_g", grasa_g: "grasa_g",
+        hidratacion_ml: "hidratacion_ml", peso_kg: "peso_kg",
+      };
+      Object.keys(map).forEach((k) => { if (typeof input[k] === "number") f[map[k]] = input[k]; });
+      if (Object.keys(f).length <= 1) return "No me has dado ninguna métrica numérica. Pregúntale qué quiere registrar.";
+      await window.shAirtable.create("metricas", f);
+      cargarContexto();
+      return "GUARDADO en metricas_diarias (" + f.fecha + "). Confírmaselo a Andrés en 1 frase.";
+    } catch (e) { return "Error al guardar las métricas: " + (e.message || e); }
+  }
 
   // ---------- llamada a Claude (con bucle de tool use) ----------
   async function callClaude(toolChoice) {
@@ -272,7 +315,7 @@
       model: MODEL,
       max_tokens: 1500,
       system: system,
-      tools: [TOOL_ENTRENO, TOOL_VER, TOOL_DIA, TOOL_ENT_LOG],
+      tools: [TOOL_ENTRENO, TOOL_VER, TOOL_DIA, TOOL_ENT_LOG, TOOL_METRICAS],
       messages: historial,
     };
     if (toolChoice) body.tool_choice = toolChoice;
@@ -322,6 +365,7 @@
         }
         else if (tu.name === "registrar_dia") c = await registrarDia(tu.input);
         else if (tu.name === "registrar_entreno") c = await registrarEntreno(tu.input);
+        else if (tu.name === "registrar_metricas") c = await registrarMetricas(tu.input);
         return { type: "tool_result", tool_use_id: tu.id, content: c };
       }));
       if (tools.some((tu) => tu.name === "proponer_entreno")) propuesto = true;
