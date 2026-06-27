@@ -33,7 +33,7 @@
   const HERO_IMGS = (CFG && CFG.hero_imgs && CFG.hero_imgs.length) ? CFG.hero_imgs : [
     "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?auto=format&fit=crop&w=1400&q=80", // triatletas (bici)
     "img/Stan%20Wawrinka.jpg",
-    "https://images.unsplash.com/photo-1743993414654-0be2b73a9620?auto=format&fit=crop&w=1400&q=80", // Hyrox (sled)
+    "https://images.unsplash.com/photo-1780398455381-c7c02b7727ec?auto=format&fit=crop&w=1400&q=80", // Hyrox (temporal; cambiar a img/hyrox.jpg cuando Andrés suba su foto Pulse LED)
     "img/Rafa%20Nadal.png",
   ];
   const REPO_IMGS = [
