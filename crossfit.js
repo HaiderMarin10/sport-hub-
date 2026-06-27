@@ -186,7 +186,10 @@
 
   // ---------- pintar el WOD (pizarra) ----------
   let formato = "";
+  let wodActual = null; // último WOD pintado (para registrarlo)
+  const hoyISO = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
   function renderBoard(w, scroll) {
+    wodActual = w;
     const board = $("#wod-board");
     board.innerHTML =
       '<div class="wod-tag">WOD</div>' +
@@ -223,6 +226,37 @@
   }));
   $("#wod-generate").addEventListener("click", pintarWOD);
   $("#wod-regen").addEventListener("click", pintarWOD);
+
+  // ---------- registrar el WOD hecho en Airtable (BYOK) ----------
+  function wodToFields(w) {
+    const movs = w.lineas.filter(l => l.n);
+    return {
+      fecha: hoyISO(),
+      tipo: "Mixto",
+      fuente: "Manual",
+      ejercicios: movs.map(l => l.n).join(", "),
+      series_reps_cargas: w.titulo + (w.desc ? " — " + w.desc : "") + ": " +
+        movs.map(l => (l.rep ? l.rep + " " : "") + l.n).join(", "),
+      notas: "WOD: " + w.titulo + (w.nota ? " · " + w.nota : ""),
+    };
+  }
+  const wodDone = $("#wod-done"), wodDoneNote = $("#wod-done-note");
+  if (wodDone) wodDone.addEventListener("click", async () => {
+    if (!wodActual) return;
+    if (!(window.shAirtable && window.shAirtable.hasToken())) {
+      wodDoneNote.textContent = "Conecta Airtable en la pestaña Diario para guardar tus WODs.";
+      return;
+    }
+    wodDone.disabled = true; wodDone.textContent = "Guardando…"; wodDoneNote.textContent = "";
+    try {
+      await window.shAirtable.create("entrenos", wodToFields(wodActual));
+      wodDone.textContent = "Guardado en tu diario ✓";
+      wodDoneNote.textContent = "Anotado en 'entrenos' con la fecha de hoy. Lo verás en el Diario.";
+    } catch (e) {
+      wodDone.disabled = false; wodDone.textContent = "He hecho este WOD";
+      wodDoneNote.textContent = "No se pudo guardar: " + e.message;
+    }
+  });
 
   // ---------- repertorio de movimientos ----------
   const cats = Array.from(new Set(M.map(m => m.c)));

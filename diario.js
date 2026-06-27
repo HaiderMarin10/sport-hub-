@@ -212,9 +212,14 @@
       if (!entr.length) html += '<div class="hist-empty">Aún no hay entrenos registrados.</div>';
       else html += entr.map((r) => {
         const f = r.fields, n = (f.ejercicios ? f.ejercicios.split(",").length : 0);
-        return '<div class="hist-row"><span class="hist-d">' + fmtFecha(f.fecha) + '</span>' +
+        const head = '<span class="hist-d">' + fmtFecha(f.fecha) + '</span>' +
           '<span class="hist-tag">' + esc(f.tipo || "—") + '</span>' +
-          '<span class="hist-meta">' + (f.duracion_min ? f.duracion_min + "′ · " : "") + (n ? n + (n === 1 ? " ejercicio" : " ejercicios") : esc((f.notas || "").slice(0, 40))) + '</span></div>';
+          '<span class="hist-meta">' + (f.duracion_min ? f.duracion_min + "′ · " : "") + (n ? n + (n === 1 ? " ejercicio" : " ejercicios") : esc((f.notas || "").slice(0, 40))) + '</span>';
+        const detalle = f.series_reps_cargas || f.ejercicios || "";
+        if (!detalle) return '<div class="hist-row">' + head + '</div>';
+        return '<details class="hist-det"><summary class="hist-row">' + head + '<span class="hist-caret">▾</span></summary>' +
+          '<div class="hist-detail">' + esc(detalle).replace(/ \| /g, "<br>").replace(/\|/g, "<br>") +
+          (f.notas ? '<div class="hist-note">' + esc(f.notas) + '</div>' : "") + '</div></details>';
       }).join("");
       // sensaciones recientes
       html += '<div class="d-sub" style="margin-top:12px">Últimos días</div>';

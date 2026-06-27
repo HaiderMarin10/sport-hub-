@@ -330,6 +330,13 @@
   .hist-d{font-family:var(--disp);font-weight:700;color:var(--txt2);min-width:42px;font-variant-numeric:tabular-nums}
   .hist-tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#0A0A0B;background:var(--acid);border-radius:20px;padding:2px 8px;font-weight:700}
   .hist-meta{color:var(--txt2);flex:1}
+  .hist-det{border-top:1px solid var(--line2)}
+  .hist-det>summary{list-style:none;cursor:pointer;border-top:none}
+  .hist-det>summary::-webkit-details-marker{display:none}
+  .hist-caret{color:var(--txt3);font-size:11px;transition:transform .18s}
+  .hist-det[open] .hist-caret{transform:rotate(180deg);color:var(--acid)}
+  .hist-detail{font-size:12.5px;color:var(--txt2);line-height:1.6;padding:2px 0 12px 50px}
+  .hist-note{margin-top:6px;color:var(--txt3);font-style:italic}
   .avg-row{display:flex;gap:8px;margin-bottom:4px}
   .avg-cell{flex:1;background:var(--elev2);border:1px solid var(--line2);border-radius:12px;padding:10px 6px;text-align:center}
   .avg-n{font-family:var(--disp);font-weight:800;font-size:22px;color:var(--acid);line-height:1;font-variant-numeric:tabular-nums}
@@ -504,7 +511,9 @@
 
     <div id="wod-result" class="hidden">
       <div class="card wod-board" id="wod-board"></div>
+      <button class="btn btn-primary" id="wod-done">He hecho este WOD</button>
       <button class="btn btn-ghost" id="wod-regen">Otro WOD</button>
+      <div class="done-note" id="wod-done-note"></div>
     </div>
 
     <div class="card">
