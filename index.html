@@ -511,7 +511,11 @@
   <script src="coach.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
+          .then(function (reg) { reg.update(); })
+          .catch(function () {});
+      });
     }
   </script>
 </body>

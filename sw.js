@@ -1,6 +1,6 @@
 /* Sport Hub service worker — app shell offline.
    Solo cachea GET del mismo origen. NO toca las llamadas a Airtable (otro origen / POST). */
-const CACHE = "sporthub-v12";
+const CACHE = "sporthub-v13";
 const ASSETS = [
   "./", "./index.html", "./app.js", "./crossfit.js", "./timer.js", "./coach.js", "./config.js",
   "./manifest.json", "./data/ejercicios.js", "./data/crossfit.js",
@@ -21,17 +21,16 @@ self.addEventListener("activate", (e) => {
   );
 });
 
+// RED PRIMERO: con internet siempre la última versión; el cache es solo respaldo offline.
 self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET") return;                       // POST a Airtable -> red
   if (new URL(req.url).origin !== self.location.origin) return; // fuentes/Unsplash -> red
   e.respondWith(
-    caches.match(req).then((hit) =>
-      hit || fetch(req).then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
-        return res;
-      }).catch(() => caches.match("./index.html"))
-    )
+    fetch(req).then((res) => {
+      const copy = res.clone();
+      caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+      return res;
+    }).catch(() => caches.match(req).then((hit) => hit || caches.match("./index.html")))
   );
 });
