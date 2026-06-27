@@ -44,20 +44,31 @@
 
       // ---- formulario sensaciones ----
       '<div class="card" id="diario-form" ' + (connected ? "" : 'style="opacity:.5;pointer-events:none"') + '>' +
-        '<p class="eyebrow">¿Cómo estás hoy?</p>' +
+        '<p class="eyebrow">Tus sensaciones de hoy</p>' +
         '<div class="row"><div class="lbl">Fecha</div><input type="date" id="d-fecha" value="' + hoy() + '" /></div>' +
+
+        '<div class="d-moment"><b>🌅</b> <span>Cómo te has levantado</span></div>' +
         slider("d-esp-m", "Espalda al despertar", "1 fatal · 10 perfecta", 1, 10, 6) +
-        slider("d-esp-n", "Espalda por la noche", "1 fatal · 10 perfecta", 1, 10, 6) +
-        '<div class="d-sub">Dolor localizado</div>' + chipset("d-dolor", DOLOR, true) +
-        slider("d-gem", "Molestia en gemelos", "0 nada · 10 máxima", 0, 10, 0) +
-        '<div class="d-sub">¿Cuándo notas los gemelos?</div>' + chipset("d-gemctx", CONTEXTO, false) +
-        slider("d-ener", "Energía general", "1 plano · 10 a tope", 1, 10, 6) +
+        '<div class="d-sub">¿Dónde notabas molestia?</div>' + chipset("d-dolor", DOLOR, true) +
+
+        '<div class="d-moment"><b>💪</b> <span>Antes de entrenar</span></div>' +
+        slider("d-ener", "Energía / cómo te sentías", "1 plano · 10 a tope", 1, 10, 6) +
+
+        '<div class="d-moment"><b>🏋️</b> <span>Cómo has entrenado</span></div>' +
+        slider("d-entreno", "Qué tal el entreno", "1 flojo · 10 genial", 1, 10, 6) +
+        slider("d-gem", "Molestia gemelos / glúteos", "0 nada · 10 máxima", 0, 10, 0) +
+        '<div class="d-sub">¿Cuándo la notas?</div>' + chipset("d-gemctx", CONTEXTO, false) +
+
+        '<div class="d-moment"><b>🌙</b> <span>Cómo estás esta noche</span></div>' +
+        slider("d-esp-n", "Espalda esta noche", "1 fatal · 10 perfecta", 1, 10, 6) +
         slider("d-animo", "Ánimo", "1 bajo · 10 alto", 1, 10, 6) +
         slider("d-gen", "Sensación general del día", "1 malo · 10 genial", 1, 10, 6) +
+
         '<div class="d-sub">Etiquetas</div>' + chipset("d-flags", FLAGS, true) +
         '<div class="d-sub">Nota</div><textarea id="d-nota" rows="3" placeholder="Lo que quieras anotar de hoy…"></textarea>' +
         '<button class="btn btn-primary" id="d-save" style="margin-top:14px">Guardar el día</button>' +
         '<div class="done-note" id="d-note"></div>' +
+        '<div class="d-reminder">🌅 Mañana, nada más despertarte, vuelve a abrir el Diario y registra cómo amaneces — es el dato clave de tu espalda.</div>' +
       '</div>' +
 
       // ---- histórico ----
@@ -130,7 +141,9 @@
     const dolor = vals("d-dolor"); if (dolor.length) fields.dolor_localizado = dolor;
     const ctx = vals("d-gemctx"); if (ctx.length) fields.gemelos_contexto = ctx[0];
     const flags = vals("d-flags"); if (flags.length) fields.flags = flags;
-    const nota = (document.getElementById("d-nota").value || "").trim(); if (nota) fields.nota_transcrita = nota;
+    const entreno = num("d-entreno");
+    const notaUser = (document.getElementById("d-nota").value || "").trim();
+    fields.nota_transcrita = ["Entreno hoy: " + entreno + "/10", notaUser].filter(Boolean).join(" — ");
 
     btn.disabled = true; btn.textContent = "Guardando…"; note.textContent = "";
     try {
