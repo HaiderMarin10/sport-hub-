@@ -30,7 +30,6 @@
   const GRAD = "linear-gradient(180deg,rgba(10,10,11,.12) 0%,rgba(10,10,11,.5) 52%,rgba(10,10,11,.96) 100%)";
   // Generador: triatleta en bici aero.
   const HERO_IMGS = (CFG && CFG.hero_imgs && CFG.hero_imgs.length) ? CFG.hero_imgs : [
-    "https://images.unsplash.com/photo-1512203492609-972c16baa28b?auto=format&fit=crop&w=1400&q=80",
     "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?auto=format&fit=crop&w=1400&q=80",
   ];
   // Ejercicios: fuerza con barra (blanco y negro).
