@@ -31,8 +31,10 @@
   // Generador: fotos que van rotando con fundido. Para meter las TUYAS (p.ej. Wawrinka),
   // añade sus URLs aquí o define SPORTHUB_CONFIG.hero_imgs = ["url1","url2"] en config.js.
   const HERO_IMGS = (CFG && CFG.hero_imgs && CFG.hero_imgs.length) ? CFG.hero_imgs : [
-    "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?auto=format&fit=crop&w=1400&q=80",
-    "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1576858574144-9ae1ebcf5ae5?auto=format&fit=crop&w=1400&q=80", // triatletas (bici)
+    "img/Stan%20Wawrinka.jpg",
+    "https://images.unsplash.com/photo-1743993414654-0be2b73a9620?auto=format&fit=crop&w=1400&q=80", // Hyrox (sled)
+    "img/Rafa%20Nadal.png",
   ];
   const REPO_IMGS = [
     "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1400&q=80",

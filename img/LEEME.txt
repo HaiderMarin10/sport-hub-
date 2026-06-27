@@ -1,0 +1,13 @@
+Pon aquí tus fotos para la rotación del generador.
+
+Guárdalas como JPG con estos nombres exactos:
+  - wawrinka.jpg
+  - nadal.jpg
+
+Cuando estén, dime "ya están" y las añado a la rotación del hero y publico.
+
+Orden de rotación que dejaré (los tenistas NUNCA seguidos):
+  triatletas (bici) → Wawrinka → Hyrox (sled) → Nadal → (vuelve a empezar)
+
+Nota: son fotos de prensa con copyright. Para tu app personal va bien;
+si algún día la compartes públicamente, las cambiamos por imágenes con licencia.
