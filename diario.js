@@ -161,11 +161,25 @@
     if (!body) return;
     body.innerHTML = '<div class="hist-empty">Cargando…</div>';
     try {
-      const [sens, entr] = await Promise.all([
+      const [sens, entr, metr] = await Promise.all([
         AT.list("sensaciones", { maxRecords: 14, sort: [{ field: "fecha", direction: "desc" }] }),
         AT.list("entrenos", { maxRecords: 10, sort: [{ field: "fecha", direction: "desc" }] }),
+        AT.list("metricas", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
       ]);
       let html = "";
+      // métricas WHOOP/Samsung (solo si hay datos)
+      if (metr && metr.length) {
+        html += '<div class="d-sub" style="margin-top:0">Métricas (WHOOP / Samsung)</div>';
+        html += metr.map((r) => {
+          const f = r.fields, bits = [];
+          if (typeof f.recuperacion_whoop === "number") bits.push("recup " + f.recuperacion_whoop + "%");
+          if (typeof f.hrv === "number") bits.push("HRV " + f.hrv);
+          if (typeof f.fc_reposo === "number") bits.push("FC rep " + f.fc_reposo);
+          if (typeof f["sueño_total_min"] === "number") bits.push("sueño " + (f["sueño_total_min"] / 60).toFixed(1) + "h");
+          if (typeof f.peso_kg === "number") bits.push(f.peso_kg + "kg");
+          return '<div class="hist-row"><span class="hist-d">' + fmtFecha(f.fecha) + '</span><span class="hist-meta">' + esc(bits.join(" · ") || "—") + '</span></div>';
+        }).join("");
+      }
       // tendencia espalda (de más antiguo a más reciente)
       const esp = sens.slice().reverse().map((r) => r.fields.espalda_noche || r.fields.espalda_mañana).filter((x) => typeof x === "number");
       if (esp.length >= 2) {
