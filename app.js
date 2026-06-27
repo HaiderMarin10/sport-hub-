@@ -21,9 +21,41 @@
   // ---------- favoritos (en este dispositivo; los lee también el coach) ----------
   const FAVS = {
     K: "sh_favs",
+    _ids: {}, // nombre -> id de registro Airtable (para borrarlo al desmarcar)
     list() { return LS.get(this.K, []); },
     has(n) { return this.list().indexOf(n) !== -1; },
-    toggle(n) { const a = this.list(); const i = a.indexOf(n); if (i === -1) a.push(n); else a.splice(i, 1); LS.set(this.K, a); return i === -1; },
+    _set(a) { LS.set(this.K, a); },
+    toggle(n) {
+      const a = this.list(), i = a.indexOf(n), add = (i === -1);
+      if (add) a.push(n); else a.splice(i, 1);
+      this._set(a);
+      this._sync(n, add); // espejo en Airtable (no bloquea)
+      return add;
+    },
+    async _sync(n, add) {
+      const AT = window.shAirtable;
+      if (!AT || !AT.hasToken()) return;
+      try {
+        if (add) { const rec = await AT.create("favoritos", { ejercicio: n }); if (rec) this._ids[n] = rec.id; }
+        else {
+          let id = this._ids[n];
+          if (!id) { const recs = await AT.list("favoritos"); const r = recs.find((x) => x.fields.ejercicio === n); id = r && r.id; }
+          if (id) { await AT.del("favoritos", id); delete this._ids[n]; }
+        }
+      } catch (e) {}
+    },
+    async pull() { // cargar favoritos desde Airtable (sobreviven al borrado de caché)
+      const AT = window.shAirtable;
+      if (!AT || !AT.hasToken()) return false;
+      try {
+        const recs = await AT.list("favoritos");
+        this._ids = {};
+        const remote = [];
+        recs.forEach((r) => { const n = r.fields.ejercicio; if (n) { remote.push(n); this._ids[n] = r.id; } });
+        this._set(Array.from(new Set(this.list().concat(remote))));
+        return true;
+      } catch (e) { return false; }
+    },
   };
   window.SportHubFavs = FAVS;
   function savePlan() {
@@ -493,6 +525,7 @@
 
   rebuildCats();
   pintarRepo();
+  FAVS.pull().then(function (ok) { if (ok) pintarRepo(); }); // trae tus favoritos de Airtable
   slideshow($("#hero-bg-gen"), HERO_IMGS, 6500);
   setLayer($("#hero-bg-repo"), REPO_IMGS[0]);
 

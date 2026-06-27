@@ -15,6 +15,7 @@
     objetivos: "objetivos",
     competiciones: "competiciones",
     repositorio: "repositorio_ejercicios",
+    favoritos: "favoritos",
   };
   const CFG = window.SPORTHUB_CONFIG || {};
   function cfgToken() {
@@ -48,6 +49,15 @@
     return j.records[0];
   }
 
+  async function del(table, id) {
+    const tok = getToken();
+    if (!tok) throw new Error("NO_TOKEN");
+    const url = "https://api.airtable.com/v0/" + BASE + "/" + encodeURIComponent(TABLES[table] || table) + "/" + id;
+    const res = await fetch(url, { method: "DELETE", headers: { "Authorization": "Bearer " + tok } });
+    if (!res.ok) throw new Error("Airtable " + res.status);
+    return res.json();
+  }
+
   async function list(table, opts) {
     opts = opts || {};
     const p = new URLSearchParams();
@@ -68,5 +78,5 @@
     catch (e) { return { ok: false, error: e.message }; }
   }
 
-  window.shAirtable = { BASE: BASE, TABLES: TABLES, getToken: getToken, setToken: setToken, hasToken: hasToken, create: create, list: list, test: test };
+  window.shAirtable = { BASE: BASE, TABLES: TABLES, getToken: getToken, setToken: setToken, hasToken: hasToken, create: create, del: del, list: list, test: test };
 })();
