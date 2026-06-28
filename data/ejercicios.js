@@ -6,7 +6,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Movilidad de tobillo en dorsiflexión: llevas la rodilla a tocar la pared sin levantar el talón."
+  "d": "Movilidad de tobillo en dorsiflexión: llevas la rodilla a tocar la pared sin levantar el talón.",
+  "o": "nacho"
  },
  {
   "n": "Dorsiflexión con banda",
@@ -14,7 +15,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Con una banda traccionando el tobillo hacia atrás, avanzas la rodilla sobre el pie."
+  "d": "Con una banda traccionando el tobillo hacia atrás, avanzas la rodilla sobre el pie.",
+  "o": "nacho"
  },
  {
   "n": "Rocking Ankle",
@@ -22,7 +24,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Balanceas el peso adelante y atrás sobre el tobillo para movilizarlo de forma dinámica."
+  "d": "Balanceas el peso adelante y atrás sobre el tobillo para movilizarlo de forma dinámica.",
+  "o": "nacho"
  },
  {
   "n": "Sentadilla profunda asistida",
@@ -30,7 +33,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Sentadilla profunda agarrado a un apoyo para abrir tobillo y cadera con la espalda recta."
+  "d": "Sentadilla profunda agarrado a un apoyo para abrir tobillo y cadera con la espalda recta.",
+  "o": "nacho"
  },
  {
   "n": "Movilidad con kettlebell",
@@ -38,7 +42,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "En sentadilla profunda usas una kettlebell como contrapeso para empujar las rodillas hacia fuera."
+  "d": "En sentadilla profunda usas una kettlebell como contrapeso para empujar las rodillas hacia fuera.",
+  "o": "nacho"
  },
  {
   "n": "Estiramiento de sóleo",
@@ -46,7 +51,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Estiramiento del gemelo profundo con la rodilla flexionada y el talón apoyado."
+  "d": "Estiramiento del gemelo profundo con la rodilla flexionada y el talón apoyado.",
+  "o": "nacho"
  },
  {
   "n": "Estiramiento de gemelo",
@@ -54,7 +60,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Estiramiento del gemelo con la rodilla extendida y el talón en el suelo."
+  "d": "Estiramiento del gemelo con la rodilla extendida y el talón en el suelo.",
+  "o": "nacho"
  },
  {
   "n": "Caminata de puntillas",
@@ -62,7 +69,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Caminas sobre las puntas de los pies para activar gemelo y tobillo."
+  "d": "Caminas sobre las puntas de los pies para activar gemelo y tobillo.",
+  "o": "nacho"
  },
  {
   "n": "Caminata sobre talones",
@@ -70,7 +78,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Caminas apoyando solo los talones para trabajar la dorsiflexión y el tibial anterior."
+  "d": "Caminas apoyando solo los talones para trabajar la dorsiflexión y el tibial anterior.",
+  "o": "nacho"
  },
  {
   "n": "Círculos de tobillo",
@@ -78,7 +87,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Rotaciones lentas del tobillo en ambos sentidos para movilizar la articulación."
+  "d": "Rotaciones lentas del tobillo en ambos sentidos para movilizar la articulación.",
+  "o": "nacho"
  },
  {
   "n": "World's Greatest Stretch",
@@ -86,7 +96,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Estiramiento dinámico en zancada con rotación torácica; abre cadera, isquios y columna dorsal."
+  "d": "Estiramiento dinámico en zancada con rotación torácica; abre cadera, isquios y columna dorsal.",
+  "o": "nacho"
  },
  {
   "n": "90/90 dinámico",
@@ -94,7 +105,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Sentado con las piernas a 90°, rotas de un lado a otro para movilizar la cadera."
+  "d": "Sentado con las piernas a 90°, rotas de un lado a otro para movilizar la cadera.",
+  "o": "nacho"
  },
  {
   "n": "Hip CARs",
@@ -102,7 +114,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Rotaciones articulares controladas de la cadera en su rango máximo."
+  "d": "Rotaciones articulares controladas de la cadera en su rango máximo.",
+  "o": "nacho"
  },
  {
   "n": "Frog Stretch",
@@ -110,7 +123,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "En cuadrupedia con rodillas abiertas, balanceas la cadera atrás para movilizar aductores."
+  "d": "En cuadrupedia con rodillas abiertas, balanceas la cadera atrás para movilizar aductores.",
+  "o": "nacho"
  },
  {
   "n": "Adductor Rock Back",
@@ -118,7 +132,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "En cuadrupedia con una pierna extendida al lado, balanceas atrás para estirar el aductor."
+  "d": "En cuadrupedia con una pierna extendida al lado, balanceas atrás para estirar el aductor.",
+  "o": "nacho"
  },
  {
   "n": "Cossack Squat",
@@ -126,7 +141,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Sentadilla lateral profunda de un lado a otro; moviliza cadera y aductores con control."
+  "d": "Sentadilla lateral profunda de un lado a otro; moviliza cadera y aductores con control.",
+  "o": "nacho"
  },
  {
   "n": "Estocada con rotación",
@@ -134,7 +150,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "En zancada, rotas el tronco hacia la pierna adelantada para abrir cadera y dorsal."
+  "d": "En zancada, rotas el tronco hacia la pierna adelantada para abrir cadera y dorsal.",
+  "o": "nacho"
  },
  {
   "n": "Aperturas de cadera",
@@ -142,7 +159,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Movilizaciones de cadera en abducción/rotación, en cuadrupedia."
+  "d": "Movilizaciones de cadera en abducción/rotación, en cuadrupedia.",
+  "o": "nacho"
  },
  {
   "n": "Balanceos de pierna",
@@ -150,7 +168,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Swings de pierna adelante-atrás y lateral para movilizar la cadera."
+  "d": "Swings de pierna adelante-atrás y lateral para movilizar la cadera.",
+  "o": "nacho"
  },
  {
   "n": "Pigeon Stretch dinámico",
@@ -158,7 +177,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Postura de la paloma con entradas y salidas para estirar glúteo y rotadores."
+  "d": "Postura de la paloma con entradas y salidas para estirar glúteo y rotadores.",
+  "o": "nacho"
  },
  {
   "n": "Cat Camel",
@@ -166,7 +186,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Gato-camello: alternas flexión y extensión de la columna en cuadrupedia, segmento a segmento."
+  "d": "Gato-camello: alternas flexión y extensión de la columna en cuadrupedia, segmento a segmento.",
+  "o": "nacho"
  },
  {
   "n": "Open Book",
@@ -174,7 +195,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Tumbado de lado, abres el brazo de arriba rotando para movilizar la columna dorsal."
+  "d": "Tumbado de lado, abres el brazo de arriba rotando para movilizar la columna dorsal.",
+  "o": "nacho"
  },
  {
   "n": "Thread the Needle",
@@ -182,7 +204,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "En cuadrupedia, pasas un brazo por debajo del otro rotando la columna dorsal."
+  "d": "En cuadrupedia, pasas un brazo por debajo del otro rotando la columna dorsal.",
+  "o": "nacho"
  },
  {
   "n": "Rotaciones torácicas",
@@ -190,7 +213,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Rotaciones de la columna dorsal sin forzar la lumbar."
+  "d": "Rotaciones de la columna dorsal sin forzar la lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Jefferson Curl ligero",
@@ -198,7 +222,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "alto",
-  "d": "Flexión vertebral controlada con poco peso. Precaución con hernia discal."
+  "d": "Flexión vertebral controlada con poco peso. Precaución con hernia discal.",
+  "o": "nacho"
  },
  {
   "n": "Foam Roller torácico",
@@ -206,7 +231,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Movilización en extensión de la columna dorsal sobre el foam roller."
+  "d": "Movilización en extensión de la columna dorsal sobre el foam roller.",
+  "o": "nacho"
  },
  {
   "n": "Segmentación vertebral",
@@ -214,7 +240,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Articulación lenta de la columna vértebra a vértebra al enrollar/desenrollar."
+  "d": "Articulación lenta de la columna vértebra a vértebra al enrollar/desenrollar.",
+  "o": "nacho"
  },
  {
   "n": "Side Bend dinámico",
@@ -222,7 +249,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Flexiones laterales del tronco para movilizar la columna en el plano frontal."
+  "d": "Flexiones laterales del tronco para movilizar la columna en el plano frontal.",
+  "o": "nacho"
  },
  {
   "n": "Dead Hang",
@@ -230,7 +258,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Colgado de una barra, descomprime la columna y trabaja el agarre."
+  "d": "Colgado de una barra, descomprime la columna y trabaja el agarre.",
+  "o": "nacho"
  },
  {
   "n": "Flexión-extensión torácica",
@@ -238,7 +267,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Alternas flexión y extensión centradas en la columna dorsal."
+  "d": "Alternas flexión y extensión centradas en la columna dorsal.",
+  "o": "nacho"
  },
  {
   "n": "Wall Slides",
@@ -246,7 +276,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Deslizas los brazos por la pared manteniendo contacto para mejorar el ritmo escapular."
+  "d": "Deslizas los brazos por la pared manteniendo contacto para mejorar el ritmo escapular.",
+  "o": "nacho"
  },
  {
   "n": "Serratus Wall Slide",
@@ -254,7 +285,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Wall slide enfatizando la protracción para activar el serrato anterior."
+  "d": "Wall slide enfatizando la protracción para activar el serrato anterior.",
+  "o": "nacho"
  },
  {
   "n": "CARs de hombro",
@@ -262,7 +294,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Rotaciones articulares controladas del hombro en su rango completo."
+  "d": "Rotaciones articulares controladas del hombro en su rango completo.",
+  "o": "nacho"
  },
  {
   "n": "Band Pull Apart",
@@ -270,7 +303,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Separas una banda elástica a la altura del pecho para activar la espalda alta."
+  "d": "Separas una banda elástica a la altura del pecho para activar la espalda alta.",
+  "o": "nacho"
  },
  {
   "n": "Face Pull",
@@ -278,7 +312,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Tracción de banda/polea hacia la cara; rotadores externos y trapecio medio/inferior."
+  "d": "Tracción de banda/polea hacia la cara; rotadores externos y trapecio medio/inferior.",
+  "o": "nacho"
  },
  {
   "n": "Rotación externa con goma",
@@ -286,7 +321,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Con el codo pegado al cuerpo, rotas el antebrazo hacia fuera contra una goma."
+  "d": "Con el codo pegado al cuerpo, rotas el antebrazo hacia fuera contra una goma.",
+  "o": "nacho"
  },
  {
   "n": "Scapular Push-up",
@@ -294,7 +330,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "En plancha, solo retraes y protraes las escápulas sin doblar los codos."
+  "d": "En plancha, solo retraes y protraes las escápulas sin doblar los codos.",
+  "o": "nacho"
  },
  {
   "n": "Trap Raise",
@@ -302,7 +339,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Elevas el brazo en diagonal (en Y) para activar el trapecio inferior."
+  "d": "Elevas el brazo en diagonal (en Y) para activar el trapecio inferior.",
+  "o": "nacho"
  },
  {
   "n": "Remo escapular",
@@ -310,7 +348,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Remo enfatizando solo la retracción escapular, sin tirar con el brazo."
+  "d": "Remo enfatizando solo la retracción escapular, sin tirar con el brazo.",
+  "o": "nacho"
  },
  {
   "n": "Y-T-W",
@@ -318,7 +357,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "movilidad",
   "r": "bajo",
-  "d": "Elevaciones de brazos en forma de Y, T y W para la musculatura escapular."
+  "d": "Elevaciones de brazos en forma de Y, T y W para la musculatura escapular.",
+  "o": "nacho"
  },
  {
   "n": "Monster Walk",
@@ -326,7 +366,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Caminas adelante/atrás con miniband en semisentadilla para activar glúteo medio."
+  "d": "Caminas adelante/atrás con miniband en semisentadilla para activar glúteo medio.",
+  "o": "nacho"
  },
  {
   "n": "Lateral Walk",
@@ -334,7 +375,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Pasos laterales con miniband manteniendo tensión para glúteo medio."
+  "d": "Pasos laterales con miniband manteniendo tensión para glúteo medio.",
+  "o": "nacho"
  },
  {
   "n": "Clamshell",
@@ -342,7 +384,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Tumbado de lado, abres la rodilla de arriba como una almeja para glúteo medio."
+  "d": "Tumbado de lado, abres la rodilla de arriba como una almeja para glúteo medio.",
+  "o": "nacho"
  },
  {
   "n": "Fire Hydrant",
@@ -350,7 +393,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "En cuadrupedia, abres la cadera hacia el lado con la rodilla flexionada."
+  "d": "En cuadrupedia, abres la cadera hacia el lado con la rodilla flexionada.",
+  "o": "nacho"
  },
  {
   "n": "Hip Airplane",
@@ -358,7 +402,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "En apoyo monopodal inclinado, rotas la cadera controlando el equilibrio."
+  "d": "En apoyo monopodal inclinado, rotas la cadera controlando el equilibrio.",
+  "o": "nacho"
  },
  {
   "n": "Pelvic Drop",
@@ -366,7 +411,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Sobre un escalón, dejas caer y subes la pelvis del lado libre (glúteo medio)."
+  "d": "Sobre un escalón, dejas caer y subes la pelvis del lado libre (glúteo medio).",
+  "o": "nacho"
  },
  {
   "n": "Side Plank + Abducción",
@@ -374,7 +420,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Plancha lateral elevando la pierna de arriba para sumar glúteo medio."
+  "d": "Plancha lateral elevando la pierna de arriba para sumar glúteo medio.",
+  "o": "nacho"
  },
  {
   "n": "Step Down",
@@ -382,7 +429,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Desde un escalón, bajas controladamente con una pierna tocando con el talón."
+  "d": "Desde un escalón, bajas controladamente con una pierna tocando con el talón.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg Bridge",
@@ -390,7 +438,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Puente de glúteo a una pierna, elevando la cadera con control."
+  "d": "Puente de glúteo a una pierna, elevando la cadera con control.",
+  "o": "nacho"
  },
  {
   "n": "Bridge unilateral + Press contralateral",
@@ -398,7 +447,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Puente a una pierna con press de brazo del lado contrario; integra core."
+  "d": "Puente a una pierna con press de brazo del lado contrario; integra core.",
+  "o": "nacho"
  },
  {
   "n": "Bridge + Marcha alterna",
@@ -406,7 +456,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "En puente de glúteo, marchas alternando piernas sin que caiga la cadera."
+  "d": "En puente de glúteo, marchas alternando piernas sin que caiga la cadera.",
+  "o": "nacho"
  },
  {
   "n": "Bridge + Pallof Press",
@@ -414,7 +465,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Puente de glúteo sosteniendo un Pallof press anti-rotación."
+  "d": "Puente de glúteo sosteniendo un Pallof press anti-rotación.",
+  "o": "nacho"
  },
  {
   "n": "Bridge Walk con miniband",
@@ -422,7 +474,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Puente de glúteo con miniband desplazando los pies con tensión."
+  "d": "Puente de glúteo con miniband desplazando los pies con tensión.",
+  "o": "nacho"
  },
  {
   "n": "Hip Thrust unilateral + Press",
@@ -430,7 +483,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Empuje de cadera a una pierna combinado con un press de brazo."
+  "d": "Empuje de cadera a una pierna combinado con un press de brazo.",
+  "o": "nacho"
  },
  {
   "n": "Hip Thrust unilateral + Rotación torácica",
@@ -438,7 +492,8 @@ window.EJERCICIOS = [
   "s": "Glúteo/Cadera",
   "b": "activacion",
   "r": "bajo",
-  "d": "Empuje de cadera a una pierna con rotación dorsal controlada."
+  "d": "Empuje de cadera a una pierna con rotación dorsal controlada.",
+  "o": "nacho"
  },
  {
   "n": "Nordic Hamstring",
@@ -446,7 +501,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Excéntrico de isquios arrodillado bajando el tronco al frente. Muy exigente."
+  "d": "Excéntrico de isquios arrodillado bajando el tronco al frente. Muy exigente.",
+  "o": "nacho"
  },
  {
   "n": "Curl deslizante",
@@ -454,7 +510,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Tumbado, flexionas rodillas deslizando los talones contra el peso del cuerpo."
+  "d": "Tumbado, flexionas rodillas deslizando los talones contra el peso del cuerpo.",
+  "o": "nacho"
  },
  {
   "n": "Curl fitball",
@@ -462,7 +519,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Puente de isquios arrastrando un fitball con los talones hacia los glúteos."
+  "d": "Puente de isquios arrastrando un fitball con los talones hacia los glúteos.",
+  "o": "nacho"
  },
  {
   "n": "Razor Curl",
@@ -470,7 +528,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Curl nórdico asistido combinando cadera y rodilla para enfatizar el isquio."
+  "d": "Curl nórdico asistido combinando cadera y rodilla para enfatizar el isquio.",
+  "o": "nacho"
  },
  {
   "n": "Buenos días con banda",
@@ -478,7 +537,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Bisagra de cadera con banda para activar isquios y glúteo con carga ligera."
+  "d": "Bisagra de cadera con banda para activar isquios y glúteo con carga ligera.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg RDL isométrico",
@@ -486,7 +546,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Peso muerto rumano a una pierna mantenido en isométrico (estabilidad e isquios)."
+  "d": "Peso muerto rumano a una pierna mantenido en isométrico (estabilidad e isquios).",
+  "o": "nacho"
  },
  {
   "n": "Hip Hinge unilateral",
@@ -494,7 +555,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Bisagra de cadera a una pierna patronando el movimiento, sin carga o ligera."
+  "d": "Bisagra de cadera a una pierna patronando el movimiento, sin carga o ligera.",
+  "o": "nacho"
  },
  {
   "n": "Puente largo isométrico",
@@ -502,7 +564,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Puente de glúteo con piernas extendidas mantenido para isquios y glúteo."
+  "d": "Puente de glúteo con piernas extendidas mantenido para isquios y glúteo.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg RDL + Remo",
@@ -510,7 +573,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Peso muerto rumano a una pierna combinado con un remo en la bajada."
+  "d": "Peso muerto rumano a una pierna combinado con un remo en la bajada.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg RDL + Press",
@@ -518,7 +582,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "RDL a una pierna sumando un press en la subida."
+  "d": "RDL a una pierna sumando un press en la subida.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg RDL + Pallof",
@@ -526,7 +591,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "RDL a una pierna sosteniendo un Pallof anti-rotación."
+  "d": "RDL a una pierna sosteniendo un Pallof anti-rotación.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg RDL + Apertura",
@@ -534,7 +600,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "RDL a una pierna con una apertura de brazo en la bisagra."
+  "d": "RDL a una pierna con una apertura de brazo en la bisagra.",
+  "o": "nacho"
  },
  {
   "n": "Copenhagen corto",
@@ -542,7 +609,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Plancha lateral con la pierna de apoyo flexionada; activa aductores con menor palanca."
+  "d": "Plancha lateral con la pierna de apoyo flexionada; activa aductores con menor palanca.",
+  "o": "nacho"
  },
  {
   "n": "Copenhagen largo",
@@ -550,7 +618,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Plancha lateral con la pierna superior extendida sobre el banco; muy exigente."
+  "d": "Plancha lateral con la pierna superior extendida sobre el banco; muy exigente.",
+  "o": "nacho"
  },
  {
   "n": "Side Lunge",
@@ -558,7 +627,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Zancada lateral cargando una pierna y estirando el aductor contrario."
+  "d": "Zancada lateral cargando una pierna y estirando el aductor contrario.",
+  "o": "nacho"
  },
  {
   "n": "Cossack Squat",
@@ -566,7 +636,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Sentadilla lateral profunda de un lado a otro; moviliza cadera y aductores con control."
+  "d": "Sentadilla lateral profunda de un lado a otro; moviliza cadera y aductores con control.",
+  "o": "nacho"
  },
  {
   "n": "Aducción con polea",
@@ -574,7 +645,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "De pie, llevas la pierna hacia la línea media contra una polea."
+  "d": "De pie, llevas la pierna hacia la línea media contra una polea.",
+  "o": "nacho"
  },
  {
   "n": "Aducción con miniband",
@@ -582,7 +654,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Aducción de cadera contra una miniband en el tobillo."
+  "d": "Aducción de cadera contra una miniband en el tobillo.",
+  "o": "nacho"
  },
  {
   "n": "Squeeze con balón",
@@ -590,7 +663,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Aprietas un balón entre las rodillas para activar aductores isométricamente."
+  "d": "Aprietas un balón entre las rodillas para activar aductores isométricamente.",
+  "o": "nacho"
  },
  {
   "n": "Isométrico de aductores",
@@ -598,7 +672,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "activacion",
   "r": "bajo",
-  "d": "Contracción mantenida de los aductores contra una resistencia."
+  "d": "Contracción mantenida de los aductores contra una resistencia.",
+  "o": "nacho"
  },
  {
   "n": "Elevaciones de gemelo",
@@ -606,7 +681,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Elevas los talones de pie para fortalecer el gemelo."
+  "d": "Elevas los talones de pie para fortalecer el gemelo.",
+  "o": "nacho"
  },
  {
   "n": "Elevaciones sentado",
@@ -614,7 +690,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Elevación de talón sentado para enfatizar el sóleo."
+  "d": "Elevación de talón sentado para enfatizar el sóleo.",
+  "o": "nacho"
  },
  {
   "n": "Excéntricos Aquiles",
@@ -622,7 +699,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Bajada lenta del talón por debajo del escalón para el tendón de Aquiles."
+  "d": "Bajada lenta del talón por debajo del escalón para el tendón de Aquiles.",
+  "o": "nacho"
  },
  {
   "n": "Isométricos",
@@ -630,7 +708,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Sostienes la contracción del gemelo/tobillo en una posición fija."
+  "d": "Sostienes la contracción del gemelo/tobillo en una posición fija.",
+  "o": "nacho"
  },
  {
   "n": "Pogos",
@@ -638,7 +717,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "alto",
-  "d": "Saltos cortos y reactivos con rodillas casi rígidas. Impacto."
+  "d": "Saltos cortos y reactivos con rodillas casi rígidas. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Saltos a la comba",
@@ -646,7 +726,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "alto",
-  "d": "Salto a la cuerda para resorte de tobillo y coordinación. Impacto."
+  "d": "Salto a la cuerda para resorte de tobillo y coordinación. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Caminata puntillas",
@@ -654,7 +735,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Caminas de puntillas para fortalecer gemelo y tobillo."
+  "d": "Caminas de puntillas para fortalecer gemelo y tobillo.",
+  "o": "nacho"
  },
  {
   "n": "Saltos reactivos",
@@ -662,7 +744,8 @@ window.EJERCICIOS = [
   "s": "Tobillo/Pie",
   "b": "estabilidad",
   "r": "alto",
-  "d": "Saltos de contacto breve buscando reactividad del pie. Impacto."
+  "d": "Saltos de contacto breve buscando reactividad del pie. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Step Down",
@@ -670,7 +753,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Desde un escalón, bajas controladamente con una pierna tocando con el talón."
+  "d": "Desde un escalón, bajas controladamente con una pierna tocando con el talón.",
+  "o": "nacho"
  },
  {
   "n": "Step Up controlado",
@@ -678,7 +762,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Subida a un cajón con una pierna, sin impulso."
+  "d": "Subida a un cajón con una pierna, sin impulso.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg Squat",
@@ -686,7 +771,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Sentadilla a una pierna controlando el valgo de rodilla. Avanzado."
+  "d": "Sentadilla a una pierna controlando el valgo de rodilla. Avanzado.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg Reach",
@@ -694,7 +780,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "En apoyo monopodal, alcanzas con el pie libre en varias direcciones."
+  "d": "En apoyo monopodal, alcanzas con el pie libre en varias direcciones.",
+  "o": "nacho"
  },
  {
   "n": "Y Balance",
@@ -702,7 +789,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Equilibrio monopodal alcanzando en tres direcciones."
+  "d": "Equilibrio monopodal alcanzando en tres direcciones.",
+  "o": "nacho"
  },
  {
   "n": "Skater Balance",
@@ -710,7 +798,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Saltos laterales de patinador aterrizando y estabilizando a una pierna."
+  "d": "Saltos laterales de patinador aterrizando y estabilizando a una pierna.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg Box Squat",
@@ -718,7 +807,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Sentadilla a una pierna sentándote y levantándote de un cajón."
+  "d": "Sentadilla a una pierna sentándote y levantándote de un cajón.",
+  "o": "nacho"
  },
  {
   "n": "RDL Reach",
@@ -726,7 +816,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Bisagra a una pierna alcanzando el suelo para estabilidad e isquios."
+  "d": "Bisagra a una pierna alcanzando el suelo para estabilidad e isquios.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg Balance + Lanzamiento",
@@ -734,7 +825,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Equilibrio a una pierna mientras lanzas un balón."
+  "d": "Equilibrio a una pierna mientras lanzas un balón.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg Balance + Recepción",
@@ -742,7 +834,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Equilibrio a una pierna recepcionando un balón."
+  "d": "Equilibrio a una pierna recepcionando un balón.",
+  "o": "nacho"
  },
  {
   "n": "Farmer Carry unilateral",
@@ -750,7 +843,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Caminas cargando peso en una mano, resistiendo la inclinación lateral."
+  "d": "Caminas cargando peso en una mano, resistiendo la inclinación lateral.",
+  "o": "nacho"
  },
  {
   "n": "Suitcase Carry",
@@ -758,7 +852,8 @@ window.EJERCICIOS = [
   "s": "Global",
   "b": "estabilidad",
   "r": "medio",
-  "d": "Transporte de carga en un lado (como una maleta); anti-inclinación del core."
+  "d": "Transporte de carga en un lado (como una maleta); anti-inclinación del core.",
+  "o": "nacho"
  },
  {
   "n": "Bear Position Hold",
@@ -766,7 +861,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Posición de oso (cuadrupedia con rodillas a un palmo) mantenida, con core firme."
+  "d": "Posición de oso (cuadrupedia con rodillas a un palmo) mantenida, con core firme.",
+  "o": "nacho"
  },
  {
   "n": "Bear Shoulder Taps",
@@ -774,7 +870,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "En posición de oso, te tocas los hombros alternando sin mover la cadera."
+  "d": "En posición de oso, te tocas los hombros alternando sin mover la cadera.",
+  "o": "nacho"
  },
  {
   "n": "Bear Row unilateral",
@@ -782,7 +879,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Remo a una mano desde la posición de oso resistiendo la rotación."
+  "d": "Remo a una mano desde la posición de oso resistiendo la rotación.",
+  "o": "nacho"
  },
  {
   "n": "Bear Crawl",
@@ -790,7 +888,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Desplazamiento en posición de oso coordinando brazo y pierna contrarios."
+  "d": "Desplazamiento en posición de oso coordinando brazo y pierna contrarios.",
+  "o": "nacho"
  },
  {
   "n": "Bear Crawl lateral",
@@ -798,7 +897,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Gateo de oso desplazándote lateralmente."
+  "d": "Gateo de oso desplazándote lateralmente.",
+  "o": "nacho"
  },
  {
   "n": "Bear Crawl atrás",
@@ -806,7 +906,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Gateo de oso hacia atrás."
+  "d": "Gateo de oso hacia atrás.",
+  "o": "nacho"
  },
  {
   "n": "Bear + Arrastre de disco",
@@ -814,7 +915,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "En oso, arrastras un disco de un lado a otro resistiendo la rotación."
+  "d": "En oso, arrastras un disco de un lado a otro resistiendo la rotación.",
+  "o": "nacho"
  },
  {
   "n": "Bear + Pase de kettlebell",
@@ -822,7 +924,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "En oso, pasas una kettlebell por debajo del cuerpo manteniendo estable la cadera."
+  "d": "En oso, pasas una kettlebell por debajo del cuerpo manteniendo estable la cadera.",
+  "o": "nacho"
  },
  {
   "n": "Bear + Pallof Press",
@@ -830,7 +933,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Posición de oso sosteniendo un Pallof anti-rotación."
+  "d": "Posición de oso sosteniendo un Pallof anti-rotación.",
+  "o": "nacho"
  },
  {
   "n": "TRX Power Pull",
@@ -838,7 +942,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Remo a una mano en TRX con rotación del tronco controlada."
+  "d": "Remo a una mano en TRX con rotación del tronco controlada.",
+  "o": "nacho"
  },
  {
   "n": "Face Pull",
@@ -846,7 +951,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Tracción de banda/polea hacia la cara; rotadores externos y trapecio medio/inferior."
+  "d": "Tracción de banda/polea hacia la cara; rotadores externos y trapecio medio/inferior.",
+  "o": "nacho"
  },
  {
   "n": "Remo escapular",
@@ -854,7 +960,8 @@ window.EJERCICIOS = [
   "s": "Escapular",
   "b": "activacion",
   "r": "bajo",
-  "d": "Remo enfatizando solo la retracción escapular, sin tirar con el brazo."
+  "d": "Remo enfatizando solo la retracción escapular, sin tirar con el brazo.",
+  "o": "nacho"
  },
  {
   "n": "Back Squat",
@@ -862,7 +969,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "alto",
-  "d": "Sentadilla con barra a la espalda. Alta carga axial sobre la columna."
+  "d": "Sentadilla con barra a la espalda. Alta carga axial sobre la columna.",
+  "o": "nacho"
  },
  {
   "n": "Front Squat",
@@ -870,7 +978,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "alto",
-  "d": "Sentadilla con barra al frente; más vertical pero con carga axial."
+  "d": "Sentadilla con barra al frente; más vertical pero con carga axial.",
+  "o": "nacho"
  },
  {
   "n": "Goblet Squat",
@@ -878,7 +987,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Sentadilla sujetando mancuerna/kettlebell al pecho; tronco vertical y lumbar protegida."
+  "d": "Sentadilla sujetando mancuerna/kettlebell al pecho; tronco vertical y lumbar protegida.",
+  "o": "nacho"
  },
  {
   "n": "Safety Bar Squat",
@@ -886,7 +996,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Sentadilla con barra de seguridad, más amable con hombros y tronco."
+  "d": "Sentadilla con barra de seguridad, más amable con hombros y tronco.",
+  "o": "nacho"
  },
  {
   "n": "Belt Squat",
@@ -894,7 +1005,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Sentadilla con carga colgada del cinturón, sin comprimir la columna."
+  "d": "Sentadilla con carga colgada del cinturón, sin comprimir la columna.",
+  "o": "nacho"
  },
  {
   "n": "Box Squat",
@@ -902,7 +1014,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Sentadilla sentándote en un cajón para controlar profundidad y patrón."
+  "d": "Sentadilla sentándote en un cajón para controlar profundidad y patrón.",
+  "o": "nacho"
  },
  {
   "n": "Bulgarian Split Squat",
@@ -910,7 +1023,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Sentadilla búlgara con el pie trasero elevado; mucho trabajo unilateral."
+  "d": "Sentadilla búlgara con el pie trasero elevado; mucho trabajo unilateral.",
+  "o": "nacho"
  },
  {
   "n": "Split Squat",
@@ -918,7 +1032,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada estática subiendo y bajando con las piernas fijas."
+  "d": "Zancada estática subiendo y bajando con las piernas fijas.",
+  "o": "nacho"
  },
  {
   "n": "Step Up",
@@ -926,7 +1041,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Subida a un cajón con una pierna."
+  "d": "Subida a un cajón con una pierna.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Squat",
@@ -934,7 +1050,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Sentadilla sujetando el extremo de una barra landmine; patrón guiado y amable con la espalda."
+  "d": "Sentadilla sujetando el extremo de una barra landmine; patrón guiado y amable con la espalda.",
+  "o": "nacho"
  },
  {
   "n": "Reverse Lunge",
@@ -942,7 +1059,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada hacia atrás; suele ser más amable con rodilla y espalda que la frontal."
+  "d": "Zancada hacia atrás; suele ser más amable con rodilla y espalda que la frontal.",
+  "o": "nacho"
  },
  {
   "n": "Walking Lunge",
@@ -950,7 +1068,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancadas caminando hacia delante de forma alterna."
+  "d": "Zancadas caminando hacia delante de forma alterna.",
+  "o": "nacho"
  },
  {
   "n": "Hip Thrust",
@@ -958,7 +1077,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Empuje de cadera con la espalda en un banco; gran activación de glúteo con poca carga lumbar."
+  "d": "Empuje de cadera con la espalda en un banco; gran activación de glúteo con poca carga lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Peso Muerto Rumano",
@@ -966,7 +1086,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Bisagra de cadera con rodillas semiflexionadas bajando la barra; exige control lumbar."
+  "d": "Bisagra de cadera con rodillas semiflexionadas bajando la barra; exige control lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Peso Muerto convencional",
@@ -974,7 +1095,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "alto",
-  "d": "Levantas la barra del suelo con bisagra de cadera. Alta demanda de la columna; precaución."
+  "d": "Levantas la barra del suelo con bisagra de cadera. Alta demanda de la columna; precaución.",
+  "o": "nacho"
  },
  {
   "n": "Peso Muerto sumo",
@@ -982,7 +1104,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "alto",
-  "d": "Peso muerto con piernas abiertas y tronco más vertical; menos cizalla lumbar."
+  "d": "Peso muerto con piernas abiertas y tronco más vertical; menos cizalla lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Buenos días",
@@ -990,7 +1113,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "alto",
-  "d": "Bisagra con barra a la espalda; alta demanda de erectores y lumbar."
+  "d": "Bisagra con barra a la espalda; alta demanda de erectores y lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Pull Through",
@@ -998,7 +1122,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Bisagra de cadera traccionando una polea entre las piernas; patrón seguro para glúteo."
+  "d": "Bisagra de cadera traccionando una polea entre las piernas; patrón seguro para glúteo.",
+  "o": "nacho"
  },
  {
   "n": "Hip Extension",
@@ -1006,7 +1131,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Extensión de cadera en banco trabajando cadena posterior."
+  "d": "Extensión de cadera en banco trabajando cadena posterior.",
+  "o": "nacho"
  },
  {
   "n": "Kettlebell Swing",
@@ -1014,7 +1140,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "alto",
-  "d": "Balanceo de kettlebell por bisagra explosiva; potente pero exige técnica lumbar."
+  "d": "Balanceo de kettlebell por bisagra explosiva; potente pero exige técnica lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Landmine RDL",
@@ -1022,7 +1149,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Peso muerto rumano usando una barra landmine; trayectoria guiada."
+  "d": "Peso muerto rumano usando una barra landmine; trayectoria guiada.",
+  "o": "nacho"
  },
  {
   "n": "Single Leg RDL",
@@ -1030,7 +1158,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Peso muerto rumano a una pierna; isquios, glúteo y estabilidad."
+  "d": "Peso muerto rumano a una pierna; isquios, glúteo y estabilidad.",
+  "o": "nacho"
  },
  {
   "n": "Press banca",
@@ -1038,7 +1167,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Empuje horizontal con barra tumbado en banco."
+  "d": "Empuje horizontal con barra tumbado en banco.",
+  "o": "nacho"
  },
  {
   "n": "Press inclinado",
@@ -1046,7 +1176,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Press en banco inclinado, más pectoral superior y hombro."
+  "d": "Press en banco inclinado, más pectoral superior y hombro.",
+  "o": "nacho"
  },
  {
   "n": "Press militar",
@@ -1054,7 +1185,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "alto",
-  "d": "Press de hombros de pie con barra; carga axial sobre la columna."
+  "d": "Press de hombros de pie con barra; carga axial sobre la columna.",
+  "o": "nacho"
  },
  {
   "n": "Push Press",
@@ -1062,7 +1194,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "alto",
-  "d": "Press de hombros con ayuda de piernas para mover más carga."
+  "d": "Press de hombros con ayuda de piernas para mover más carga.",
+  "o": "nacho"
  },
  {
   "n": "Press unilateral",
@@ -1070,7 +1203,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Press con mancuerna/kettlebell a un brazo; suma core anti-rotación."
+  "d": "Press con mancuerna/kettlebell a un brazo; suma core anti-rotación.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Press",
@@ -1078,7 +1212,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Press en diagonal con barra landmine; amable con el hombro."
+  "d": "Press en diagonal con barra landmine; amable con el hombro.",
+  "o": "nacho"
  },
  {
   "n": "Flexiones",
@@ -1086,7 +1221,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Flexiones de brazos manteniendo el core firme."
+  "d": "Flexiones de brazos manteniendo el core firme.",
+  "o": "nacho"
  },
  {
   "n": "Fondos",
@@ -1094,7 +1230,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Fondos en paralelas o banco para tríceps y pectoral."
+  "d": "Fondos en paralelas o banco para tríceps y pectoral.",
+  "o": "nacho"
  },
  {
   "n": "Arnold Press",
@@ -1102,7 +1239,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Press de hombros con rotación de muñeca desde el pecho."
+  "d": "Press de hombros con rotación de muñeca desde el pecho.",
+  "o": "nacho"
  },
  {
   "n": "Floor Press",
@@ -1110,7 +1248,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Press tumbado en el suelo, con rango reducido y hombro protegido."
+  "d": "Press tumbado en el suelo, con rango reducido y hombro protegido.",
+  "o": "nacho"
  },
  {
   "n": "Dominadas",
@@ -1118,7 +1257,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Tracción vertical colgado de una barra con agarre prono."
+  "d": "Tracción vertical colgado de una barra con agarre prono.",
+  "o": "nacho"
  },
  {
   "n": "Chin Up",
@@ -1126,7 +1266,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Dominada con agarre supino, más bíceps."
+  "d": "Dominada con agarre supino, más bíceps.",
+  "o": "nacho"
  },
  {
   "n": "Jalón",
@@ -1134,7 +1275,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Jalón al pecho en polea; tracción vertical asistida."
+  "d": "Jalón al pecho en polea; tracción vertical asistida.",
+  "o": "nacho"
  },
  {
   "n": "Remo unilateral",
@@ -1142,7 +1284,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Remo a una mano con mancuerna apoyado en un banco."
+  "d": "Remo a una mano con mancuerna apoyado en un banco.",
+  "o": "nacho"
  },
  {
   "n": "Remo barra",
@@ -1150,7 +1293,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Remo con barra inclinado; cuida la posición lumbar."
+  "d": "Remo con barra inclinado; cuida la posición lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Seal Row",
@@ -1158,7 +1302,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Remo tumbado boca abajo en banco, sin implicar la zona lumbar."
+  "d": "Remo tumbado boca abajo en banco, sin implicar la zona lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Chest Supported Row",
@@ -1166,7 +1311,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Remo con el pecho apoyado en banco inclinado; descarga la lumbar."
+  "d": "Remo con el pecho apoyado en banco inclinado; descarga la lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Polea baja",
@@ -1174,7 +1320,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Remo sentado en polea baja."
+  "d": "Remo sentado en polea baja.",
+  "o": "nacho"
  },
  {
   "n": "TRX Row",
@@ -1182,7 +1329,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "bajo",
-  "d": "Remo invertido en TRX con el peso del cuerpo."
+  "d": "Remo invertido en TRX con el peso del cuerpo.",
+  "o": "nacho"
  },
  {
   "n": "Face Pull",
@@ -1190,7 +1338,8 @@ window.EJERCICIOS = [
   "s": "Superior",
   "b": "fuerza",
   "r": "medio",
-  "d": "Tracción de banda/polea hacia la cara; rotadores externos y trapecio medio/inferior."
+  "d": "Tracción de banda/polea hacia la cara; rotadores externos y trapecio medio/inferior.",
+  "o": "nacho"
  },
  {
   "n": "Split Squat + Press",
@@ -1198,7 +1347,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada estática combinada con un press de hombro."
+  "d": "Zancada estática combinada con un press de hombro.",
+  "o": "nacho"
  },
  {
   "n": "Split Squat + Rotación",
@@ -1206,7 +1356,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada estática añadiendo una rotación de tronco."
+  "d": "Zancada estática añadiendo una rotación de tronco.",
+  "o": "nacho"
  },
  {
   "n": "Reverse Lunge + Press",
@@ -1214,7 +1365,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada atrás combinada con press de brazo."
+  "d": "Zancada atrás combinada con press de brazo.",
+  "o": "nacho"
  },
  {
   "n": "Reverse Lunge + Remo",
@@ -1222,7 +1374,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada atrás combinada con un remo."
+  "d": "Zancada atrás combinada con un remo.",
+  "o": "nacho"
  },
  {
   "n": "Step Up + Press",
@@ -1230,7 +1383,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Subida al cajón rematando con un press."
+  "d": "Subida al cajón rematando con un press.",
+  "o": "nacho"
  },
  {
   "n": "Step Up + Farmer Carry",
@@ -1238,7 +1392,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Subidas al cajón cargando peso tipo farmer."
+  "d": "Subidas al cajón cargando peso tipo farmer.",
+  "o": "nacho"
  },
  {
   "n": "Walking Lunge + Press",
@@ -1246,7 +1401,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancadas caminando con press en cada paso."
+  "d": "Zancadas caminando con press en cada paso.",
+  "o": "nacho"
  },
  {
   "n": "Walking Lunge + Rotación",
@@ -1254,7 +1410,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancadas caminando añadiendo rotación de tronco."
+  "d": "Zancadas caminando añadiendo rotación de tronco.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Thruster",
@@ -1262,7 +1419,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Sentadilla a press encadenados con la barra landmine."
+  "d": "Sentadilla a press encadenados con la barra landmine.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Reverse Lunge + Press",
@@ -1270,7 +1428,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada atrás con press usando landmine."
+  "d": "Zancada atrás con press usando landmine.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Squat to Press",
@@ -1278,7 +1437,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Sentadilla seguida de press con landmine."
+  "d": "Sentadilla seguida de press con landmine.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Rotation",
@@ -1286,7 +1446,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Rotaciones del tronco moviendo el extremo de la landmine en arco."
+  "d": "Rotaciones del tronco moviendo el extremo de la landmine en arco.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Clean",
@@ -1294,7 +1455,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Cargada explosiva con la barra landmine."
+  "d": "Cargada explosiva con la barra landmine.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Lateral Lunge",
@@ -1302,7 +1464,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Zancada lateral combinada con landmine."
+  "d": "Zancada lateral combinada con landmine.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Around the World",
@@ -1310,7 +1473,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "fuerza",
   "r": "medio",
-  "d": "Círculos amplios del extremo de la landmine alrededor del torso."
+  "d": "Círculos amplios del extremo de la landmine alrededor del torso.",
+  "o": "nacho"
  },
  {
   "n": "Kettlebell Swing",
@@ -1318,7 +1482,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Balanceo de kettlebell por bisagra explosiva; potente pero exige técnica lumbar."
+  "d": "Balanceo de kettlebell por bisagra explosiva; potente pero exige técnica lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Box Jump",
@@ -1326,7 +1491,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Salto a un cajón. Impacto en la recepción."
+  "d": "Salto a un cajón. Impacto en la recepción.",
+  "o": "nacho"
  },
  {
   "n": "Countermovement Jump",
@@ -1334,7 +1500,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Salto vertical con contramovimiento. Impacto."
+  "d": "Salto vertical con contramovimiento. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Squat Jump",
@@ -1342,7 +1509,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Salto vertical desde sentadilla. Impacto."
+  "d": "Salto vertical desde sentadilla. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Drop Jump",
@@ -1350,7 +1518,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Te dejas caer de una altura y saltas al contacto. Alto impacto."
+  "d": "Te dejas caer de una altura y saltas al contacto. Alto impacto.",
+  "o": "nacho"
  },
  {
   "n": "Depth Jump",
@@ -1358,7 +1527,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Variante de drop jump buscando mínimo tiempo de contacto. Alto impacto."
+  "d": "Variante de drop jump buscando mínimo tiempo de contacto. Alto impacto.",
+  "o": "nacho"
  },
  {
   "n": "Broad Jump",
@@ -1366,7 +1536,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Salto horizontal a máxima distancia. Impacto."
+  "d": "Salto horizontal a máxima distancia. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Bounding",
@@ -1374,7 +1545,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Zancadas saltadas amplias y reactivas. Impacto."
+  "d": "Zancadas saltadas amplias y reactivas. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Skater Jump",
@@ -1382,7 +1554,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Saltos laterales de patinador. Impacto."
+  "d": "Saltos laterales de patinador. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Pogos",
@@ -1390,7 +1563,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Saltos cortos y reactivos con rodillas casi rígidas. Impacto."
+  "d": "Saltos cortos y reactivos con rodillas casi rígidas. Impacto.",
+  "o": "nacho"
  },
  {
   "n": "Lanzamientos con balón medicinal",
@@ -1398,7 +1572,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Lanzamientos potentes de balón medicinal."
+  "d": "Lanzamientos potentes de balón medicinal.",
+  "o": "nacho"
  },
  {
   "n": "Slam Ball",
@@ -1406,7 +1581,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Lanzas un balón pesado contra el suelo con fuerza."
+  "d": "Lanzas un balón pesado contra el suelo con fuerza.",
+  "o": "nacho"
  },
  {
   "n": "Scoop Throw",
@@ -1414,7 +1590,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Lanzamiento de balón desde abajo hacia arriba/atrás."
+  "d": "Lanzamiento de balón desde abajo hacia arriba/atrás.",
+  "o": "nacho"
  },
  {
   "n": "Rotational Throw",
@@ -1422,7 +1599,8 @@ window.EJERCICIOS = [
   "s": "",
   "b": "potencia",
   "r": "alto",
-  "d": "Lanzamiento rotacional de balón contra la pared."
+  "d": "Lanzamiento rotacional de balón contra la pared.",
+  "o": "nacho"
  },
  {
   "n": "Plancha",
@@ -1430,7 +1608,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "bajo",
-  "d": "Plancha frontal manteniendo el cuerpo recto y el core firme."
+  "d": "Plancha frontal manteniendo el cuerpo recto y el core firme.",
+  "o": "nacho"
  },
  {
   "n": "Long Lever Plank",
@@ -1438,7 +1617,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "medio",
-  "d": "Plancha con los antebrazos adelantados; más palanca y dificultad."
+  "d": "Plancha con los antebrazos adelantados; más palanca y dificultad.",
+  "o": "nacho"
  },
  {
   "n": "Dead Bug",
@@ -1446,7 +1626,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "bajo",
-  "d": "Tumbado, extiendes brazo y pierna contrarios sin despegar la lumbar."
+  "d": "Tumbado, extiendes brazo y pierna contrarios sin despegar la lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Hollow Hold",
@@ -1454,7 +1635,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "medio",
-  "d": "Posición de hueco con la espalda baja pegada al suelo y extremidades extendidas."
+  "d": "Posición de hueco con la espalda baja pegada al suelo y extremidades extendidas.",
+  "o": "nacho"
  },
  {
   "n": "Ab Wheel",
@@ -1462,7 +1644,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "alto",
-  "d": "Rueda abdominal resistiendo la extensión lumbar. Exigente."
+  "d": "Rueda abdominal resistiendo la extensión lumbar. Exigente.",
+  "o": "nacho"
  },
  {
   "n": "Body Saw",
@@ -1470,7 +1653,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "alto",
-  "d": "En plancha, deslizas el cuerpo adelante y atrás resistiendo la extensión."
+  "d": "En plancha, deslizas el cuerpo adelante y atrás resistiendo la extensión.",
+  "o": "nacho"
  },
  {
   "n": "Walk Out",
@@ -1478,7 +1662,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "medio",
-  "d": "Desde de pie, caminas con las manos hasta plancha y vuelves."
+  "d": "Desde de pie, caminas con las manos hasta plancha y vuelves.",
+  "o": "nacho"
  },
  {
   "n": "TRX Fallout",
@@ -1486,7 +1671,8 @@ window.EJERCICIOS = [
   "s": "Anti-extensión",
   "b": "core",
   "r": "medio",
-  "d": "En TRX, extiendes los brazos al frente resistiendo la extensión del tronco."
+  "d": "En TRX, extiendes los brazos al frente resistiendo la extensión del tronco.",
+  "o": "nacho"
  },
  {
   "n": "Pallof Press",
@@ -1494,7 +1680,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "bajo",
-  "d": "Sujetas una polea/banda lateral y extiendes los brazos resistiendo la rotación."
+  "d": "Sujetas una polea/banda lateral y extiendes los brazos resistiendo la rotación.",
+  "o": "nacho"
  },
  {
   "n": "Pallof Walk Out",
@@ -1502,7 +1689,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "medio",
-  "d": "Pallof press caminando lateralmente alejándote del anclaje."
+  "d": "Pallof press caminando lateralmente alejándote del anclaje.",
+  "o": "nacho"
  },
  {
   "n": "Half Kneeling Press",
@@ -1510,7 +1698,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "bajo",
-  "d": "Press de hombro en medio arrodillado, retando el core anti-rotación."
+  "d": "Press de hombro en medio arrodillado, retando el core anti-rotación.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Anti Rotation",
@@ -1518,7 +1707,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "medio",
-  "d": "Sostienes el extremo de la landmine resistiendo que rote el tronco."
+  "d": "Sostienes el extremo de la landmine resistiendo que rote el tronco.",
+  "o": "nacho"
  },
  {
   "n": "Chop isométrico",
@@ -1526,7 +1716,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "medio",
-  "d": "Mantienes un chop diagonal en isométrico resistiendo la rotación."
+  "d": "Mantienes un chop diagonal en isométrico resistiendo la rotación.",
+  "o": "nacho"
  },
  {
   "n": "Press unilateral con banda",
@@ -1534,7 +1725,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "medio",
-  "d": "Press a un brazo con banda lateral resistiendo la rotación."
+  "d": "Press a un brazo con banda lateral resistiendo la rotación.",
+  "o": "nacho"
  },
  {
   "n": "Farmer unilateral",
@@ -1542,7 +1734,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "medio",
-  "d": "Transporte de carga a un lado resistiendo rotación e inclinación."
+  "d": "Transporte de carga a un lado resistiendo rotación e inclinación.",
+  "o": "nacho"
  },
  {
   "n": "Bear + Pallof",
@@ -1550,7 +1743,8 @@ window.EJERCICIOS = [
   "s": "Anti-rotación",
   "b": "core",
   "r": "medio",
-  "d": "Posición de oso sosteniendo una resistencia lateral (Pallof) resistiendo la rotación."
+  "d": "Posición de oso sosteniendo una resistencia lateral (Pallof) resistiendo la rotación.",
+  "o": "nacho"
  },
  {
   "n": "Side Plank",
@@ -1558,7 +1752,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "bajo",
-  "d": "Plancha lateral manteniendo la cadera elevada y alineada."
+  "d": "Plancha lateral manteniendo la cadera elevada y alineada.",
+  "o": "nacho"
  },
  {
   "n": "Copenhagen",
@@ -1566,7 +1761,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Plancha lateral apoyando la pierna en un banco para activar aductores y core."
+  "d": "Plancha lateral apoyando la pierna en un banco para activar aductores y core.",
+  "o": "nacho"
  },
  {
   "n": "Suitcase Carry",
@@ -1574,7 +1770,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Transporte de carga en un lado (como una maleta); anti-inclinación del core."
+  "d": "Transporte de carga en un lado (como una maleta); anti-inclinación del core.",
+  "o": "nacho"
  },
  {
   "n": "Waiter Carry",
@@ -1582,7 +1779,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Caminas con una carga sostenida por encima de la cabeza (como camarero)."
+  "d": "Caminas con una carga sostenida por encima de la cabeza (como camarero).",
+  "o": "nacho"
  },
  {
   "n": "Rack Carry",
@@ -1590,7 +1788,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Transporte de carga en posición rack (a la altura del hombro)."
+  "d": "Transporte de carga en posición rack (a la altura del hombro).",
+  "o": "nacho"
  },
  {
   "n": "Offset Carry",
@@ -1598,7 +1797,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Transporte con cargas distintas en cada mano, retando la estabilidad."
+  "d": "Transporte con cargas distintas en cada mano, retando la estabilidad.",
+  "o": "nacho"
  },
  {
   "n": "Side Bridge Reach",
@@ -1606,7 +1806,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Plancha lateral con alcance del brazo por debajo del tronco."
+  "d": "Plancha lateral con alcance del brazo por debajo del tronco.",
+  "o": "nacho"
  },
  {
   "n": "Overhead Carry",
@@ -1614,7 +1815,8 @@ window.EJERCICIOS = [
   "s": "Anti-inclinación",
   "b": "core",
   "r": "medio",
-  "d": "Transporte de carga por encima de la cabeza con el core firme."
+  "d": "Transporte de carga por encima de la cabeza con el core firme.",
+  "o": "nacho"
  },
  {
   "n": "Wood Chop",
@@ -1622,7 +1824,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "medio",
-  "d": "Hachazo diagonal con polea/balón de arriba a abajo cruzando el cuerpo."
+  "d": "Hachazo diagonal con polea/balón de arriba a abajo cruzando el cuerpo.",
+  "o": "nacho"
  },
  {
   "n": "Lift",
@@ -1630,7 +1833,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "medio",
-  "d": "Movimiento inverso al wood chop, de abajo a arriba en diagonal."
+  "d": "Movimiento inverso al wood chop, de abajo a arriba en diagonal.",
+  "o": "nacho"
  },
  {
   "n": "Cable Rotation",
@@ -1638,7 +1842,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "medio",
-  "d": "Rotación del tronco horizontal en polea."
+  "d": "Rotación del tronco horizontal en polea.",
+  "o": "nacho"
  },
  {
   "n": "Russian Twist",
@@ -1646,7 +1851,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "alto",
-  "d": "Sentado, rotas el tronco de lado a lado; con carga aumenta la demanda lumbar."
+  "d": "Sentado, rotas el tronco de lado a lado; con carga aumenta la demanda lumbar.",
+  "o": "nacho"
  },
  {
   "n": "Landmine Rotation",
@@ -1654,7 +1860,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "medio",
-  "d": "Rotaciones del tronco moviendo el extremo de la landmine en arco."
+  "d": "Rotaciones del tronco moviendo el extremo de la landmine en arco.",
+  "o": "nacho"
  },
  {
   "n": "Windmill",
@@ -1662,7 +1869,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "alto",
-  "d": "Con carga sobre la cabeza, bajas la mano contraria al suelo. Técnico."
+  "d": "Con carga sobre la cabeza, bajas la mano contraria al suelo. Técnico.",
+  "o": "nacho"
  },
  {
   "n": "Around the World",
@@ -1670,7 +1878,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "alto",
-  "d": "Círculos amplios con un disco alrededor del torso."
+  "d": "Círculos amplios con un disco alrededor del torso.",
+  "o": "nacho"
  },
  {
   "n": "Rotaciones con banda",
@@ -1678,7 +1887,8 @@ window.EJERCICIOS = [
   "s": "Rotación",
   "b": "core",
   "r": "medio",
-  "d": "Rotaciones de tronco contra una banda elástica."
+  "d": "Rotaciones de tronco contra una banda elástica.",
+  "o": "nacho"
  },
  {
   "n": "Hanging Knee Raise",
@@ -1686,7 +1896,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "alto",
-  "d": "Colgado de la barra, elevas las rodillas al pecho."
+  "d": "Colgado de la barra, elevas las rodillas al pecho.",
+  "o": "nacho"
  },
  {
   "n": "Toes to Bar",
@@ -1694,7 +1905,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "alto",
-  "d": "Colgado, llevas las puntas de los pies hasta la barra. Exigente."
+  "d": "Colgado, llevas las puntas de los pies hasta la barra. Exigente.",
+  "o": "nacho"
  },
  {
   "n": "Reverse Crunch",
@@ -1702,7 +1914,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "medio",
-  "d": "Tumbado, llevas las rodillas al pecho elevando la cadera."
+  "d": "Tumbado, llevas las rodillas al pecho elevando la cadera.",
+  "o": "nacho"
  },
  {
   "n": "V-Up",
@@ -1710,7 +1923,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "alto",
-  "d": "Tumbado, juntas manos y pies arriba formando una V."
+  "d": "Tumbado, juntas manos y pies arriba formando una V.",
+  "o": "nacho"
  },
  {
   "n": "Dragon Flag",
@@ -1718,7 +1932,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "alto",
-  "d": "Elevas el cuerpo recto desde los hombros controlando la bajada. Muy avanzado."
+  "d": "Elevas el cuerpo recto desde los hombros controlando la bajada. Muy avanzado.",
+  "o": "nacho"
  },
  {
   "n": "Mountain Climber",
@@ -1726,7 +1941,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "medio",
-  "d": "En plancha, llevas las rodillas al pecho alternando rápido."
+  "d": "En plancha, llevas las rodillas al pecho alternando rápido.",
+  "o": "nacho"
  },
  {
   "n": "Bear Crawl",
@@ -1734,7 +1950,8 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "medio",
-  "d": "Desplazamiento en posición de oso coordinando brazo y pierna contrarios."
+  "d": "Desplazamiento en posición de oso coordinando brazo y pierna contrarios.",
+  "o": "nacho"
  },
  {
   "n": "Dead Bug dinámico",
@@ -1742,6 +1959,160 @@ window.EJERCICIOS = [
   "s": "Dinámico",
   "b": "core",
   "r": "medio",
-  "d": "Versión dinámica del dead bug alternando con ritmo controlado."
+  "d": "Versión dinámica del dead bug alternando con ritmo controlado.",
+  "o": "nacho"
+ },
+ {
+  "n": "Flexiones inclinadas",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "bajo",
+  "d": "Flexiones con las manos elevadas en un banco o barra; más fáciles, ideales para empezar o para cuidar la espalda.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones de rodillas",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "bajo",
+  "d": "Flexiones apoyando las rodillas en el suelo para reducir la carga manteniendo el patrón.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones excéntricas",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "bajo",
+  "d": "Flexiones bajando muy lento (3-5 s) para ganar fuerza y control con poca exigencia articular.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones diamante",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexiones con las manos juntas formando un diamante bajo el pecho; énfasis en tríceps.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones amplias",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexiones con las manos más abiertas que los hombros; énfasis en pectoral.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones declinadas",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexiones con los pies elevados en un cajón; más carga en pectoral superior y hombro.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Pike Push-up",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexión en V invertida con la cadera alta; trabaja el hombro como un press, progresión al pino.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones Spiderman",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexión llevando una rodilla hacia el codo del mismo lado en la bajada; suma core y cadera.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones arquero",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexión cargando el peso sobre un brazo mientras el otro se extiende; progresión hacia la flexión a una mano.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones pseudo planche",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Flexiones con las manos a la altura de la cadera y el cuerpo inclinado adelante; mucho hombro y core.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Hindu Push-up",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "bajo",
+  "d": "Flexión fluida pasando de perro boca abajo a cobra; empuje combinado con movilidad de columna y hombro.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Flexiones pliométricas",
+  "c": "Empuje",
+  "s": "Flexiones",
+  "b": "fuerza",
+  "r": "alto",
+  "d": "Flexiones explosivas despegando las manos del suelo. Impacto; desarrollan potencia de empuje.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Sled Push",
+  "c": "Fuerza Integrada",
+  "s": "Hyrox",
+  "b": "fuerza",
+  "r": "bajo",
+  "d": "Empujas un trineo cargado; muy potente para piernas y amable con la columna (sin carga axial). Estación de Hyrox.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Sled Pull",
+  "c": "Fuerza Integrada",
+  "s": "Hyrox",
+  "b": "fuerza",
+  "r": "bajo",
+  "d": "Arrastras un trineo hacia ti con una cuerda; cadena posterior, espalda-friendly. Estación de Hyrox.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Sandbag Lunges",
+  "c": "Fuerza Integrada",
+  "s": "Hyrox",
+  "b": "fuerza",
+  "r": "medio",
+  "d": "Zancadas cargando un sandbag al hombro o la espalda; fuerza unilateral. Estación de Hyrox.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Wall Ball",
+  "c": "Potencia",
+  "s": "Hyrox",
+  "b": "potencia",
+  "r": "medio",
+  "d": "Lanzas un balón a una diana en la pared desde sentadilla; piernas + empuje. Estación de Hyrox.",
+  "o": "sportshub"
+ },
+ {
+  "n": "Burpee Broad Jump",
+  "c": "Potencia",
+  "s": "Hyrox",
+  "b": "potencia",
+  "r": "alto",
+  "d": "Burpee seguido de un salto horizontal; muy demandante. Alto impacto. Estación de Hyrox.",
+  "o": "sportshub"
  }
 ];

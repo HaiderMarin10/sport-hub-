@@ -410,7 +410,8 @@
   // ---------- REPOSITORIO ----------
   const selCat = $("#filter-cat");
   const BLOQUES = ["movilidad", "activacion", "fuerza", "estabilidad", "core", "potencia"];
-  let filtroBloque = "", filtroRiesgo = "", agruparPor = "categoria", filtroFav = false;
+  let filtroBloque = "", filtroRiesgo = "", filtroOrigen = "", agruparPor = "categoria", filtroFav = false;
+  const ORIGEN_LBL = { nacho: "Nacho", sportshub: "SportsHub" };
 
   // selector "agrupar por"
   $$("#group-by button").forEach(b => b.addEventListener("click", () => {
@@ -439,6 +440,20 @@
     filtroRiesgo = ch.dataset.r;
     pintarRepo();
   }));
+
+  // chips de origen (Nacho / SportsHub) con contadores
+  const originChips = $("#filter-origin");
+  if (originChips) {
+    originChips.innerHTML = '<button class="chip on" data-o="">Todos · ' + EX.length + '</button>' +
+      '<button class="chip" data-o="nacho">Nacho · ' + EX.filter(e => (e.o || "nacho") === "nacho").length + '</button>' +
+      '<button class="chip" data-o="sportshub">Añadidos · ' + EX.filter(e => e.o === "sportshub").length + '</button>';
+    $$("#filter-origin .chip").forEach(ch => ch.addEventListener("click", () => {
+      $$("#filter-origin .chip").forEach(c => c.classList.remove("on"));
+      ch.classList.add("on");
+      filtroOrigen = ch.dataset.o;
+      pintarRepo();
+    }));
+  }
 
   function rebuildCats() {
     const cats = Array.from(new Set(EX.filter(e => !filtroBloque || e.b === filtroBloque).map(e => e.c)))
@@ -469,6 +484,7 @@
       (!filtroBloque || e.b === filtroBloque) &&
       (!cat || e.c === cat) &&
       (!filtroRiesgo || e.r === filtroRiesgo) &&
+      (!filtroOrigen || (e.o || "nacho") === filtroOrigen) &&
       (!q || e.n.toLowerCase().includes(q) || e.d.toLowerCase().includes(q) ||
         (e.s && e.s.toLowerCase().includes(q)) || e.c.toLowerCase().includes(q))
     );
@@ -487,12 +503,16 @@
     // agrupar según la vista elegida (categoría de Nacho / detalle granular / bloque)
     const keyOf = (e) => agruparPor === "bloque" ? BLOQUE_LBL[e.b]
       : agruparPor === "detalle" ? (e.c + (e.s ? " · " + e.s : ""))
+      : agruparPor === "origen" ? (e.o === "sportshub" ? "Añadidos por SportsHub" : "Repertorio de Nacho")
       : e.c;
     const groups = {};
     list.forEach(e => { const k = keyOf(e); (groups[k] = groups[k] || []).push(e); });
     const ordenBloque = ["Movilidad", "Activación", "Fuerza", "Estabilidad", "Core", "Potencia"];
+    const ordenOrigen = ["Repertorio de Nacho", "Añadidos por SportsHub"];
     const keys = Object.keys(groups).sort((a, b) =>
-      agruparPor === "bloque" ? ordenBloque.indexOf(a) - ordenBloque.indexOf(b) : a.localeCompare(b, "es"));
+      agruparPor === "bloque" ? ordenBloque.indexOf(a) - ordenBloque.indexOf(b)
+      : agruparPor === "origen" ? ordenOrigen.indexOf(a) - ordenOrigen.indexOf(b)
+      : a.localeCompare(b, "es"));
 
     const frag = document.createDocumentFragment();
     keys.forEach(k => {
@@ -513,6 +533,7 @@
             '<div class="desc">' + esc(e.d) + '</div>' +
             '<div class="meta">' +
               (badge ? '<span class="badge b-cat">' + esc(badge) + '</span>' : "") +
+              '<span class="badge b-org org-' + (e.o || "nacho") + '">' + ORIGEN_LBL[e.o || "nacho"] + '</span>' +
               '<span class="risk r-' + e.r + '"><i></i>' + RIESGO_LBL[e.r] + '</span>' +
               '<a class="yt" href="' + yt(e.n) + '" target="_blank" rel="noopener">Vídeo</a>' +
             '</div>' +
@@ -523,6 +544,7 @@
     cont.appendChild(frag);
   }
 
+  const heroNum = $("#repo-hero-num"); if (heroNum) heroNum.textContent = EX.length;
   rebuildCats();
   pintarRepo();
   FAVS.pull().then(function (ok) { if (ok) pintarRepo(); }); // trae tus favoritos de Airtable

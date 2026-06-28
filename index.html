@@ -156,6 +156,8 @@
   .ex .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;align-items:center}
   .badge{font-size:10px;padding:4px 9px;border-radius:7px;font-weight:700;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em}
   .b-cat{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--line)}
+  .org-nacho{background:rgba(255,255,255,.05);color:var(--txt3);border:1px solid var(--line)}
+  .org-sportshub{background:rgba(0,74,189,.16);color:#6ea8ff;border:1px solid rgba(0,74,189,.45)}
   .risk{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;text-transform:uppercase;
     letter-spacing:.05em;padding:4px 9px;border-radius:7px;border:1px solid var(--line)}
   .risk i{width:7px;height:7px;border-radius:50%;display:inline-block}
@@ -534,8 +536,8 @@
       <div class="hero-bg" id="hero-bg-repo"></div>
       <div class="hero-inner">
         <div class="hero-kicker">Biblioteca</div>
-        <h1 class="hero-title">218<br>movimientos.</h1>
-        <p class="hero-sub">El repertorio completo de Nacho. Filtra, busca y aprende cada ejercicio.</p>
+        <h1 class="hero-title"><span id="repo-hero-num">235</span><br>movimientos.</h1>
+        <p class="hero-sub">El repertorio de Nacho + extras de SportsHub. Filtra, busca y aprende cada ejercicio.</p>
       </div>
     </div>
     <div class="card">
@@ -549,12 +551,14 @@
         <button class="chip" data-r="medio">Precaución</button>
         <button class="chip" data-r="alto">Alto riesgo</button>
       </div>
+      <div class="chips" id="filter-origin"></div>
       <div class="group-by">
         <span class="gb-label">Agrupar por</span>
         <div class="gb-seg" id="group-by">
           <button data-g="categoria" class="on">Categoría</button>
           <button data-g="detalle">Detalle</button>
           <button data-g="bloque">Bloque</button>
+          <button data-g="origen">Origen</button>
         </div>
       </div>
       <div class="count" id="repo-count"></div>
@@ -701,7 +705,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v35</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v36</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
