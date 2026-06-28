@@ -21,7 +21,7 @@
       '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
 
-  function metricCard(label, now, prev, dec, unit, color, values, betterDown) {
+  function metricCard(label, now, prev, dec, unit, betterDown) {
     let deltaHtml = "";
     if (typeof now === "number" && typeof prev === "number") {
       const delta = now - prev;
@@ -33,8 +33,22 @@
     }
     const val = typeof now === "number" ? now.toFixed(dec) : "—";
     return '<div class="sal-metric"><div class="sal-m-top"><span class="sal-m-l">' + label + '</span>' + deltaHtml + '</div>' +
-      '<div class="sal-m-v">' + val + (unit ? '<small>' + unit + '</small>' : "") + '</div>' +
-      sparkline(values, color, 180, 34) + '</div>';
+      '<div class="sal-m-v">' + val + (unit ? '<small>' + unit + '</small>' : "") + '</div></div>';
+  }
+
+  function barChart(vals, labels, colorFn, dec, maxOverride) {
+    const w = 600, h = 132, pad = 22, iw = w - pad * 2, ih = h - pad * 2, n = vals.length;
+    const bw = Math.min(46, iw / n - 8), gap = n > 1 ? (iw - bw * n) / (n - 1) : 0;
+    const mx = maxOverride || Math.max.apply(null, vals.filter((x) => typeof x === "number")) || 1;
+    let b = "";
+    vals.forEach((v, i) => {
+      if (typeof v !== "number") return;
+      const bx = pad + i * (bw + gap), bh = Math.max(8, v / mx * ih), by = pad + ih - bh;
+      b += '<rect x="' + bx.toFixed(0) + '" y="' + by.toFixed(0) + '" width="' + bw.toFixed(0) + '" height="' + bh.toFixed(0) + '" rx="3" fill="' + colorFn(v) + '"/>' +
+        '<text x="' + (bx + bw / 2).toFixed(0) + '" y="' + (by - 5).toFixed(0) + '" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">' + v.toFixed(dec) + '</text>' +
+        '<text x="' + (bx + bw / 2).toFixed(0) + '" y="' + (h - 6) + '" font-size="9.5" fill="#85858c" text-anchor="middle">' + labels[i] + '</text>';
+    });
+    return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" style="display:block">' + b + '</svg>';
   }
 
   const sport = (name) => {
@@ -63,12 +77,21 @@
     // ---- evolución ----
     let evol = "";
     if (mensual.length >= 2) {
-      evol = '<div class="card"><p class="eyebrow">📈 Evolución · ' + mensual.length + ' meses</p><div class="sal-grid">' +
-        metricCard("Pace of Aging", last.pace_aging, prev.pace_aging, 1, "x", "#7A2230", pace, true) +
-        metricCard("WHOOP Age", last.whoop_age, prev.whoop_age, 1, "", "#7A2230", age, true) +
-        metricCard("VO₂max", last.vo2max, prev.vo2max, 0, "", "#004ABD", vo2, false) +
-        metricCard("Sueño", typeof last.sueno_min === "number" ? last.sueno_min / 60 : null, typeof prev.sueno_min === "number" ? prev.sueno_min / 60 : null, 1, "h", "#004ABD", sue, false) +
-        '</div><div class="sal-insight">Lo que más bajó es el <b>VO₂max</b> (' + n0(Math.max.apply(null, vo2.filter((x) => typeof x === "number"))) + '→' + n0(last.vo2max) + '), por el parón de intensidad de la lesión — <b>no el sueño</b>. Tu Pace of Aging (' + n1(first.pace_aging) + 'x→' + n1(last.pace_aging) + 'x) debería revertir al recuperar carga cardiovascular con cabeza.</div></div>';
+      const labels = mensual.map((m) => m.mes);
+      const paceCol = (v) => (v <= 0.9 ? "#2E6FB5" : v <= 1.3 ? "#C2A21E" : "#7A2230");
+      const tbl = '<div class="sal-tblwrap"><table class="sal-tbl"><tr><th>Mes</th><th>Pace</th><th>WHOOP Age</th><th>VO₂max</th><th>Sueño</th></tr>' +
+        mensual.map((m) => '<tr><td>' + m.mes + '</td><td>' + n1(m.pace_aging) + 'x</td><td>' + n1(m.whoop_age) + '</td><td>' + n0(m.vo2max) + '</td><td>' + (typeof m.sueno_min === "number" ? (m.sueno_min / 60).toFixed(1) + "h" : "—") + '</td></tr>').join("") + '</table></div>';
+      evol = '<div class="card"><p class="eyebrow">📈 Evolución · ' + mensual.length + ' meses</p>' +
+        '<div class="sal-grid">' +
+        metricCard("Pace of Aging", last.pace_aging, prev.pace_aging, 1, "x", true) +
+        metricCard("WHOOP Age", last.whoop_age, prev.whoop_age, 1, "", true) +
+        metricCard("VO₂max", last.vo2max, prev.vo2max, 0, "", false) +
+        metricCard("Sueño", typeof last.sueno_min === "number" ? last.sueno_min / 60 : null, typeof prev.sueno_min === "number" ? prev.sueno_min / 60 : null, 1, "h", false) +
+        '</div>' +
+        '<div class="sal-sub">Pace of Aging por mes <span style="text-transform:none;letter-spacing:0;color:var(--txt3)">(objetivo &lt; 1.0)</span></div>' +
+        barChart(pace, labels, paceCol, 1, 2) +
+        '<div class="sal-sub">Detalle mensual</div>' + tbl +
+        '<div class="sal-insight">Lo que más bajó es el <b>VO₂max</b> (' + n0(Math.max.apply(null, vo2.filter((x) => typeof x === "number"))) + '→' + n0(last.vo2max) + '), por el parón de intensidad de la lesión — <b>no el sueño</b>. Recuperando carga cardiovascular con cabeza, el Pace of Aging debería volver hacia ~0.5x.</div></div>';
     }
 
     // ---- actividad (Strava, 30 días) ----
