@@ -251,10 +251,35 @@
       try {
         const [sens, entr, metr, mens] = await Promise.all([
           window.shAirtable.list("sensaciones", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }),
-          window.shAirtable.list("entrenos", { maxRecords: 3, sort: [{ field: "fecha", direction: "desc" }] }),
+          window.shAirtable.list("entrenos", { maxRecords: 30, sort: [{ field: "fecha", direction: "desc" }] }),
           window.shAirtable.list("metricas", { maxRecords: 5, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
           window.shAirtable.list("mensual", { maxRecords: 12, sort: [{ field: "orden", direction: "asc" }] }).catch(() => []),
         ]);
+        // ESTADO ACTUAL CALCULADO: ACWR (carga) + Readiness — para que el coach SÍ tenga estos números
+        const now = new Date();
+        const daysAgo = (f) => { try { return Math.floor((now - new Date(f)) / 86400000); } catch (e) { return 9999; } };
+        const loadOf = (r) => { const f = r.fields; if (typeof f.duracion_min === "number" && f.duracion_min > 0) return f.duracion_min; const n = f.ejercicios ? f.ejercicios.split(",").length : 0; return n ? n * 6 : 45; };
+        const recE = entr.filter((r) => r.fields.fecha && daysAgo(r.fields.fecha) >= 0 && daysAgo(r.fields.fecha) <= 27);
+        let acwr = null;
+        if (recE.length >= 4) { const acute = recE.filter((r) => daysAgo(r.fields.fecha) <= 6).reduce((a, r) => a + loadOf(r), 0); const chronic = recE.reduce((a, r) => a + loadOf(r), 0) / 4; acwr = chronic > 0 ? acute / chronic : null; }
+        const lastSens = sens[0] ? sens[0].fields : {};
+        const latestM = metr.find((r) => typeof r.fields.recuperacion_whoop === "number");
+        const espV = (typeof lastSens.espalda_noche === "number") ? lastSens.espalda_noche : lastSens.espalda_mañana;
+        const comps = [];
+        if (latestM) comps.push({ w: 0.35, v: latestM.fields.recuperacion_whoop });
+        if (latestM && typeof latestM.fields["sueño_total_min"] === "number") comps.push({ w: 0.20, v: Math.min(100, latestM.fields["sueño_total_min"] / 480 * 100) });
+        if (typeof espV === "number") comps.push({ w: 0.25, v: espV * 10 });
+        if (typeof lastSens.energia_general === "number" || typeof lastSens.intensidad_gemelos === "number") { const en = typeof lastSens.energia_general === "number" ? lastSens.energia_general * 10 : 60; const mol = typeof lastSens.intensidad_gemelos === "number" ? 100 - lastSens.intensidad_gemelos * 10 : 100; comps.push({ w: 0.20, v: (en + mol) / 2 }); }
+        let readiness = null;
+        if (comps.length) { const ws = comps.reduce((a, c) => a + c.w, 0); readiness = Math.round(comps.reduce((a, c) => a + c.w * c.v, 0) / ws); }
+        const eb = [];
+        if (acwr != null) eb.push("ACWR (carga aguda 7d : crónica 4sem) = " + acwr.toFixed(2) + " [óptimo 0.8-1.3; >1.5 = riesgo de sobrecarga]");
+        if (readiness != null) { const cat = readiness >= 80 ? "muy bueno" : readiness >= 60 ? "bueno" : readiness >= 40 ? "medio" : "malo"; eb.push("Readiness hoy = " + readiness + "/100 (" + cat + ")"); }
+        if (latestM) eb.push("recuperación WHOOP " + latestM.fields.recuperacion_whoop + "%");
+        if (typeof espV === "number") eb.push("espalda " + espV + "/10");
+        if (typeof lastSens.intensidad_gemelos === "number") eb.push("molestia gemelos/glúteo " + lastSens.intensidad_gemelos + "/10");
+        if (eb.length) bloques.push("ESTADO ACTUAL (ya calculado, lo TIENES — nunca digas que no): " + eb.join(" · ") +
+          ".\nSi Andrés tiene la espalda cargada, la recuperación baja o el readiness bajo, y te pide un entreno, propón uno SUAVE (movilidad, control lumbo-pélvico, técnica, sin carga axial alta ni impacto) con `proponer_entreno`.");
         // WHOOP reciente
         const ml = metr.filter((r) => typeof r.fields.recuperacion_whoop === "number").slice(0, 3)
           .map((r) => { const f = r.fields; return (f.fecha || "") + " recup " + f.recuperacion_whoop + "% · HRV " + f.hrv + " · FC reposo " + f.fc_reposo + " · sueño " + (f["sueño_total_min"] ? Math.round(f["sueño_total_min"] / 6) / 10 + "h" : "—") + " · strain " + (f.strain_whoop || "—"); });
@@ -277,7 +302,7 @@
           return (f.fecha || "") + " → " + p.join(", ") + (f.nota_transcrita ? " — " + f.nota_transcrita : "");
         });
         // entrenos CON la lista completa de ejercicios (para que sepa todo lo que ha hecho)
-        const ent = entr.map((r) => (r.fields.fecha || "") + " " + (r.fields.tipo || "") + ": " + String(r.fields.ejercicios || "(sin detalle)"));
+        const ent = entr.slice(0, 3).map((r) => (r.fields.fecha || "") + " " + (r.fields.tipo || "") + ": " + String(r.fields.ejercicios || "(sin detalle)"));
         if (lines.length) bloques.push("Sensaciones recientes:\n- " + lines.join("\n- "));
         if (ent.length) bloques.push("Últimos entrenos (con los ejercicios EXACTOS que hizo):\n- " + ent.join("\n- "));
       } catch (e) { /* sin diario si falla */ }
