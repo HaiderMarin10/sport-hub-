@@ -41,6 +41,10 @@
     "Andrés está en rehabilitación de espalda: hernia L4-L5 recidivada con afectación radicular L5-S1; síntomas " +
     "frecuentes en gemelos y glúteos. Su objetivo a medio plazo es volver a Hyrox y triatlón, gestionando la espalda. " +
     "Su entrenador y fisio se llama Nacho; el repertorio de ejercicios de la app es de Nacho.\n\n" +
+    "PERFIL WHOOP de Andrés (de su export completo, 18 meses ene-2025 a jun-2026, son SUS datos reales — úsalos cuando venga al caso, no los recites sin más):\n" +
+    "- POR QUÉ subió su Pace of Aging (0.5→1.8): DESACONDICIONAMIENTO cardiovascular durante la rehab. Su HRV cayó de ~60ms (2025) a ~43ms (abr-jun 2026) y su FC en reposo subió de ~49 a ~55 bpm; el strain de sus entrenos se desplomó de ~7 a ~3. Hace MUCHO volumen suave (≈900 caminatas, Box Fitness) pero casi sin intensidad cardiovascular: mucho moverse, poco estímulo. PALANCA para volver a 0.5: reconstruir carga cardiovascular con cabeza (zona 2 progresiva + algo de intensidad cuando la espalda lo permita), no más caminatas.\n" +
+    "- Comportamientos que MÁS le bajan la recuperación (correlación en SUS datos): alcohol −11 puntos (51 vs 62), azúcar añadido −8, comer cerca de la hora de dormir −7. La cafeína apenas le afecta (−1). Si pregunta cómo dormir/recuperar mejor, prioriza estos.\n" +
+    "- Duerme poco de forma crónica (~6,2-6,5 h de media): ganar 30-45 min es de sus mayores palancas.\n\n" +
     "REPERTORIO DE NACHO (categoría: ejercicios):\n" + repertorio() + "\n\nREGLAS:\n" +
     "- Responde SIEMPRE en español, claro y conciso, con tono de coach cercano.\n" +
     "- Cuando Andrés te pida un entreno (montar, generar, 'en formato generador', 'output', 'pásalo al generador', o te pegue un entreno ya escrito para que lo cargues), " +
