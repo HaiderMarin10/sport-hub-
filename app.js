@@ -92,13 +92,29 @@
     }, ms || 6500);
   }
 
-  // ---------- pestañas ----------
-  $$(".tab").forEach(tab => tab.addEventListener("click", () => {
-    $$(".tab").forEach(t => t.classList.remove("active"));
+  // ---------- pestañas (con sub-pestañas en Generator: gen=Strength&Mobility, wod=WODs&Hyrox) ----------
+  const SUBVIEWS = ["gen", "wod"];
+  let lastSub = "gen";
+  function showView(id) {
     $$(".view").forEach(v => v.classList.remove("active"));
-    tab.classList.add("active");
-    $("#" + tab.dataset.view).classList.add("active");
+    const el = $("#" + id); if (el) el.classList.add("active");
+    const inGen = SUBVIEWS.indexOf(id) !== -1;
+    const sub = $("#gen-subtabs"); if (sub) sub.style.display = inGen ? "" : "none";
+    $$(".tab").forEach(t => t.classList.remove("active"));
+    const mt = document.querySelector('.tab[data-view="' + (inGen ? "gen" : id) + '"]');
+    if (mt) mt.classList.add("active");
+    if (inGen) {
+      lastSub = id;
+      $$("#gen-subtabs .subtab").forEach(s => s.classList.toggle("active", s.dataset.sub === id));
+    }
+  }
+  window.shShowView = showView;
+  $$(".tab").forEach(tab => tab.addEventListener("click", () => {
+    const v = tab.dataset.view;
+    showView(v === "gen" ? lastSub : v);
   }));
+  $$("#gen-subtabs .subtab").forEach(st => st.addEventListener("click", () => showView(st.dataset.sub)));
+  showView("gen");
 
   // ---------- duración ----------
   const N = { 60: 4, 90: 6, 120: 8 };
@@ -569,13 +585,8 @@
     cargarPlan(planData) {
       if (!Array.isArray(planData) || !planData.length) return false;
       plan = planData;
-      // cambiar a la pestaña Generador
-      $$(".tab").forEach(t => t.classList.remove("active"));
-      $$(".view").forEach(v => v.classList.remove("active"));
-      const tab = document.querySelector('.tab[data-view="gen"]');
-      if (tab) tab.classList.add("active");
-      const gen = document.getElementById("gen");
-      if (gen) gen.classList.add("active");
+      // cambiar a la sub-pestaña Strength & Mobility del Generator
+      showView("gen");
       render();
       $("#result").scrollIntoView({ behavior: "smooth", block: "start" });
       return true;

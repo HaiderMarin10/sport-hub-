@@ -47,6 +47,13 @@
     font-family:var(--disp);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.16s}
   .tab.active{color:#0A0A0B;background:var(--acid)}
   .tab-ico{display:none}
+  /* sub-pestañas del Generator */
+  .subtabs{display:flex;gap:8px;margin:0 0 16px}
+  .subtab{flex:1;padding:11px 10px;border:1px solid var(--line2);background:var(--elev);color:var(--txt2);
+    border-radius:12px;font-family:var(--disp);font-size:13px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;cursor:pointer;transition:.16s}
+  .subtab.active{color:var(--acid);border-color:var(--acid);background:rgba(226,251,4,.08)}
+  .subtab:active{transform:scale(.98)}
   /* Móvil: barra de navegación inferior, estilo app (la web mantiene las pestañas arriba) */
   @media (max-width:979px){
     .tabs{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:60;padding:6px 8px;
@@ -401,7 +408,17 @@
   .est-ready-cat{font-family:var(--disp);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:14px}
   .est-ready-verd{text-align:right;font-size:13px;color:#fff;max-width:50%;line-height:1.35}
   .est-ready-vl{display:block;font-size:10px;color:var(--txt3);letter-spacing:.14em;margin-bottom:2px}
-  .est-ready-foot{margin-top:10px;padding-top:9px;border-top:1px solid var(--line2);font-size:10.5px;color:var(--txt3);line-height:1.4}
+  .est-ready-foot{margin-top:10px;padding-top:9px;border-top:1px solid var(--line2);font-size:11.5px;color:var(--txt3);line-height:1.4}
+  .est-ready-foot summary{cursor:pointer;font-weight:700;color:var(--txt2);list-style:none}
+  .est-ready-foot summary::-webkit-details-marker{display:none}
+  .est-ready-foot summary::before{content:"▸ "}
+  .est-ready-foot[open] summary::before{content:"▾ "}
+  .rk-intro{margin:8px 0 6px;line-height:1.45}
+  .rk-row{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+  .rk-row span:last-child{color:var(--txt2);font-weight:600;white-space:nowrap}
+  .rk-row em{font-style:normal;color:var(--txt3)}
+  .rk-miss{margin:7px 0 0;font-style:italic}
+  .rk-note{margin:8px 0 0;line-height:1.45}
   /* ---- Salud ---- */
   .sal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .sal-metric{background:var(--elev2);border:1px solid var(--line2);border-radius:12px;padding:11px 12px}
@@ -464,13 +481,18 @@
 
   <nav class="tabs">
     <div class="seg-tabs">
-      <button class="tab active" data-view="gen"><span class="tab-ico">⚡</span><span class="tab-lbl">Generador</span></button>
+      <button class="tab active" data-view="gen"><span class="tab-ico">⚡</span><span class="tab-lbl">Generator</span></button>
       <button class="tab" data-view="repo"><span class="tab-ico">📖</span><span class="tab-lbl">Repositorio</span></button>
-      <button class="tab" data-view="wod"><span class="tab-ico">🔥</span><span class="tab-lbl">WOD</span></button>
       <button class="tab" data-view="diario"><span class="tab-ico">📝</span><span class="tab-lbl">Daily Metrics</span></button>
       <button class="tab" data-view="salud"><span class="tab-ico">❤️</span><span class="tab-lbl">H&amp;PH</span></button>
     </div>
   </nav>
+
+  <!-- Sub-pestañas del Generator: Strength & Mobility (gen) · WODs & Hyrox (wod) -->
+  <div class="subtabs" id="gen-subtabs">
+    <button class="subtab active" data-sub="gen">💪 Strength &amp; Mobility</button>
+    <button class="subtab" data-sub="wod">🔥 WODs &amp; Hyrox</button>
+  </div>
 
   <!-- ============ GENERADOR ============ -->
   <section id="gen" class="view active">
@@ -706,7 +728,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v38</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v39</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>

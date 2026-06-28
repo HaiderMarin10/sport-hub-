@@ -269,14 +269,19 @@
     // ---- READINESS diaria: score 0-100 + categoría + veredicto del día ----
     const ls = sens[0] ? sens[0].fields : {};
     const comps = [];
-    if (latest && typeof latest.fields.recuperacion_whoop === "number") comps.push({ w: 0.35, v: latest.fields.recuperacion_whoop });
-    if (latest && typeof latest.fields["sueño_total_min"] === "number") comps.push({ w: 0.20, v: Math.min(100, latest.fields["sueño_total_min"] / 480 * 100) });
+    if (latest && typeof latest.fields.recuperacion_whoop === "number")
+      comps.push({ k: "Recuperación WHOOP", w: 35, v: latest.fields.recuperacion_whoop, raw: latest.fields.recuperacion_whoop + "%" });
+    if (latest && typeof latest.fields["sueño_total_min"] === "number")
+      comps.push({ k: "Sueño", w: 20, v: Math.min(100, latest.fields["sueño_total_min"] / 480 * 100), raw: (Math.round(latest.fields["sueño_total_min"] / 6) / 10) + " h" });
     const espV = (typeof ls.espalda_noche === "number") ? ls.espalda_noche : ls.espalda_mañana;
-    if (typeof espV === "number") comps.push({ w: 0.25, v: espV * 10 });
+    if (typeof espV === "number") comps.push({ k: "Espalda", w: 25, v: espV * 10, raw: espV + "/10" });
     if (typeof ls.energia_general === "number" || typeof ls.intensidad_gemelos === "number") {
       const en = typeof ls.energia_general === "number" ? ls.energia_general * 10 : 60;
       const mol = typeof ls.intensidad_gemelos === "number" ? 100 - ls.intensidad_gemelos * 10 : 100;
-      comps.push({ w: 0.20, v: (en + mol) / 2 });
+      const parts = [];
+      if (typeof ls.energia_general === "number") parts.push("energía " + ls.energia_general + "/10");
+      if (typeof ls.intensidad_gemelos === "number") parts.push("molestias " + ls.intensidad_gemelos + "/10");
+      comps.push({ k: "Energía / molestias", w: 20, v: (en + mol) / 2, raw: parts.join(", ") });
     }
     let readyHtml = "";
     if (comps.length) {
@@ -287,11 +292,19 @@
       else if (score >= 60) { cat = "Bueno"; col = "#2E6FB5"; verd = "entrena normal"; }
       else if (score >= 40) { cat = "Medio"; col = "#C2A21E"; verd = "entrena, pero sin pasarte"; }
       else { cat = "Malo"; col = "#7A2230"; verd = "hoy suave: movilidad y técnica"; }
+      const breakdown = comps.map((c) =>
+        '<div class="rk-row"><span>' + esc(c.k) + ' <em>(' + Math.round(c.w / wsum * 100) + '%)</em></span><span>' + esc(c.raw) + '</span></div>').join("");
+      const faltan = comps.length < 4
+        ? '<div class="rk-miss">Hoy falta algún dato, así que el peso se reparte solo entre lo que sí tenemos.</div>' : "";
       readyHtml = '<div class="est-ready"><div class="est-ready-top">' +
         '<div class="est-ready-lft"><div class="est-ready-score" style="color:' + col + '">' + score + '<small>/100</small></div>' +
         '<div class="est-ready-cat" style="color:' + col + '">' + cat + '</div></div>' +
         '<div class="est-ready-verd"><span class="est-ready-vl">HOY</span>' + esc(verd) + '</div></div>' +
-        '<div class="est-ready-foot">Readiness = recuperación 35% · sueño 20% · espalda 25% · energía/molestias 20%</div></div>';
+        '<details class="est-ready-foot"><summary>Cómo se calcula esta nota</summary>' +
+        '<p class="rk-intro">Es una nota de <b>0 a 100</b> de cómo de preparado está tu cuerpo para entrenar HOY (cuanto más alta, mejor). Sale de una <b>media ponderada</b> de lo que tenemos medido; cada parte pesa lo que ves al lado:</p>' +
+        breakdown + faltan +
+        '<p class="rk-note">⚠️ Estos pesos son <b>provisionales</b> (puestos a ojo). El plan es recalcularlos con tus <b>531 días de WHOOP</b> (regresión) para que la nota acierte de verdad, no a base de porcentajes inventados.</p>' +
+        '</details></div>';
     }
 
     box.innerHTML = '<p class="eyebrow">⚡ Estado de hoy</p>' + readyHtml + whoopHtml +
