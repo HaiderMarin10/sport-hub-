@@ -42,6 +42,9 @@
             '<button class="btn btn-primary" id="at-save">Conectar</button></div>') +
       '</div>' +
 
+      // ---- ESTADO: readiness + carga/ACWR + alertas ----
+      (connected ? '<div class="card estado-card" id="estado"><div class="hist-empty">Calculando tu estado…</div></div>' : '') +
+
       // ---- formulario sensaciones ----
       '<div class="card" id="diario-form" ' + (connected ? "" : 'style="opacity:.5;pointer-events:none"') + '>' +
         '<p class="eyebrow">Tus sensaciones de hoy</p>' +
@@ -169,6 +172,72 @@
       '<polyline points="' + pts + '" fill="none" stroke="var(--acid)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
   }
 
+  // ------- ESTADO: readiness + carga/ACWR + alertas -------
+  function renderEstado(sens, entr, metr) {
+    const box = document.getElementById("estado");
+    if (!box) return;
+    const now = new Date();
+    const daysAgo = (f) => Math.floor((now - new Date(f)) / 86400000);
+    const loadOf = (r) => {
+      const f = r.fields;
+      if (typeof f.duracion_min === "number" && f.duracion_min > 0) return f.duracion_min;
+      const n = f.ejercicios ? f.ejercicios.split(",").length : 0;
+      return n ? n * 6 : 45; // estimación de carga si no hay duración
+    };
+    // --- Carga / ACWR (agudo 7d vs crónico media de 4 semanas) ---
+    const recientes = entr.filter((r) => r.fields.fecha && daysAgo(r.fields.fecha) >= 0 && daysAgo(r.fields.fecha) <= 27);
+    let acwr = null;
+    if (recientes.length >= 4) {
+      const acute = recientes.filter((r) => daysAgo(r.fields.fecha) <= 6).reduce((a, r) => a + loadOf(r), 0);
+      const chronic = recientes.reduce((a, r) => a + loadOf(r), 0) / 4;
+      acwr = chronic > 0 ? acute / chronic : null;
+    }
+    let acwrHtml;
+    if (acwr != null) {
+      let color, label;
+      if (acwr < 0.8) { color = "amber"; label = "carga baja"; }
+      else if (acwr <= 1.3) { color = "green"; label = "zona óptima"; }
+      else if (acwr <= 1.5) { color = "amber"; label = "subiendo, ojo"; }
+      else { color = "red"; label = "riesgo: cargas demasiado rápido"; }
+      acwrHtml = row(color, "Carga (ACWR)", acwr.toFixed(2) + " · " + label);
+    } else {
+      acwrHtml = row("gray", "Carga (ACWR)", '<span class="est-muted">recopilando · faltan ' + Math.max(0, 4 - recientes.length) + " entrenos</span>");
+    }
+    // --- Espalda (último valor + tendencia) ---
+    const esp = sens.map((r) => r.fields.espalda_noche || r.fields.espalda_mañana).filter((x) => typeof x === "number");
+    let espHtml = "";
+    if (esp.length) {
+      const last = esp[0];
+      let arrow = "";
+      if (esp.length >= 3) {
+        const recent = (esp[0] + esp[1]) / 2, older = (esp[1] + esp[2]) / 2;
+        arrow = recent > older + 0.3 ? " ↑" : recent < older - 0.3 ? " ↓" : " →";
+      }
+      espHtml = row(last >= 7 ? "green" : last >= 5 ? "amber" : "red", "Espalda", last + "/10" + arrow);
+    }
+    // --- Recuperación / sueño (WHOOP/Samsung) ---
+    let recHtml = "";
+    if (metr && metr.length) {
+      const f = metr[0].fields, bits = [];
+      if (typeof f.recuperacion_whoop === "number") bits.push("recup " + f.recuperacion_whoop + "%");
+      if (typeof f["sueño_total_min"] === "number") bits.push("sueño " + (f["sueño_total_min"] / 60).toFixed(1) + "h");
+      if (typeof f.hrv === "number") bits.push("HRV " + f.hrv);
+      if (bits.length) recHtml = row("blue", "Recuperación", bits.join(" · "));
+    }
+    // --- Alertas ---
+    const alerts = [];
+    if (esp.length >= 3 && esp[0] < esp[1] && esp[1] < esp[2]) alerts.push("Tu espalda lleva 3 días bajando: hoy prioriza movilidad y control, sin cargar.");
+    if (acwr != null && acwr > 1.5) alerts.push("Estás subiendo la carga más rápido de lo que tu cuerpo asimila → riesgo de recaída. Baja la intensidad.");
+    const alertHtml = alerts.length
+      ? alerts.map((a) => '<div class="est-alert">⚠ ' + esc(a) + "</div>").join("")
+      : '<div class="est-ok">Todo en orden. Sigue registrando para afinar el seguimiento.</div>';
+
+    box.innerHTML = '<p class="eyebrow">⚡ Estado de hoy</p>' + espHtml + acwrHtml + recHtml + alertHtml;
+    function row(color, k, v) {
+      return '<div class="est-row"><span class="est-dot ' + color + '"></span><span class="est-k">' + k + '</span><span class="est-v">' + v + "</span></div>";
+    }
+  }
+
   async function cargarHistorico() {
     const body = document.getElementById("hist-body");
     if (!body) return;
@@ -234,6 +303,7 @@
           '<span class="hist-meta">' + esc(bits.join(" · ") || "—") + (f.nota_transcrita ? ' · “' + esc(f.nota_transcrita.slice(0, 30)) + '”' : "") + '</span></div>';
       }).join("");
       body.innerHTML = html;
+      renderEstado(sens, entr, metr);
     } catch (e) {
       body.innerHTML = '<div class="hist-empty">No se pudo cargar: ' + esc(e.message) + '</div>';
     }

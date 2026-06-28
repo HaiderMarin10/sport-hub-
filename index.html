@@ -356,6 +356,21 @@
   .trend-h{font-size:13px;color:var(--txt2);margin-bottom:4px}
   .trend-h b{color:var(--acid)}
   .spark{width:100%;height:38px;display:block}
+  /* ---- Estado (readiness + ACWR + alertas) ---- */
+  .estado-card{border-color:var(--acid)}
+  .est-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line2);font-size:14px}
+  .est-row:first-of-type{border-top:none}
+  .est-dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .est-dot.green{background:#37d67a;box-shadow:0 0 8px #37d67a}
+  .est-dot.amber{background:#f5a623;box-shadow:0 0 8px #f5a623}
+  .est-dot.red{background:#ff5a5f;box-shadow:0 0 8px #ff5a5f}
+  .est-dot.blue{background:#4aa8ff;box-shadow:0 0 8px #4aa8ff}
+  .est-dot.gray{background:var(--txt3)}
+  .est-k{color:var(--txt2);min-width:104px;font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-size:12px}
+  .est-v{color:#fff;font-weight:600;flex:1}
+  .est-muted{color:var(--txt3);font-weight:400}
+  .est-alert{margin-top:10px;padding:11px 13px;background:rgba(255,90,95,.1);border:1px solid rgba(255,90,95,.4);border-radius:10px;font-size:13px;line-height:1.5;color:#ffb3b5}
+  .est-ok{margin-top:10px;font-size:12.5px;color:var(--txt3)}
 </style>
 </head>
 <body>
@@ -399,7 +414,6 @@
     <div class="hero" id="hero">
       <div class="hero-bg" id="hero-bg-gen"></div>
       <div class="hero-inner">
-        <div class="hero-kicker">Entreno del día</div>
         <h1 class="hero-title hero-title-sm">For the athletes,<br>for the players,<br>for the relentless.</h1>
         <p class="hero-sub" style="font-style:italic">"Ever tried. Ever failed. No matter. Try again. Fail again. Fail better."</p>
       </div>
@@ -614,7 +628,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v25</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v26</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
