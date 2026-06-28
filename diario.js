@@ -257,7 +257,35 @@
       ? alerts.map((a) => '<div class="est-alert">⚠ ' + esc(a) + "</div>").join("")
       : '<div class="est-ok">Todo en orden. Sigue registrando para afinar el seguimiento.</div>';
 
-    box.innerHTML = '<p class="eyebrow">⚡ Estado de hoy</p>' + whoopHtml +
+    // ---- READINESS diaria: score 0-100 + categoría + veredicto del día ----
+    const ls = sens[0] ? sens[0].fields : {};
+    const comps = [];
+    if (latest && typeof latest.fields.recuperacion_whoop === "number") comps.push({ w: 0.35, v: latest.fields.recuperacion_whoop });
+    if (latest && typeof latest.fields["sueño_total_min"] === "number") comps.push({ w: 0.20, v: Math.min(100, latest.fields["sueño_total_min"] / 480 * 100) });
+    const espV = (typeof ls.espalda_noche === "number") ? ls.espalda_noche : ls.espalda_mañana;
+    if (typeof espV === "number") comps.push({ w: 0.25, v: espV * 10 });
+    if (typeof ls.energia_general === "number" || typeof ls.intensidad_gemelos === "number") {
+      const en = typeof ls.energia_general === "number" ? ls.energia_general * 10 : 60;
+      const mol = typeof ls.intensidad_gemelos === "number" ? 100 - ls.intensidad_gemelos * 10 : 100;
+      comps.push({ w: 0.20, v: (en + mol) / 2 });
+    }
+    let readyHtml = "";
+    if (comps.length) {
+      const wsum = comps.reduce((a, c) => a + c.w, 0);
+      const score = Math.round(comps.reduce((a, c) => a + c.w * c.v, 0) / wsum);
+      let cat, col, verd;
+      if (score >= 80) { cat = "Muy bueno"; col = "#2E6FB5"; verd = "dale caña (con cabeza)"; }
+      else if (score >= 60) { cat = "Bueno"; col = "#2E6FB5"; verd = "entrena normal"; }
+      else if (score >= 40) { cat = "Medio"; col = "#C2A21E"; verd = "entrena, pero sin pasarte"; }
+      else { cat = "Malo"; col = "#7A2230"; verd = "hoy suave: movilidad y técnica"; }
+      readyHtml = '<div class="est-ready"><div class="est-ready-top">' +
+        '<div class="est-ready-lft"><div class="est-ready-score" style="color:' + col + '">' + score + '<small>/100</small></div>' +
+        '<div class="est-ready-cat" style="color:' + col + '">' + cat + '</div></div>' +
+        '<div class="est-ready-verd"><span class="est-ready-vl">HOY</span>' + esc(verd) + '</div></div>' +
+        '<div class="est-ready-foot">Readiness = recuperación 35% · sueño 20% · espalda 25% · energía/molestias 20%</div></div>';
+    }
+
+    box.innerHTML = '<p class="eyebrow">⚡ Estado de hoy</p>' + readyHtml + whoopHtml +
       (whoopHtml ? '<div class="est-div"></div>' : "") + espHtml + acwrHtml + alertHtml;
     function row(color, k, v) {
       return '<div class="est-row"><span class="est-dot ' + color + '"></span><span class="est-k">' + k + '</span><span class="est-v">' + v + "</span></div>";
