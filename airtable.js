@@ -16,6 +16,7 @@
     competiciones: "competiciones",
     repositorio: "repositorio_ejercicios",
     favoritos: "favoritos",
+    mensual: "resumen_mensual",
   };
   const CFG = window.SPORTHUB_CONFIG || {};
   function cfgToken() {

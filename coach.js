@@ -34,7 +34,10 @@
     return Object.keys(cats).map((c) => "- " + c + ": " + cats[c].join(", ")).join("\n");
   }
   const SYSTEM =
-    "Eres el coach deportivo y de rehabilitación personal de Andrés Marín (35 años, banquero de M&A en Madrid). " +
+    "Eres el asistente personal de Andrés Marín (35 años, banquero de M&A en Madrid) DENTRO de su app SportsHub. " +
+    "Eres su coach deportivo y de rehabilitación, PERO TAMBIÉN su asistente para todo lo demás: responde CUALQUIER pregunta que te haga " +
+    "(sobre su salud, su evolución, su recuperación, su Pace of Aging, su actividad, sus datos de WHOOP/Strava/diario, o lo que sea), " +
+    "con criterio y de forma útil, como un asistente completo. Si te pregunta por su evolución o sus métricas, usa el contexto que tienes y respóndele claro. " +
     "Andrés está en rehabilitación de espalda: hernia L4-L5 recidivada con afectación radicular L5-S1; síntomas " +
     "frecuentes en gemelos y glúteos. Su objetivo a medio plazo es volver a Hyrox y triatlón, gestionando la espalda. " +
     "Su entrenador y fisio se llama Nacho; el repertorio de ejercicios de la app es de Nacho.\n\n" +
@@ -224,10 +227,24 @@
     // diario reciente (necesita Airtable conectado)
     if (window.shAirtable && window.shAirtable.hasToken()) {
       try {
-        const [sens, entr] = await Promise.all([
+        const [sens, entr, metr, mens] = await Promise.all([
           window.shAirtable.list("sensaciones", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }),
           window.shAirtable.list("entrenos", { maxRecords: 3, sort: [{ field: "fecha", direction: "desc" }] }),
+          window.shAirtable.list("metricas", { maxRecords: 5, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
+          window.shAirtable.list("mensual", { maxRecords: 12, sort: [{ field: "orden", direction: "asc" }] }).catch(() => []),
         ]);
+        // WHOOP reciente
+        const ml = metr.filter((r) => typeof r.fields.recuperacion_whoop === "number").slice(0, 3)
+          .map((r) => { const f = r.fields; return (f.fecha || "") + " recup " + f.recuperacion_whoop + "% · HRV " + f.hrv + " · FC reposo " + f.fc_reposo + " · sueño " + (f["sueño_total_min"] ? Math.round(f["sueño_total_min"] / 6) / 10 + "h" : "—") + " · strain " + (f.strain_whoop || "—"); });
+        if (ml.length) bloques.push("WHOOP reciente:\n- " + ml.join("\n- "));
+        // evolución mensual (Pace of Aging / WHOOP Age)
+        if (mens.length) {
+          const me = mens.map((r) => r.fields);
+          const lastM = me[me.length - 1];
+          bloques.push("EVOLUCIÓN MENSUAL (de los Month in Review de WHOOP): Pace of Aging va " +
+            me.map((m) => m.pace_aging + "x").join("→") + " (último mes " + lastM.mes + ": WHOOP Age " + lastM.whoop_age + ", Pace " + lastM.pace_aging + "x, VO2max " + lastM.vo2max + ", sueño " + (lastM.sueno_min ? Math.round(lastM.sueno_min / 6) / 10 + "h" : "—") +
+            "). CLAVE: el empeoramiento (primavera 2026) viene del bajón de carga/VO2max por la lesión, NO del sueño; revierte recuperando carga cardiovascular con cabeza.");
+        }
         const lines = sens.slice(0, 5).map((r) => {
           const f = r.fields, p = [];
           if (typeof f.espalda_mañana === "number") p.push("espalda AM " + f.espalda_mañana);

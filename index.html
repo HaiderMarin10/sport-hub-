@@ -382,6 +382,26 @@
   .est-bar span{font-size:10px;font-weight:700}
   .est-bd{font-size:10px;color:var(--txt3);display:inline-block;margin-top:5px}
   .est-div{height:1px;background:var(--line2);margin:14px 0 12px}
+  /* ---- Salud ---- */
+  .sal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .sal-metric{background:var(--elev2);border:1px solid var(--line2);border-radius:12px;padding:11px 12px}
+  .sal-m-top{display:flex;justify-content:space-between;align-items:center}
+  .sal-m-l{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--txt3)}
+  .sal-m-d{font-size:11px;font-weight:700}
+  .sal-m-v{font-family:var(--disp);font-weight:800;font-size:22px;color:#fff;margin:2px 0 4px}
+  .sal-m-v small{font-size:12px;color:var(--txt3);font-weight:600;margin-left:2px}
+  .sal-insight{margin-top:12px;padding:12px 14px;background:var(--elev2);border:1px solid var(--line2);border-left:3px solid var(--acid);border-radius:10px;font-size:12.5px;color:var(--txt2);line-height:1.55}
+  .sal-stats{display:flex;gap:10px;margin:4px 0 6px}
+  .sal-stat{flex:1;background:var(--elev2);border-radius:12px;padding:12px 6px;text-align:center}
+  .sal-stat-v{font-family:var(--disp);font-weight:800;font-size:23px;color:var(--acid);line-height:1}
+  .sal-stat-l{font-size:11px;color:var(--txt3);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+  .sal-sub{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2);margin:14px 0 8px}
+  .sal-sport{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line2);font-size:13px}
+  .sal-sp-n{color:#fff;font-weight:600}
+  .sal-sp-m{color:var(--txt2)}
+  .sal-bul{margin:6px 0 14px;padding-left:18px}
+  .sal-bul li{font-size:13.5px;color:var(--txt2);line-height:1.6;margin-bottom:5px}
+  .sal-bul b{color:#fff}
   .est-k{color:var(--txt2);min-width:104px;font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-size:12px}
   .est-v{color:#fff;font-weight:600;flex:1}
   .est-muted{color:var(--txt3);font-weight:400}
@@ -422,6 +442,7 @@
       <button class="tab" data-view="repo"><span class="tab-ico">📖</span><span class="tab-lbl">Repositorio</span></button>
       <button class="tab" data-view="wod"><span class="tab-ico">🔥</span><span class="tab-lbl">WOD</span></button>
       <button class="tab" data-view="diario"><span class="tab-ico">📝</span><span class="tab-lbl">Diario</span></button>
+      <button class="tab" data-view="salud"><span class="tab-ico">❤️</span><span class="tab-lbl">Salud</span></button>
     </div>
   </nav>
 
@@ -578,6 +599,18 @@
     <div id="diario-root"></div>
   </section>
 
+  <!-- ============ SALUD (resumen + evolución + actividad) ============ -->
+  <section id="salud" class="view">
+    <div class="hero hero-diario" id="hero-salud">
+      <div class="hero-inner">
+        <div class="hero-kicker">Tu salud</div>
+        <h1 class="hero-title hero-title-sm">Dónde estás,<br>hacia dónde vas.</h1>
+        <p class="hero-sub">Tu evolución de un vistazo: recuperación, envejecimiento, carga y actividad. Y el coach, para lo que necesites.</p>
+      </div>
+    </div>
+    <div id="salud-root"></div>
+  </section>
+
   <!-- ============ COACH (IA) ============ -->
   <button class="coach-fab" id="coach-fab" aria-label="Coach">💬</button>
   <div class="coach-drawer" id="coach">
@@ -644,7 +677,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v27</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v28</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
@@ -654,6 +687,7 @@
   <script src="crossfit.js"></script>
   <script src="timer.js"></script>
   <script src="diario.js"></script>
+  <script src="salud.js"></script>
   <script src="coach.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
