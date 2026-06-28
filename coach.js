@@ -350,7 +350,7 @@
       }
     }
     encolar(tabla, f);
-    return "GUARDADO en su móvil (" + f.fecha + ") — NO se ha perdido nada (hay " + nPend() + " pendiente(s) de subir). Se subirá automáticamente en cuanto conecte Airtable en la pestaña Hoy. Díselo así de tranquilizador y recuérdale conectar Airtable cuando pueda.";
+    return "GUARDADO en su móvil (" + f.fecha + ") — NO se ha perdido nada (hay " + nPend() + " pendiente(s) de subir). Se subirá automáticamente en cuanto conecte Airtable en la pestaña Daily Metrics. Díselo así de tranquilizador y recuérdale conectar Airtable cuando pueda.";
   }
 
   // ---------- registrar el día / el entreno en Airtable (voz/texto -> datos) ----------

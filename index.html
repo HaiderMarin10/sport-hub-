@@ -54,8 +54,9 @@
       background:rgba(11,11,13,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
       border-top:1px solid var(--line2)}
     .seg-tabs{background:transparent;border:none;border-radius:0;padding:0;gap:0}
-    .tab{flex-direction:column;align-items:center;gap:3px;padding:7px 2px;border-radius:12px;
+    .tab{flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;padding:7px 2px;border-radius:12px;
       color:var(--txt3);font-size:10px;letter-spacing:.04em}
+    .tab-lbl{text-align:center;line-height:1.05}
     .tab-ico{display:block;font-size:20px;line-height:1;filter:grayscale(.4) opacity(.85)}
     .tab.active{color:var(--acid);background:transparent}
     .tab.active .tab-ico{filter:none;transform:translateY(-1px)}
@@ -466,7 +467,7 @@
       <button class="tab active" data-view="gen"><span class="tab-ico">⚡</span><span class="tab-lbl">Generador</span></button>
       <button class="tab" data-view="repo"><span class="tab-ico">📖</span><span class="tab-lbl">Repositorio</span></button>
       <button class="tab" data-view="wod"><span class="tab-ico">🔥</span><span class="tab-lbl">WOD</span></button>
-      <button class="tab" data-view="diario"><span class="tab-ico">📝</span><span class="tab-lbl">Hoy</span></button>
+      <button class="tab" data-view="diario"><span class="tab-ico">📝</span><span class="tab-lbl">Daily Metrics</span></button>
       <button class="tab" data-view="salud"><span class="tab-ico">❤️</span><span class="tab-lbl">H&amp;PH</span></button>
     </div>
   </nav>
@@ -705,7 +706,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v37</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v38</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
