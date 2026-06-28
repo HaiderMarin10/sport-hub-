@@ -292,6 +292,13 @@
   .timer-display{font-family:"Anton",var(--disp);font-size:74px;line-height:1;text-align:center;
     letter-spacing:.02em;margin:18px 0 4px;font-variant-numeric:tabular-nums}
   .timer-display.work{color:var(--acid)} .timer-display.rest{color:var(--blue)}
+  .timer-custom{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;margin:10px 0 2px}
+  .timer-cust-lab{font-size:12px;color:var(--txt2);letter-spacing:.02em}
+  .timer-num{width:48px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);
+    color:var(--txt);border-radius:8px;padding:6px 4px;text-align:center;font-size:15px;font-weight:700;
+    font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+  .timer-num:focus{outline:none;border-color:var(--acid)}
+  .timer-num::-webkit-outer-spin-button,.timer-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   .timer-label{font-family:var(--disp);text-transform:uppercase;letter-spacing:.16em;font-size:13px;
     font-weight:600;color:var(--txt2);text-align:center;min-height:18px;margin-bottom:16px}
   .timer-controls{display:flex;gap:10px}
@@ -683,6 +690,7 @@
         <button class="chip" data-m="tabata">Tabata</button>
       </div>
       <div class="chips" id="timer-presets"></div>
+      <div class="timer-custom" id="timer-custom"></div>
       <div class="timer-display" id="timer-display">00:00</div>
       <div class="timer-label" id="timer-label"></div>
       <div class="timer-controls">
@@ -693,7 +701,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v34</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v35</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
