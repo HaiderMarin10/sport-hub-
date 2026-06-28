@@ -215,24 +215,50 @@
       }
       espHtml = row(last >= 7 ? "green" : last >= 5 ? "amber" : "red", "Espalda", last + "/10" + arrow);
     }
-    // --- Recuperación / sueño (WHOOP/Samsung) ---
-    let recHtml = "";
-    if (metr && metr.length) {
-      const f = metr[0].fields, bits = [];
-      if (typeof f.recuperacion_whoop === "number") bits.push("recup " + f.recuperacion_whoop + "%");
-      if (typeof f["sueño_total_min"] === "number") bits.push("sueño " + (f["sueño_total_min"] / 60).toFixed(1) + "h");
-      if (typeof f.hrv === "number") bits.push("HRV " + f.hrv);
-      if (bits.length) recHtml = row("blue", "Recuperación", bits.join(" · "));
+
+    // --- WHOOP: anillo de recuperación + métricas + barras 7 días (paleta corporativa) ---
+    const zoneCol = (v) => (v >= 67 ? "#004ABD" : v >= 34 ? "#C2A21E" : "#7A2230");
+    const txtCol = (v) => (v >= 34 && v < 67 ? "#1a1500" : "#fff");
+    const metrSorted = (metr || []).slice().sort((a, b) => (b.fields.fecha || "").localeCompare(a.fields.fecha || ""));
+    const latest = metrSorted.find((r) => typeof r.fields.recuperacion_whoop === "number");
+    let whoopHtml = "";
+    if (latest) {
+      const f = latest.fields, rec = f.recuperacion_whoop, col = zoneCol(rec);
+      const rad = 54, circ = 2 * Math.PI * rad, dash = (rec / 100) * circ;
+      const ring = '<svg viewBox="0 0 140 140" class="est-ring">' +
+        '<circle cx="70" cy="70" r="' + rad + '" fill="none" stroke="#1c1f25" stroke-width="11"/>' +
+        '<circle cx="70" cy="70" r="' + rad + '" fill="none" stroke="' + col + '" stroke-width="11" stroke-linecap="round" stroke-dasharray="' + dash.toFixed(1) + ' ' + circ.toFixed(1) + '" transform="rotate(-90 70 70)"/>' +
+        '<text x="70" y="64" text-anchor="middle" fill="#fff" font-size="30" font-weight="700">' + rec + '%</text>' +
+        '<text x="70" y="86" text-anchor="middle" fill="' + col + '" font-size="8.5" letter-spacing="2">RECUPERACIÓN</text></svg>';
+      const tile = (v, l) => '<div class="est-tile"><div class="est-tile-v">' + v + '</div><div class="est-tile-l">' + l + '</div></div>';
+      const tiles = [];
+      if (typeof f.hrv === "number") tiles.push(tile(f.hrv, "HRV ms"));
+      if (typeof f.fc_reposo === "number") tiles.push(tile(f.fc_reposo, "FC reposo"));
+      if (typeof f["sueño_total_min"] === "number") { const h = Math.floor(f["sueño_total_min"] / 60), m = f["sueño_total_min"] % 60; tiles.push(tile(h + ":" + String(m).padStart(2, "0"), "Sueño")); }
+      if (typeof f.strain_whoop === "number") tiles.push(tile(f.strain_whoop, "Strain"));
+      const recDays = metrSorted.filter((r) => typeof r.fields.recuperacion_whoop === "number").slice(0, 7).reverse();
+      let bars = "";
+      if (recDays.length >= 2) {
+        bars = '<div class="est-sub2">Recuperación · últimos días</div><div class="est-bars">' + recDays.map((r) => {
+          const v = r.fields.recuperacion_whoop, d = fmtFecha(r.fields.fecha).split("/")[0];
+          return '<div class="est-bcol"><div class="est-barea"><div class="est-bar" style="height:' + v + '%;background:' + zoneCol(v) + '"><span style="color:' + txtCol(v) + '">' + v + '</span></div></div><span class="est-bd">' + d + '</span></div>';
+        }).join("") + '</div>';
+      }
+      whoopHtml = '<div class="est-whoop"><div class="est-ring-wrap">' + ring + '</div>' +
+        (tiles.length ? '<div class="est-tiles">' + tiles.join("") + '</div>' : "") + '</div>' + bars;
     }
+
     // --- Alertas ---
     const alerts = [];
     if (esp.length >= 3 && esp[0] < esp[1] && esp[1] < esp[2]) alerts.push("Tu espalda lleva 3 días bajando: hoy prioriza movilidad y control, sin cargar.");
     if (acwr != null && acwr > 1.5) alerts.push("Estás subiendo la carga más rápido de lo que tu cuerpo asimila → riesgo de recaída. Baja la intensidad.");
+    if (latest && latest.fields.recuperacion_whoop <= 33) alerts.push("Recuperación baja (" + latest.fields.recuperacion_whoop + "%): hoy mejor movilidad y técnica, no metas carga alta.");
     const alertHtml = alerts.length
       ? alerts.map((a) => '<div class="est-alert">⚠ ' + esc(a) + "</div>").join("")
       : '<div class="est-ok">Todo en orden. Sigue registrando para afinar el seguimiento.</div>';
 
-    box.innerHTML = '<p class="eyebrow">⚡ Estado de hoy</p>' + espHtml + acwrHtml + recHtml + alertHtml;
+    box.innerHTML = '<p class="eyebrow">⚡ Estado de hoy</p>' + whoopHtml +
+      (whoopHtml ? '<div class="est-div"></div>' : "") + espHtml + acwrHtml + alertHtml;
     function row(color, k, v) {
       return '<div class="est-row"><span class="est-dot ' + color + '"></span><span class="est-k">' + k + '</span><span class="est-v">' + v + "</span></div>";
     }
@@ -246,7 +272,7 @@
       const [sens, entr, metr] = await Promise.all([
         AT.list("sensaciones", { maxRecords: 14, sort: [{ field: "fecha", direction: "desc" }] }),
         AT.list("entrenos", { maxRecords: 10, sort: [{ field: "fecha", direction: "desc" }] }),
-        AT.list("metricas", { maxRecords: 7, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
+        AT.list("metricas", { maxRecords: 14, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
       ]);
       let html = "";
       // medias de los últimos 7 días (los números → tendencia)

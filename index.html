@@ -361,11 +361,27 @@
   .est-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line2);font-size:14px}
   .est-row:first-of-type{border-top:none}
   .est-dot{width:11px;height:11px;border-radius:50%;flex:none}
-  .est-dot.green{background:#37d67a;box-shadow:0 0 8px #37d67a}
-  .est-dot.amber{background:#f5a623;box-shadow:0 0 8px #f5a623}
-  .est-dot.red{background:#ff5a5f;box-shadow:0 0 8px #ff5a5f}
-  .est-dot.blue{background:#4aa8ff;box-shadow:0 0 8px #4aa8ff}
+  .est-dot.green{background:#004ABD}
+  .est-dot.amber{background:#C2A21E}
+  .est-dot.red{background:#7A2230}
+  .est-dot.blue{background:#2E6FB5}
   .est-dot.gray{background:var(--txt3)}
+  /* tarjeta WHOOP (anillo + métricas + barras) */
+  .est-whoop{display:flex;align-items:center;gap:14px;padding:8px 0 6px}
+  .est-ring-wrap{flex:none}
+  .est-ring{width:124px;height:124px;display:block}
+  .est-tiles{display:grid;grid-template-columns:1fr 1fr;gap:7px;flex:1}
+  .est-tile{background:var(--elev2);border:1px solid var(--line2);border-radius:10px;padding:8px 6px;text-align:center}
+  .est-tile-v{font-family:var(--disp);font-weight:800;font-size:17px;color:#fff;line-height:1}
+  .est-tile-l{font-size:9.5px;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+  .est-sub2{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--txt2);margin:14px 0 10px}
+  .est-bars{display:flex;gap:7px;align-items:flex-end}
+  .est-bcol{flex:1;text-align:center}
+  .est-barea{height:74px;display:flex;align-items:flex-end}
+  .est-bar{width:100%;min-height:18px;border-radius:4px 4px 0 0;display:flex;justify-content:center;align-items:flex-start;padding-top:3px}
+  .est-bar span{font-size:10px;font-weight:700}
+  .est-bd{font-size:10px;color:var(--txt3);display:inline-block;margin-top:5px}
+  .est-div{height:1px;background:var(--line2);margin:14px 0 12px}
   .est-k{color:var(--txt2);min-width:104px;font-family:var(--disp);text-transform:uppercase;letter-spacing:.04em;font-size:12px}
   .est-v{color:#fff;font-weight:600;flex:1}
   .est-muted{color:var(--txt3);font-weight:400}
@@ -628,7 +644,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v26</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v27</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
