@@ -268,7 +268,7 @@
   // ---------- registrar el día / el entreno en Airtable (voz/texto -> datos) ----------
   async function registrarDia(input) {
     if (!window.shAirtable || !window.shAirtable.hasToken())
-      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Diario (un token, una vez). Pídeselo amablemente.";
+      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Hoy (un token, una vez). Pídeselo amablemente.";
     try {
       const f = { fecha: input.fecha || hoyISO() };
       if (typeof input.espalda_manana === "number") f["espalda_mañana"] = input.espalda_manana;
@@ -291,7 +291,7 @@
   }
   async function registrarEntreno(input) {
     if (!window.shAirtable || !window.shAirtable.hasToken())
-      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Diario.";
+      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Hoy.";
     try {
       const f = { fecha: input.fecha || hoyISO(), fuente: "Manual" };
       if (input.tipo) f.tipo = input.tipo;
@@ -306,7 +306,7 @@
   }
   async function registrarMetricas(input) {
     if (!window.shAirtable || !window.shAirtable.hasToken())
-      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Diario.";
+      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Hoy.";
     try {
       const f = { fecha: input.fecha || hoyISO() };
       const map = {

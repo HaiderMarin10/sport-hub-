@@ -44,7 +44,7 @@
   };
 
   async function render() {
-    if (!AT.hasToken()) { root.innerHTML = '<div class="card"><p class="at-help">Conecta Airtable en la pestaña <b>Diario</b> para ver tu salud.</p></div>'; return; }
+    if (!AT.hasToken()) { root.innerHTML = '<div class="card"><p class="at-help">Conecta Airtable en la pestaña <b>Hoy</b> para ver tu salud.</p></div>'; return; }
     root.innerHTML = '<div class="card"><div class="hist-empty">Cargando tu salud…</div></div>';
     let mensual = [], entr = [], metr = [];
     try {

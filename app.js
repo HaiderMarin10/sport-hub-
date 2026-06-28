@@ -387,8 +387,8 @@
     if (!plan || !plan.some(g => g.ejercicios.length)) { toast("El entreno está vacío", true); return; }
     if (!(window.shAirtable && window.shAirtable.hasToken())) {
       try { await navigator.clipboard.writeText(resumenTexto()); } catch (e) {}
-      $("#done-note").textContent = "Conecta Airtable en la pestaña Diario para guardar tus entrenos. De momento te lo he copiado al portapapeles.";
-      toast("Conecta Airtable (pestaña Diario)", true);
+      $("#done-note").textContent = "Conecta Airtable en la pestaña Hoy para guardar tus entrenos. De momento te lo he copiado al portapapeles.";
+      toast("Conecta Airtable (pestaña Hoy)", true);
       return;
     }
     const btn = $("#done");

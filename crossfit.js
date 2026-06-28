@@ -244,7 +244,7 @@
   if (wodDone) wodDone.addEventListener("click", async () => {
     if (!wodActual) return;
     if (!(window.shAirtable && window.shAirtable.hasToken())) {
-      wodDoneNote.textContent = "Conecta Airtable en la pestaña Diario para guardar tus WODs.";
+      wodDoneNote.textContent = "Conecta Airtable en la pestaña Hoy para guardar tus WODs.";
       return;
     }
     wodDone.disabled = true; wodDone.textContent = "Guardando…"; wodDoneNote.textContent = "";
