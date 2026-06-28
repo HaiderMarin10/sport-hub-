@@ -168,6 +168,28 @@
     sendBtn.disabled = !has;
     clearKey.textContent = has ? "🔑 Cambiar / borrar clave" : "";
   }
+  // Sincroniza la clave con Airtable para que sobreviva al borrado de caché / cambio de dispositivo.
+  async function sincronizarClave(k) {
+    const AT = window.shAirtable;
+    if (!AT || !AT.hasToken()) return;
+    try {
+      const recs = await AT.list("config", { maxRecords: 10 });
+      const r = recs.find((x) => x.fields.clave === "anthropic_key");
+      if (r) await AT.del("config", r.id);
+      if (k) await AT.create("config", { clave: "anthropic_key", valor: k });
+    } catch (e) { /* silencioso */ }
+  }
+  async function recuperarClave() {
+    if (getKey()) return false;
+    const AT = window.shAirtable;
+    if (!AT || !AT.hasToken()) return false;
+    try {
+      const recs = await AT.list("config", { maxRecords: 10 });
+      const r = recs.find((x) => x.fields.clave === "anthropic_key");
+      if (r && r.fields.valor) { localStorage.setItem(LS, String(r.fields.valor).trim()); refrescar(); return true; }
+    } catch (e) {}
+    return false;
+  }
 
   // ---------- burbujas ----------
   function burbuja(role, texto, clase) {
@@ -427,22 +449,26 @@
     const k = (keyInput.value || "").trim();
     if (!k) return;
     setKey(k); keyInput.value = "";
-    burbuja("assistant", "¡Listo! Clave guardada en este dispositivo. ¿Qué entrenamos hoy? 💪", "coach");
+    sincronizarClave(k);
+    burbuja("assistant", "¡Listo! Clave guardada (y respaldada en tu Airtable, así no te la vuelvo a pedir aunque borres). ¿Qué entrenamos hoy? 💪", "coach");
   });
   keyInput && keyInput.addEventListener("keydown", (e) => { if (e.key === "Enter") keySave.click(); });
   clearKey.addEventListener("click", () => {
     if (getKey() && !confirm("¿Borrar la clave de este dispositivo?")) { keybar.classList.remove("hidden"); return; }
-    setKey(""); keybar.classList.remove("hidden");
+    setKey(""); sincronizarClave(""); keybar.classList.remove("hidden");
   });
 
   fab && fab.addEventListener("click", () => (drawer.classList.contains("open") ? cerrar() : abrir()));
   drawerClose && drawerClose.addEventListener("click", cerrar);
 
   // ---------- arranque ----------
-  refrescar();
-  if (getKey()) {
-    burbuja("assistant", "Hola, Andrés 👋 Soy tu coach. Pídeme un entreno y te lo monto directamente en el Generador, listo para hacerlo. O pregúntame por un ejercicio, o cómo tienes hoy la espalda.", "coach");
-  } else {
-    keybar.classList.remove("hidden");
-  }
+  (async function () {
+    await recuperarClave(); // trae la clave de Airtable si no está en este dispositivo (sobrevive a borrar caché)
+    refrescar();
+    if (getKey()) {
+      burbuja("assistant", "Hola, Andrés 👋 Soy tu coach. Pídeme un entreno y te lo monto directamente en el Generador, o pregúntame lo que quieras: tu recuperación, tu evolución, cómo tienes hoy la espalda…", "coach");
+    } else {
+      keybar.classList.remove("hidden");
+    }
+  })();
 })();
