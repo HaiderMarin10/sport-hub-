@@ -122,7 +122,16 @@
     const note = document.getElementById("at-bar");
     note.insertAdjacentHTML("beforeend", '<div class="done-note" id="at-note">Probando conexión…</div>');
     const r = await AT.test();
-    if (r.ok) { render(); }
+    if (r.ok) {
+      // sube lo que se hubiera guardado en local mientras estaba desconectado
+      let subidos = 0;
+      if (window.shFlushPendientes) { try { subidos = await window.shFlushPendientes(); } catch (e) {} }
+      if (subidos) {
+        const n = document.getElementById("at-note");
+        if (n) n.textContent = "Conectado ✓ y subidos " + subidos + " registro(s) que tenías pendientes.";
+        setTimeout(render, 1400);
+      } else { render(); }
+    }
     else { AT.setToken(""); document.getElementById("at-note").textContent = "No conecta: " + r.error; }
   }
 

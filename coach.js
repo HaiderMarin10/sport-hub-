@@ -316,63 +316,83 @@
       : "";
   }
 
+  // ---------- cola offline: si Airtable no está conectado (o falla), guarda local y sube luego ----------
+  // Así "este es el entreno que he hecho hoy" NUNCA se pierde, aunque no esté conectado.
+  const LS_PEND = "sh_pendientes";
+  function leerPend() { try { return JSON.parse(localStorage.getItem(LS_PEND) || "[]"); } catch (e) { return []; } }
+  function guardarPend(a) { try { localStorage.setItem(LS_PEND, JSON.stringify(a)); } catch (e) {} }
+  function encolar(tabla, fields) { const a = leerPend(); a.push({ tabla: tabla, fields: fields, ts: Date.now() }); guardarPend(a); }
+  function nPend() { return leerPend().length; }
+  async function flushPendientes() {
+    const AT = window.shAirtable;
+    if (!AT || !AT.hasToken()) return 0;
+    const a = leerPend(); if (!a.length) return 0;
+    const quedan = []; let subidos = 0;
+    for (const item of a) {
+      try { await AT.create(item.tabla, item.fields); subidos++; }
+      catch (e) { quedan.push(item); }
+    }
+    guardarPend(quedan);
+    if (subidos) cargarContexto();
+    return subidos;
+  }
+  window.shFlushPendientes = flushPendientes;
+
+  async function guardarOEncolar(tabla, f, etiqueta) {
+    const AT = window.shAirtable;
+    if (AT && AT.hasToken()) {
+      try {
+        await AT.create(tabla, f); cargarContexto(); flushPendientes();
+        return "GUARDADO en " + etiqueta + " (" + f.fecha + "). Confírmaselo a Andrés en 1 frase cálida.";
+      } catch (e) {
+        encolar(tabla, f);
+        return "GUARDADO en su móvil (" + f.fecha + ") porque Airtable dio error (" + (e.message || e) + "). NO se ha perdido nada: se subirá solo al reconectar. Díselo tranquilizador.";
+      }
+    }
+    encolar(tabla, f);
+    return "GUARDADO en su móvil (" + f.fecha + ") — NO se ha perdido nada (hay " + nPend() + " pendiente(s) de subir). Se subirá automáticamente en cuanto conecte Airtable en la pestaña Hoy. Díselo así de tranquilizador y recuérdale conectar Airtable cuando pueda.";
+  }
+
   // ---------- registrar el día / el entreno en Airtable (voz/texto -> datos) ----------
   async function registrarDia(input) {
-    if (!window.shAirtable || !window.shAirtable.hasToken())
-      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Hoy (un token, una vez). Pídeselo amablemente.";
-    try {
-      const f = { fecha: input.fecha || hoyISO() };
-      if (typeof input.espalda_manana === "number") f["espalda_mañana"] = input.espalda_manana;
-      if (typeof input.espalda_noche === "number") f.espalda_noche = input.espalda_noche;
-      if (typeof input.intensidad_gemelos === "number") f.intensidad_gemelos = input.intensidad_gemelos;
-      if (typeof input.energia_general === "number") f.energia_general = input.energia_general;
-      if (typeof input.estado_animo === "number") f.estado_animo = input.estado_animo;
-      if (typeof input.sensacion_general_dia === "number") f.sensacion_general_dia = input.sensacion_general_dia;
-      if (input.gemelos_contexto) f.gemelos_contexto = input.gemelos_contexto;
-      if (Array.isArray(input.dolor_localizado) && input.dolor_localizado.length) f.dolor_localizado = input.dolor_localizado;
-      if (Array.isArray(input.flags) && input.flags.length) f.flags = input.flags;
-      const nota = [];
-      if (typeof input.entreno_valoracion === "number") nota.push("Entreno: " + input.entreno_valoracion + "/10");
-      if (input.nota) nota.push(input.nota);
-      if (nota.length) f.nota_transcrita = nota.join(" — ");
-      await window.shAirtable.create("sensaciones", f);
-      cargarContexto();
-      return "GUARDADO en el diario (sensaciones, " + f.fecha + "). Confírmaselo a Andrés en 1 frase cálida y, si falta algún dato clave que no haya dicho, pregúntaselo suelto (sin agobiar).";
-    } catch (e) { return "Error al guardar el día: " + (e.message || e); }
+    const f = { fecha: input.fecha || hoyISO() };
+    if (typeof input.espalda_manana === "number") f["espalda_mañana"] = input.espalda_manana;
+    if (typeof input.espalda_noche === "number") f.espalda_noche = input.espalda_noche;
+    if (typeof input.intensidad_gemelos === "number") f.intensidad_gemelos = input.intensidad_gemelos;
+    if (typeof input.energia_general === "number") f.energia_general = input.energia_general;
+    if (typeof input.estado_animo === "number") f.estado_animo = input.estado_animo;
+    if (typeof input.sensacion_general_dia === "number") f.sensacion_general_dia = input.sensacion_general_dia;
+    if (input.gemelos_contexto) f.gemelos_contexto = input.gemelos_contexto;
+    if (Array.isArray(input.dolor_localizado) && input.dolor_localizado.length) f.dolor_localizado = input.dolor_localizado;
+    if (Array.isArray(input.flags) && input.flags.length) f.flags = input.flags;
+    const nota = [];
+    if (typeof input.entreno_valoracion === "number") nota.push("Entreno: " + input.entreno_valoracion + "/10");
+    if (input.nota) nota.push(input.nota);
+    if (nota.length) f.nota_transcrita = nota.join(" — ");
+    const r = await guardarOEncolar("sensaciones", f, "el diario (sensaciones)");
+    return r + " Si falta algún dato clave que no haya dicho, pregúntaselo suelto (sin agobiar).";
   }
   async function registrarEntreno(input) {
-    if (!window.shAirtable || !window.shAirtable.hasToken())
-      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Hoy.";
-    try {
-      const f = { fecha: input.fecha || hoyISO(), fuente: "Manual" };
-      if (input.tipo) f.tipo = input.tipo;
-      if (typeof input.duracion_min === "number") f.duracion_min = input.duracion_min;
-      if (input.ejercicios) f.ejercicios = input.ejercicios;
-      if (typeof input.sensacion_espalda_durante === "number") f.sensacion_espalda_durante = input.sensacion_espalda_durante;
-      if (input.notas) f.notas = input.notas;
-      await window.shAirtable.create("entrenos", f);
-      cargarContexto();
-      return "GUARDADO en entrenos (" + f.fecha + "). Confírmaselo a Andrés en 1 frase.";
-    } catch (e) { return "Error al guardar el entreno: " + (e.message || e); }
+    const f = { fecha: input.fecha || hoyISO(), fuente: "Manual" };
+    if (input.tipo) f.tipo = input.tipo;
+    if (typeof input.duracion_min === "number") f.duracion_min = input.duracion_min;
+    if (input.ejercicios) f.ejercicios = input.ejercicios;
+    if (typeof input.sensacion_espalda_durante === "number") f.sensacion_espalda_durante = input.sensacion_espalda_durante;
+    if (input.notas) f.notas = input.notas;
+    return await guardarOEncolar("entrenos", f, "entrenos");
   }
   async function registrarMetricas(input) {
-    if (!window.shAirtable || !window.shAirtable.hasToken())
-      return "NO PUEDO guardar: Andrés tiene que conectar Airtable en la pestaña Hoy.";
-    try {
-      const f = { fecha: input.fecha || hoyISO() };
-      const map = {
-        recuperacion_whoop: "recuperacion_whoop", hrv: "hrv", strain_whoop: "strain_whoop",
-        sueno_total_min: "sueño_total_min", sueno_calidad_subjetiva: "sueño_calidad_subjetiva",
-        fc_reposo: "fc_reposo", pasos: "pasos", calorias_consumidas: "calorias_consumidas",
-        proteina_g: "proteina_g", carbos_g: "carbos_g", grasa_g: "grasa_g",
-        hidratacion_ml: "hidratacion_ml", peso_kg: "peso_kg",
-      };
-      Object.keys(map).forEach((k) => { if (typeof input[k] === "number") f[map[k]] = input[k]; });
-      if (Object.keys(f).length <= 1) return "No me has dado ninguna métrica numérica. Pregúntale qué quiere registrar.";
-      await window.shAirtable.create("metricas", f);
-      cargarContexto();
-      return "GUARDADO en metricas_diarias (" + f.fecha + "). Confírmaselo a Andrés en 1 frase.";
-    } catch (e) { return "Error al guardar las métricas: " + (e.message || e); }
+    const f = { fecha: input.fecha || hoyISO() };
+    const map = {
+      recuperacion_whoop: "recuperacion_whoop", hrv: "hrv", strain_whoop: "strain_whoop",
+      sueno_total_min: "sueño_total_min", sueno_calidad_subjetiva: "sueño_calidad_subjetiva",
+      fc_reposo: "fc_reposo", pasos: "pasos", calorias_consumidas: "calorias_consumidas",
+      proteina_g: "proteina_g", carbos_g: "carbos_g", grasa_g: "grasa_g",
+      hidratacion_ml: "hidratacion_ml", peso_kg: "peso_kg",
+    };
+    Object.keys(map).forEach((k) => { if (typeof input[k] === "number") f[map[k]] = input[k]; });
+    if (Object.keys(f).length <= 1) return "No me has dado ninguna métrica numérica. Pregúntale qué quiere registrar.";
+    return await guardarOEncolar("metricas", f, "metricas_diarias");
   }
 
   // ---------- llamada a Claude (con bucle de tool use) ----------
@@ -493,6 +513,7 @@
   // ---------- arranque ----------
   (async function () {
     await recuperarClave(); // trae la clave de Airtable si no está en este dispositivo (sobrevive a borrar caché)
+    flushPendientes();      // sube lo que quedó guardado en local mientras estaba desconectado
     refrescar();
     if (getKey()) {
       burbuja("assistant", "Hola, Andrés 👋 Soy tu coach. Pídeme un entreno y te lo monto directamente en el Generador, o pregúntame lo que quieras: tu recuperación, tu evolución, cómo tienes hoy la espalda…", "coach");
