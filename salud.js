@@ -1,6 +1,9 @@
-/* Sport Hub — salud.js
-   Pestaña "Salud": resumen ejecutivo + evolución mensual (WHOOP) + actividad (Strava),
-   en formato fácil de leer (3 min). Lee de Airtable (resumen_mensual, entrenos, metricas). */
+/* Sport Hub — salud.js  (H&PH · Health & Performance Hub)
+   3 sub-secciones para aprender qué viene de cada fuente:
+     · General  → mezcla WHOOP + Strava (la foto de conjunto)
+     · WHOOP    → evolución fisiológica (Pace of Aging, recuperación, HRV…)
+     · Strava   → rendimiento de cardio + "casillas" de conceptos pro (con explicación)
+   Lee de Airtable (resumen_mensual, entrenos, metricas). */
 (function () {
   "use strict";
   const root = document.getElementById("salud-root");
@@ -9,17 +12,6 @@
   const esc = (t) => String(t == null ? "" : t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const n1 = (x) => (typeof x === "number" ? x.toFixed(1) : "—");
   const n0 = (x) => (typeof x === "number" ? Math.round(x) : "—");
-
-  function sparkline(values, color, w, h) {
-    const v = values.filter((x) => typeof x === "number");
-    if (v.length < 2) return "";
-    const min = Math.min.apply(null, v), max = Math.max.apply(null, v), rng = (max - min) || 1;
-    const pad = 6, iw = w - pad * 2, ih = h - pad * 2, step = iw / (values.length - 1);
-    const y = (val) => pad + ih - (val - min) / rng * ih;
-    const pts = values.map((val, i) => (pad + i * step).toFixed(0) + "," + y(val).toFixed(0)).join(" ");
-    return '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" style="display:block;height:' + h + 'px">' +
-      '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  }
 
   function metricCard(label, now, prev, dec, unit, betterDown) {
     let deltaHtml = "";
@@ -53,35 +45,69 @@
 
   const sport = (name) => {
     const s = (name || "").toLowerCase();
-    return s.indexOf("ride") !== -1 ? "Bici" : s.indexOf("swim") !== -1 ? "Natación" :
-      s.indexOf("run") !== -1 ? "Carrera" : s.indexOf("walk") !== -1 || s.indexOf("hike") !== -1 ? "Caminar" : "Otro";
+    return s.indexOf("ride") !== -1 || s.indexOf("cycl") !== -1 || s.indexOf("bici") !== -1 ? "Bici" :
+      s.indexOf("swim") !== -1 || s.indexOf("nat") !== -1 ? "Natación" :
+      s.indexOf("run") !== -1 || s.indexOf("carrera") !== -1 ? "Carrera" :
+      s.indexOf("walk") !== -1 || s.indexOf("hike") !== -1 || s.indexOf("camin") !== -1 ? "Caminar" : "Otro";
   };
 
-  async function render() {
-    if (!AT.hasToken()) { root.innerHTML = '<div class="card"><p class="at-help">Conecta Airtable en la pestaña <b>Daily Metrics</b> para ver tu salud.</p></div>'; return; }
-    root.innerHTML = '<div class="card"><div class="hist-empty">Cargando tu salud…</div></div>';
-    let mensual = [], entr = [], metr = [];
-    try {
-      const res = await Promise.all([
-        AT.list("mensual", { maxRecords: 24, sort: [{ field: "orden", direction: "asc" }] }).catch(() => []),
-        AT.list("entrenos", { maxRecords: 80, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
-        AT.list("metricas", { maxRecords: 14, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
-      ]);
-      mensual = res[0].map((r) => r.fields); entr = res[1]; metr = res[2];
-    } catch (e) { root.innerHTML = '<div class="card"><div class="hist-empty">No se pudo cargar: ' + esc(e.message) + '</div></div>'; return; }
+  // "casilla" de concepto: título + qué es + estado (dato real o pendiente, para aprender)
+  function concepto(emoji, titulo, queEs, estadoHtml, activo) {
+    return '<div class="sal-concept' + (activo ? "" : " locked") + '">' +
+      '<div class="sal-c-h">' + emoji + ' <b>' + titulo + '</b>' + (activo ? "" : ' <span class="sal-c-lock">🔒 se activa al entrenar</span>') + '</div>' +
+      '<div class="sal-c-d">' + queEs + '</div>' +
+      '<div class="sal-c-s">' + estadoHtml + '</div></div>';
+  }
 
-    const last = mensual[mensual.length - 1] || {}, prev = mensual[mensual.length - 2] || {}, first = mensual[0] || {};
-    const pace = mensual.map((m) => m.pace_aging), age = mensual.map((m) => m.whoop_age),
-      vo2 = mensual.map((m) => m.vo2max), sue = mensual.map((m) => (typeof m.sueno_min === "number" ? m.sueno_min / 60 : null));
+  let data = null, subView = "general";
 
-    // ---- evolución ----
-    let evol = "";
+  async function load() {
+    const res = await Promise.all([
+      AT.list("mensual", { maxRecords: 24, sort: [{ field: "orden", direction: "asc" }] }).catch(() => []),
+      AT.list("entrenos", { maxRecords: 120, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
+      AT.list("metricas", { maxRecords: 30, sort: [{ field: "fecha", direction: "desc" }] }).catch(() => []),
+    ]);
+    return { mensual: res[0].map((r) => r.fields), entr: res[1], metr: res[2] };
+  }
+
+  function stravaStats(entr, dias) {
+    const today = new Date();
+    const daysAgo = (f) => { try { return Math.floor((today - new Date(f)) / 86400000); } catch (e) { return 9999; } };
+    const act = entr.filter((r) => daysAgo(r.fields.fecha) <= dias && r.fields.fuente === "Strava");
+    const byS = {};
+    act.forEach((r) => {
+      const s = sport(r.fields.ejercicios); const o = byS[s] = byS[s] || { n: 0, min: 0, km: 0, hr: 0, nhr: 0 };
+      o.n++; o.min += r.fields.duracion_min || 0; o.km += r.fields.distancia_km || 0;
+      if (typeof r.fields.fc_media === "number") { o.hr += r.fields.fc_media; o.nhr++; }
+    });
+    const totMin = act.reduce((a, r) => a + (r.fields.duracion_min || 0), 0);
+    const totKm = act.reduce((a, r) => a + (r.fields.distancia_km || 0), 0);
+    return { act, byS, totMin, totKm };
+  }
+
+  // -------- PANEL: WHOOP --------
+  function panelWhoop(d) {
+    const { mensual, metr } = d;
+    const last = mensual[mensual.length - 1] || {}, prev = mensual[mensual.length - 2] || {};
+    const vo2 = mensual.map((m) => m.vo2max), pace = mensual.map((m) => m.pace_aging);
+    let html = "";
+    // reciente (metricas)
+    const rec = metr.find((m) => typeof m.fields.recuperacion_whoop === "number");
+    const hrv = metr.find((m) => typeof m.fields.hrv === "number");
+    const rhr = metr.find((m) => typeof m.fields.fc_reposo === "number");
+    html += '<div class="card"><p class="eyebrow">❤️ WHOOP · estado reciente</p>' +
+      '<div class="sal-grid">' +
+      metricCard("Recuperación", rec ? rec.fields.recuperacion_whoop : null, null, 0, "%", false) +
+      metricCard("HRV", hrv ? hrv.fields.hrv : null, null, 0, "ms", false) +
+      metricCard("FC reposo", rhr ? rhr.fields.fc_reposo : null, null, 0, "bpm", true) +
+      '</div><div class="sal-c-d" style="margin-top:8px">Recuperación = cómo de listo está tu cuerpo hoy · HRV alta y FC reposo baja = buena forma.</div></div>';
+    // evolución mensual
     if (mensual.length >= 2) {
       const labels = mensual.map((m) => m.mes);
       const paceCol = (v) => (v <= 0.9 ? "#2E6FB5" : v <= 1.3 ? "#C2A21E" : "#7A2230");
       const tbl = '<div class="sal-tblwrap"><table class="sal-tbl"><tr><th>Mes</th><th>Pace</th><th>WHOOP Age</th><th>VO₂max</th><th>Sueño</th></tr>' +
         mensual.map((m) => '<tr><td>' + m.mes + '</td><td>' + n1(m.pace_aging) + 'x</td><td>' + n1(m.whoop_age) + '</td><td>' + n0(m.vo2max) + '</td><td>' + (typeof m.sueno_min === "number" ? (m.sueno_min / 60).toFixed(1) + "h" : "—") + '</td></tr>').join("") + '</table></div>';
-      evol = '<div class="card"><p class="eyebrow">📈 Evolución · ' + mensual.length + ' meses</p>' +
+      html += '<div class="card"><p class="eyebrow">📈 Evolución · ' + mensual.length + ' meses</p>' +
         '<div class="sal-grid">' +
         metricCard("Pace of Aging", last.pace_aging, prev.pace_aging, 1, "x", true) +
         metricCard("WHOOP Age", last.whoop_age, prev.whoop_age, 1, "", true) +
@@ -91,43 +117,92 @@
         '<div class="sal-sub">Pace of Aging por mes <span style="text-transform:none;letter-spacing:0;color:var(--txt3)">(objetivo &lt; 1.0)</span></div>' +
         barChart(pace, labels, paceCol, 1, 2) +
         '<div class="sal-sub">Detalle mensual</div>' + tbl +
-        '<div class="sal-insight">Lo que más bajó es el <b>VO₂max</b> (' + n0(Math.max.apply(null, vo2.filter((x) => typeof x === "number"))) + '→' + n0(last.vo2max) + '), por el parón de intensidad de la lesión — <b>no el sueño</b>. Recuperando carga cardiovascular con cabeza, el Pace of Aging debería volver hacia ~0.5x.</div></div>';
+        '<div class="sal-insight">Lo que más bajó es el <b>VO₂max</b> (' + n0(Math.max.apply(null, vo2.filter((x) => typeof x === "number"))) + '→' + n0(last.vo2max) + '), por el parón de la lesión — <b>no el sueño</b>. Recuperando carga cardiovascular con cabeza, el Pace of Aging vuelve hacia ~0.5x.</div></div>';
+    } else {
+      html += '<div class="card"><div class="hist-empty">Aún no hay histórico mensual de WHOOP.</div></div>';
     }
+    return html;
+  }
 
-    // ---- actividad (Strava, 30 días) ----
-    const today = new Date();
-    const daysAgo = (f) => { try { return Math.floor((today - new Date(f)) / 86400000); } catch (e) { return 9999; } };
-    const act = entr.filter((r) => daysAgo(r.fields.fecha) <= 30 && r.fields.fuente === "Strava");
-    const byS = {};
-    act.forEach((r) => { const s = sport(r.fields.ejercicios); const o = byS[s] = byS[s] || { n: 0, min: 0, km: 0 }; o.n++; o.min += r.fields.duracion_min || 0; o.km += r.fields.distancia_km || 0; });
-    const totMin = act.reduce((a, r) => a + (r.fields.duracion_min || 0), 0), totKm = act.reduce((a, r) => a + (r.fields.distancia_km || 0), 0);
-    let acti = '<div class="card"><p class="eyebrow">🏃 Actividad · últimos 30 días</p>';
-    if (!act.length) acti += '<div class="hist-empty">Aún no hay actividades de Strava en 30 días.</div>';
-    else {
-      acti += '<div class="sal-stats">' +
+  // -------- PANEL: STRAVA --------
+  function panelStrava(d) {
+    const { entr } = d;
+    const { act, byS, totMin, totKm } = stravaStats(entr, 30);
+    let html = '<div class="card"><p class="eyebrow">🏃 Strava · actividad (30 días)</p>';
+    if (!act.length) {
+      html += '<div class="hist-empty">Aún no hay actividades de Strava en 30 días. En cuanto salgas a correr/nadar/bici y lo publiques, aparece aquí solo.</div>';
+    } else {
+      html += '<div class="sal-stats">' +
         '<div class="sal-stat"><div class="sal-stat-v">' + act.length + '</div><div class="sal-stat-l">sesiones</div></div>' +
         '<div class="sal-stat"><div class="sal-stat-v">' + (totMin / 60).toFixed(1) + '</div><div class="sal-stat-l">horas</div></div>' +
         '<div class="sal-stat"><div class="sal-stat-v">' + Math.round(totKm) + '</div><div class="sal-stat-l">km</div></div></div>' +
         '<div class="sal-sub">Por deporte</div>' +
-        Object.keys(byS).map((s) => { const o = byS[s], spd = o.min ? o.km / (o.min / 60) : 0; return '<div class="sal-sport"><span class="sal-sp-n">' + s + '</span><span class="sal-sp-m">' + o.n + ' ses · ' + (o.min / 60).toFixed(1) + ' h' + (o.km ? ' · ' + Math.round(o.km) + ' km · ' + spd.toFixed(1) + ' km/h' : "") + '</span></div>'; }).join("");
+        Object.keys(byS).map((s) => { const o = byS[s], spd = o.min ? o.km / (o.min / 60) : 0, hr = o.nhr ? Math.round(o.hr / o.nhr) : 0;
+          return '<div class="sal-sport"><span class="sal-sp-n">' + s + '</span><span class="sal-sp-m">' + o.n + ' ses · ' + (o.min / 60).toFixed(1) + ' h' + (o.km ? ' · ' + Math.round(o.km) + ' km · ' + spd.toFixed(1) + ' km/h' : "") + (hr ? ' · ' + hr + ' ppm' : "") + '</span></div>'; }).join("");
     }
-    acti += '</div>';
+    html += '</div>';
 
-    // ---- resumen ejecutivo ----
+    // casillas de conceptos pro (para aprender)
+    html += '<div class="card"><p class="eyebrow">🎓 Conceptos pro (aprende a leer Strava)</p>' +
+      '<div class="sal-c-note">Estas son las métricas que miran los que saben. Las marcadas 🔒 se activan cuando entrenes con pulso/GPS y enriquezcamos el sync.</div>' +
+      concepto("📊", "Fitness / Fatiga / Forma", "Tu fitness sube despacio y la fatiga rápido; la <b>forma</b> es la resta. Sirve para llegar a tope a una carrera.", "Necesita varias semanas de sesiones con carga (Relative Effort).", false) +
+      concepto("🎯", "Tiempo en zonas (FC)", "El ~80% del volumen debería ir en <b>Zona 2</b> (base aeróbica); el resto, intensidad. Es tu palanca contra el Pace of Aging.", "Pon bien tus zonas en Strava y graba con pulso.", false) +
+      concepto("🔥", "Relative Effort", "La <b>carga</b> de cada sesión. Progresa <b>+10%/semana</b> sin picos (los picos lesionan).", "Se captura al enriquecer el sync de Strava.", false) +
+      concepto("📉", "Eficiencia aeróbica", "A igual ritmo, ¿tu FC sube menos con el tiempo? → estás mejorando de base.", "Necesita series de FC por actividad.", false) +
+      concepto("🏅", "Best efforts / PRs", "Tus mejores 1k, 5k, 10k… se detectan solos y marcan tu progreso.", "Se activa al enriquecer el sync.", false) +
+      concepto("🗺️", "Mapa de rutas", "El recorrido GPS de cada actividad, pintado en un mapa.", "Se captura el trazado (polyline) al enriquecer el sync.", false) +
+      '</div>';
+    return html;
+  }
+
+  // -------- PANEL: GENERAL (mezcla) --------
+  function panelGeneral(d) {
+    const { mensual, metr, entr } = d;
+    const last = mensual[mensual.length - 1] || {};
+    const { act, totMin, totKm } = stravaStats(entr, 30);
     const rec = metr.find((m) => typeof m.fields.recuperacion_whoop === "number");
-    let res = '<div class="card"><p class="eyebrow">📋 Resumen ejecutivo</p><ul class="sal-bul">';
-    if (rec) res += '<li>Recuperación actual: <b>' + rec.fields.recuperacion_whoop + '%</b>' + (rec.fields.recuperacion_whoop <= 40 ? ' — hoy mejor suave.' : '.') + '</li>';
-    res += '<li>Pace of Aging: <b>' + n1(last.pace_aging) + 'x</b> (empeoró por el parón de la lesión; reversible).</li>';
-    res += '<li>Lo que más bajó: <b>VO₂max</b> (' + n0(last.vo2max) + '). Palanca: recuperar carga cardiovascular.</li>';
-    if (act.length) res += '<li>Actividad (30 d): <b>' + act.length + ' sesiones</b>, ' + (totMin / 60).toFixed(0) + ' h, ' + Math.round(totKm) + ' km.</li>';
-    res += '</ul><button class="btn btn-primary" id="sal-coach" style="margin-top:6px">💬 Consultar con el coach</button></div>';
+    let html = '<div class="card"><p class="eyebrow">🧭 Visión de conjunto</p>' +
+      '<div class="sal-c-note">Aquí se mezclan tus dos fuentes: <b style="color:#7a9cff">WHOOP</b> (cómo te recuperas por dentro) + <b style="color:#fc5200">Strava</b> (lo que entrenas por fuera).</div>' +
+      '<ul class="sal-bul">';
+    if (rec) html += '<li><b style="color:#7a9cff">WHOOP</b> · Recuperación actual: <b>' + rec.fields.recuperacion_whoop + '%</b>' + (rec.fields.recuperacion_whoop <= 40 ? ' — hoy mejor suave.' : '.') + '</li>';
+    if (typeof last.pace_aging === "number") html += '<li><b style="color:#7a9cff">WHOOP</b> · Pace of Aging: <b>' + n1(last.pace_aging) + 'x</b> (empeoró por el parón; reversible).</li>';
+    if (typeof last.vo2max === "number") html += '<li><b style="color:#7a9cff">WHOOP</b> · Lo que más bajó: <b>VO₂max</b> (' + n0(last.vo2max) + '). Palanca: recuperar carga cardiovascular.</li>';
+    if (act.length) html += '<li><b style="color:#fc5200">Strava</b> · Últimos 30 d: <b>' + act.length + ' sesiones</b>, ' + (totMin / 60).toFixed(0) + ' h, ' + Math.round(totKm) + ' km.</li>';
+    else html += '<li><b style="color:#fc5200">Strava</b> · Sin cardio en 30 días. En cuanto empieces, aquí verás carga vs recuperación.</li>';
+    html += '</ul></div>';
 
-    root.innerHTML = evol + acti + res;
+    // la fusión (clave)
+    html += '<div class="card"><p class="eyebrow">🔗 Carga (Strava) × Recuperación (WHOOP)</p>' +
+      '<div class="sal-c-d">La idea más potente del hub: cruzar <b>lo que te cuesta un entreno por fuera</b> (ritmo, distancia, esfuerzo de Strava) con <b>lo que te cuesta por dentro</b> (strain y la recuperación del día siguiente de WHOOP). Así sabremos cuánto te "pasa factura" cada sesión y cómo dosificar para volver a 0.5x sin recaer la espalda.</div>' +
+      (act.length ? "" : '<div class="sal-c-note" style="margin-top:8px">Se llenará en cuanto entrenes: cada actividad traerá su coste de recuperación al lado.</div>') +
+      '</div>';
+
+    html += '<button class="btn btn-primary" id="sal-coach" style="margin-top:2px">💬 Consultar con el coach</button>';
+    return html;
+  }
+
+  function paint() {
+    const tabs = '<div class="subtabs sal-subtabs">' +
+      '<button class="subtab' + (subView === "general" ? " active" : "") + '" data-sv="general">🧭 General</button>' +
+      '<button class="subtab' + (subView === "whoop" ? " active" : "") + '" data-sv="whoop">❤️ WHOOP</button>' +
+      '<button class="subtab' + (subView === "strava" ? " active" : "") + '" data-sv="strava">🏃 Strava</button>' +
+      '</div>';
+    const panel = subView === "whoop" ? panelWhoop(data) : subView === "strava" ? panelStrava(data) : panelGeneral(data);
+    root.innerHTML = tabs + panel;
+    root.querySelectorAll(".sal-subtabs .subtab").forEach((b) => b.addEventListener("click", () => {
+      subView = b.dataset.sv; paint();
+    }));
     const cb = document.getElementById("sal-coach");
     if (cb) cb.addEventListener("click", () => { const fab = document.getElementById("coach-fab"); if (fab) fab.click(); });
   }
 
-  // render al abrir la pestaña (y una vez al cargar)
+  async function render() {
+    if (!AT.hasToken()) { root.innerHTML = '<div class="card"><p class="at-help">Conecta Airtable en la pestaña <b>Daily Metrics</b> para ver tu salud.</p></div>'; return; }
+    root.innerHTML = '<div class="card"><div class="hist-empty">Cargando tu H&amp;PH…</div></div>';
+    try { data = await load(); } catch (e) { root.innerHTML = '<div class="card"><div class="hist-empty">No se pudo cargar: ' + esc(e.message) + '</div></div>'; return; }
+    paint();
+  }
+
   document.querySelectorAll('.tab[data-view="salud"]').forEach((t) => t.addEventListener("click", render));
   render();
 })();
