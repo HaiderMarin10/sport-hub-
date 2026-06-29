@@ -59,6 +59,14 @@
       '<div class="sal-c-s">' + estadoHtml + '</div></div>';
   }
 
+  // cabecera de marca: muestra el logo (img/…) si existe; si no, el nombre estilizado en su color
+  function brand(src, text, cls) {
+    return '<div class="sal-brand">' +
+      '<img class="sal-brand-img" src="' + src + '" alt="' + text + '" ' +
+      'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-block\'">' +
+      '<span class="sal-brand-txt ' + cls + '" style="display:none">' + text + '</span></div>';
+  }
+
   let data = null, subView = "general";
 
   async function load() {
@@ -90,7 +98,7 @@
     const { mensual, metr } = d;
     const last = mensual[mensual.length - 1] || {}, prev = mensual[mensual.length - 2] || {};
     const vo2 = mensual.map((m) => m.vo2max), pace = mensual.map((m) => m.pace_aging);
-    let html = "";
+    let html = brand("img/whoop-logo.png", "WHOOP", "b-whoop");
     // reciente (metricas)
     const rec = metr.find((m) => typeof m.fields.recuperacion_whoop === "number");
     const hrv = metr.find((m) => typeof m.fields.hrv === "number");
@@ -128,7 +136,8 @@
   function panelStrava(d) {
     const { entr } = d;
     const { act, byS, totMin, totKm } = stravaStats(entr, 30);
-    let html = '<div class="card"><p class="eyebrow">🏃 Strava · actividad (30 días)</p>';
+    let html = brand("img/strava-logo.png", "STRAVA", "b-strava");
+    html += '<div class="card"><p class="eyebrow">🏃 Strava · actividad (30 días)</p>';
     if (!act.length) {
       html += '<div class="hist-empty">Aún no hay actividades de Strava en 30 días. En cuanto salgas a correr/nadar/bici y lo publiques, aparece aquí solo.</div>';
     } else {
