@@ -67,6 +67,41 @@
       '<span class="sal-brand-txt ' + cls + '" style="display:none">' + text + '</span></div>';
   }
 
+  // icono por tipo de actividad
+  function iconFor(fl) {
+    const s = ((fl.ejercicios || "") + " " + (fl.tipo || "")).toLowerCase();
+    if (s.indexOf("caco") !== -1 || s.indexOf("corr") !== -1 || s.indexOf("run") !== -1 || s.indexOf("carrera") !== -1) return "🏃";
+    if (s.indexOf("pilates") !== -1) return "🧘";
+    if (s.indexOf("bici") !== -1 || s.indexOf("ride") !== -1 || s.indexOf("cycl") !== -1) return "🚴";
+    if (s.indexOf("swim") !== -1 || s.indexOf("nat") !== -1) return "🏊";
+    if (s.indexOf("hyrox") !== -1 || s.indexOf("wod") !== -1 || s.indexOf("crossfit") !== -1 || s.indexOf("metcon") !== -1) return "🔥";
+    if (s.indexOf("fuerza") !== -1 || s.indexOf("weight") !== -1 || s.indexOf("power") !== -1 || s.indexOf("strength") !== -1) return "💪";
+    if (s.indexOf("movil") !== -1 || s.indexOf("yoga") !== -1 || s.indexOf("estab") !== -1) return "🤸";
+    if (s.indexOf("walk") !== -1 || s.indexOf("camin") !== -1) return "🚶";
+    if (s.indexOf("cardio") !== -1) return "🏃";
+    return "🟡";
+  }
+
+  // calendario tipo Strava: 5 semanas, un iconito por actividad de cada día
+  function trainingCalendar(entr) {
+    const byDay = {};
+    entr.forEach((r) => { const f = r.fields.fecha; if (!f) return; const k = String(f).slice(0, 10); (byDay[k] = byDay[k] || []).push(r.fields); });
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const dow = (today.getDay() + 6) % 7; // 0 = lunes
+    const end = new Date(today); end.setDate(end.getDate() + (6 - dow));
+    const start = new Date(end); start.setDate(start.getDate() - 34);
+    const key = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    let cells = ["L", "M", "X", "J", "V", "S", "D"].map((d) => '<div class="cal-dow">' + d + '</div>').join("");
+    for (let dd = new Date(start); dd <= end; dd.setDate(dd.getDate() + 1)) {
+      const k = key(dd), acts = byDay[k] || [], isToday = k === key(today), fut = dd > today;
+      const ic = Array.from(new Set(acts.map(iconFor))).slice(0, 3).join("");
+      cells += '<div class="cal-day' + (acts.length ? " has" : "") + (isToday ? " today" : "") + (fut ? " fut" : "") + '">' +
+        '<span class="cal-n">' + dd.getDate() + '</span>' + (ic ? '<span class="cal-ic">' + ic + '</span>' : "") + '</div>';
+    }
+    return '<div class="card"><p class="eyebrow">🗓️ Calendario de entrenos</p><div class="cal-grid">' + cells + '</div>' +
+      '<div class="sal-c-note" style="margin-top:10px">🏃 cardio · 💪 fuerza · 🧘 pilates · 🤸 movilidad · 🔥 WOD/Hyrox · 🚶 caminar. <i>(Las caminatas sueltas de WHOOP entrarán al activar el auto-sync, #26.)</i></div></div>';
+  }
+
   let data = null, subView = "general";
 
   async function load() {
@@ -170,7 +205,8 @@
     const last = mensual[mensual.length - 1] || {};
     const { act, totMin, totKm } = stravaStats(entr, 30);
     const rec = metr.find((m) => typeof m.fields.recuperacion_whoop === "number");
-    let html = '<div class="card"><p class="eyebrow">🧭 Visión de conjunto</p>' +
+    let html = trainingCalendar(entr);
+    html += '<div class="card"><p class="eyebrow">🧭 Visión de conjunto</p>' +
       '<div class="sal-c-note">Aquí se mezclan tus dos fuentes: <b style="color:#7a9cff">WHOOP</b> (cómo te recuperas por dentro) + <b style="color:#fc5200">Strava</b> (lo que entrenas por fuera).</div>' +
       '<ul class="sal-bul">';
     if (rec) html += '<li><b style="color:#7a9cff">WHOOP</b> · Recuperación actual: <b>' + rec.fields.recuperacion_whoop + '%</b>' + (rec.fields.recuperacion_whoop <= 40 ? ' — hoy mejor suave.' : '.') + '</li>';

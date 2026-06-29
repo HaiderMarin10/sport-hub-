@@ -444,6 +444,16 @@
   .sal-brand-img{height:30px;width:auto;max-width:160px;display:block}
   .sal-brand-txt{font-family:var(--disp);font-weight:800;font-size:24px;letter-spacing:.04em}
   .b-whoop{color:#fff} .b-strava{color:#FC5200}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cal-dow{text-align:center;font-size:10px;color:var(--txt3);font-weight:700;padding-bottom:2px}
+  .cal-day{aspect-ratio:1;border:1px solid var(--line2);border-radius:9px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:1px;background:var(--elev2);min-height:38px}
+  .cal-day.has{border-color:rgba(226,251,4,.4);background:rgba(226,251,4,.07)}
+  .cal-day.today{border-color:var(--acid);border-width:2px}
+  .cal-day.fut{opacity:.38}
+  .cal-n{font-size:10.5px;color:var(--txt3);font-weight:600}
+  .cal-day.has .cal-n{color:var(--txt)}
+  .cal-ic{font-size:13px;line-height:1}
   .sal-c-note{font-size:12px;color:var(--txt3);line-height:1.45;margin:2px 0 12px}
   .sal-concept{background:var(--elev2);border:1px solid var(--line2);border-radius:12px;padding:11px 13px;margin-bottom:9px}
   .sal-concept.locked{opacity:.78}
@@ -740,7 +750,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v41</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v42</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
