@@ -95,6 +95,18 @@
   /* ---------- cards ---------- */
   .card{background:var(--elev);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px}
   .eyebrow{font-family:var(--disp);font-size:13px;text-transform:uppercase;letter-spacing:.16em;color:var(--txt2);font-weight:600;margin:0 0 14px}
+  /* Hero que se encoge al hacer scroll (mantiene el TÍTULO y el kicker) */
+  .hero,.hero-inner{transition:min-height .25s ease,padding .25s ease}
+  .hero-sub,.hero-quote{transition:opacity .2s ease,max-height .28s ease,margin .2s ease;overflow:hidden;max-height:120px}
+  body.sh-scrolled .hero{min-height:0}
+  body.sh-scrolled .hero-inner{padding-top:14px;padding-bottom:16px}
+  body.sh-scrolled .hero-sub,body.sh-scrolled .hero-quote{opacity:0;max-height:0;margin-top:0;pointer-events:none}
+  /* botones de la home */
+  .ini-cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .ini-cta .btn{flex:1;min-width:120px}
+  .ini-hoy{display:flex;flex-wrap:wrap;gap:8px}
+  .ini-act{display:flex;align-items:center;gap:7px;background:var(--elev2);border:1px solid var(--line2);border-radius:10px;padding:8px 11px;font-size:13px;color:var(--txt)}
+  .ini-act .ini-ic{font-size:16px}
 
   /* ---------- duración ---------- */
   .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -503,7 +515,8 @@
 
   <nav class="tabs">
     <div class="seg-tabs">
-      <button class="tab active" data-view="gen"><span class="tab-ico">⚡</span><span class="tab-lbl">Generator</span></button>
+      <button class="tab active" data-view="inicio"><span class="tab-ico">🏠</span><span class="tab-lbl">Inicio</span></button>
+      <button class="tab" data-view="gen"><span class="tab-ico">⚡</span><span class="tab-lbl">Generator</span></button>
       <button class="tab" data-view="repo"><span class="tab-ico">📖</span><span class="tab-lbl">Repositorio</span></button>
       <button class="tab" data-view="diario"><span class="tab-ico">📝</span><span class="tab-lbl">Daily Metrics</span></button>
       <button class="tab" data-view="salud"><span class="tab-ico">❤️</span><span class="tab-lbl">H&amp;PH</span></button>
@@ -516,8 +529,21 @@
     <button class="subtab" data-sub="wod">🔥 WODs &amp; Hyrox</button>
   </div>
 
+  <!-- ============ INICIO (home) ============ -->
+  <section id="inicio" class="view active">
+    <div class="hero hero-inicio">
+      <div class="hero-bg" style="background:radial-gradient(120% 120% at 78% 0%, #1b1b22 0%, #0b0b0d 70%)"></div>
+      <div class="hero-inner">
+        <div class="hero-kicker">SPORTSHUB</div>
+        <h1 class="hero-title hero-title-sm">Hola, Andrés.</h1>
+        <p class="hero-sub">Tu resumen de hoy: cómo estás y qué toca.</p>
+      </div>
+    </div>
+    <div id="inicio-root"></div>
+  </section>
+
   <!-- ============ GENERADOR ============ -->
-  <section id="gen" class="view active">
+  <section id="gen" class="view">
     <div class="hero" id="hero">
       <div class="hero-bg" id="hero-bg-gen"></div>
       <div class="hero-inner">
@@ -750,7 +776,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v43</span></footer>
+  <footer>SPORTSHUB · Training, Workout &amp; WOD Generator · <span id="app-ver">v44</span></footer>
 
   <script src="config.js"></script>
   <script src="data/ejercicios.js"></script>
@@ -761,8 +787,17 @@
   <script src="timer.js"></script>
   <script src="diario.js"></script>
   <script src="salud.js"></script>
+  <script src="home.js"></script>
   <script src="coach.js"></script>
   <script>
+    // Encoger el hero al hacer scroll (mantiene títulos)
+    (function () {
+      var sc = false;
+      window.addEventListener("scroll", function () {
+        var s = window.scrollY > 40;
+        if (s !== sc) { sc = s; document.body.classList.toggle("sh-scrolled", s); }
+      }, { passive: true });
+    })();
     if ("serviceWorker" in navigator) {
       // Auto-actualización: cuando hay versión nueva, el SW nuevo toma el control y la página se recarga sola.
       var shRefreshing = false;

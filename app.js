@@ -114,7 +114,7 @@
     showView(v === "gen" ? lastSub : v);
   }));
   $$("#gen-subtabs .subtab").forEach(st => st.addEventListener("click", () => showView(st.dataset.sub)));
-  showView("gen");
+  showView("inicio");
 
   // ---------- duración ----------
   const N = { 60: 4, 90: 6, 120: 8 };
