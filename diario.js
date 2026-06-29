@@ -245,6 +245,11 @@
       if (typeof f.fc_reposo === "number") tiles.push(tile(f.fc_reposo, "FC reposo"));
       if (typeof f["sueño_total_min"] === "number") { const h = Math.floor(f["sueño_total_min"] / 60), m = f["sueño_total_min"] % 60; tiles.push(tile(h + ":" + String(m).padStart(2, "0"), "Sueño")); }
       if (typeof f.strain_whoop === "number") tiles.push(tile(f.strain_whoop, "Strain"));
+      // pasos y calorías quemadas: del registro más reciente que los tenga (pueden venir de otro día)
+      const recienteNum = (k) => { const r = metrSorted.find((x) => typeof x.fields[k] === "number"); return r ? r.fields[k] : null; };
+      const pasos = recienteNum("pasos"), calQ = recienteNum("calorias_quemadas");
+      if (typeof pasos === "number") tiles.push(tile(pasos.toLocaleString("es-ES"), "Pasos"));
+      if (typeof calQ === "number") tiles.push(tile(calQ.toLocaleString("es-ES"), "Cal. quemadas"));
       const recDays = metrSorted.filter((r) => typeof r.fields.recuperacion_whoop === "number").slice(0, 7).reverse();
       let bars = "";
       if (recDays.length >= 2) {

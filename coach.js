@@ -153,6 +153,7 @@
         fc_reposo: { type: "number", description: "Frecuencia cardiaca en reposo (ppm)." },
         pasos: { type: "number" },
         calorias_consumidas: { type: "number" },
+        calorias_quemadas: { type: "number", description: "Calorías quemadas en el día (gasto)." },
         proteina_g: { type: "number" },
         carbos_g: { type: "number" },
         grasa_g: { type: "number" },
@@ -387,6 +388,7 @@
       recuperacion_whoop: "recuperacion_whoop", hrv: "hrv", strain_whoop: "strain_whoop",
       sueno_total_min: "sueño_total_min", sueno_calidad_subjetiva: "sueño_calidad_subjetiva",
       fc_reposo: "fc_reposo", pasos: "pasos", calorias_consumidas: "calorias_consumidas",
+      calorias_quemadas: "calorias_quemadas",
       proteina_g: "proteina_g", carbos_g: "carbos_g", grasa_g: "grasa_g",
       hidratacion_ml: "hidratacion_ml", peso_kg: "peso_kg",
     };
